@@ -28,10 +28,11 @@ export default function App({ Component }: AppProps) {
 
         <link rel="stylesheet" href="/css/home.css"></link>
    
-        <script src="/js/wino.js">
-        </script>
+       
       </Head>
-      <Component />
+      <Component /> 
+      <script src="/js/script.js">
+        </script>
     </div>
   );
 }
