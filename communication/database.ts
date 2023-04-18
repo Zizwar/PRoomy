@@ -170,10 +170,7 @@ o/bKiIz+Fq8=
 export const databaseLoader = new ResourceLoader<Database>({
   async load() {
     // Automatically create the database schema on startup.
-    const caCert = getEnvOrThrow("SUPABASE_CA_CERTIFICATE").replace(
-      /\s+(?!CERTIFICATE--)/g,
-      "\n",
-    );
+  
     const sql = postgres('postgresql://postgres:fynEwxRY3k6zOjzB@db.tmmjytvhlnutythnnmta.supabase.co:5432/postgres', {
       keep_alive: false, // Otherwise required '--unstable' flag.
       ssl: { caCerts: [SUPABASE_CA_CERTIFICATE] },
