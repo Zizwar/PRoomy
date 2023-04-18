@@ -1,0 +1,228 @@
+import { ResourceLoader } from "../helpers/loader.ts";
+import postgres from "$postgres";
+import * as supabase from "supabase";
+import type { MessageView } from "./types.ts";
+
+export interface DatabaseUser {
+  userId: number;
+  userName: string;
+  avatarUrl: string;
+}
+
+export class Database {
+  #client: supabase.SupabaseClient;
+
+  constructor(client?: supabase.SupabaseClient) {
+    this.#client = client ?? supabase.createClient(
+      Deno.env.get("SUPABASE_API_URL")!,
+      Deno.env.get("SUPABASE_ANON_KEY")!,
+    );
+  }
+
+  async insertUser(user: DatabaseUser & { accessToken: string }) {
+    const { error } = await this.#client
+      .from("users")
+      .upsert([
+        {
+          id: user.userId,
+          username: user.userName,
+          avatar_url: user.avatarUrl,
+          access_token: user.accessToken,
+        },
+      ], { returning: "minimal" });
+    if (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async getUserByAccessTokenOrThrow(
+    accessToken: string,
+  ): Promise<DatabaseUser> {
+    const user = await this.getUserByAccessToken(accessToken);
+    if (user == null) {
+      throw new Error("Could not find user with access token.");
+    }
+    return user;
+  }
+
+  async getUserByAccessToken(
+    accessToken: string,
+  ): Promise<DatabaseUser | undefined> {
+    const { data, error } = await this.#client
+      .from("users")
+      .select("id,username,avatar_url")
+      .eq("access_token", accessToken);
+    if (error) {
+      throw new Error(error.message);
+    }
+    if (data.length === 0) {
+      return undefined;
+    }
+    return {
+      userId: data[0].id,
+      userName: data[0].username,
+      avatarUrl: data[0].avatar_url,
+    };
+  }
+
+  async getRooms() {
+    const { data, error } = await this.#client.from("rooms_with_activity")
+      .select(
+        "id,name,last_message_at",
+      );
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data.map((d) => ({
+      roomId: d.id,
+      name: d.name,
+      lastMessageAt: d.last_message_at,
+    }));
+  }
+
+  async getRoomName(roomId: number): Promise<string> {
+    const { data, error } = await this.#client.from("rooms")
+      .select("name")
+      .eq("id", roomId);
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data[0].name;
+  }
+
+  async ensureRoom(name: string) {
+    const insert = await this.#client.from("rooms").insert([{ name }], {
+      upsert: false,
+      returning: "representation",
+    });
+
+    if (insert.error) {
+      if (insert.error.code !== "23505") {
+        throw new Error(insert.error.message);
+      }
+      const get = await this.#client.from("rooms").select("id").eq(
+        "name",
+        name,
+      );
+      if (get.error) {
+        throw new Error(get.error.message);
+      }
+      return get.data[0].id;
+    }
+
+    return insert.data![0].id;
+  }
+
+  async insertMessage(
+    message: { text: string; roomId: number; userId: number },
+  ) {
+    await this.#client
+      .from("messages")
+      .insert([{
+        message: message.text,
+        room: message.roomId,
+        from: message.userId,
+      }], { returning: "minimal" });
+  }
+
+  async getRoomMessages(roomId: number): Promise<MessageView[]> {
+    const { data, error } = await this.#client
+      .from("messages")
+      .select("message,from(username,avatar_url),created_at")
+      .eq("room", roomId);
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data.map((m) => ({
+      message: m.message,
+      from: {
+        name: m.from.username,
+        avatarUrl: m.from.avatar_url,
+      },
+      createdAt: m.created_at,
+    }));
+  }
+}
+const SUPABASE_CA_CERTIFICATE = `-----BEGIN CERTIFICATE-----
+MIIDxDCCAqygAwIBAgIUbLxMod62P2ktCiAkxnKJwtE9VPYwDQYJKoZIhvcNAQEL
+BQAwazELMAkGA1UEBhMCVVMxEDAOBgNVBAgMB0RlbHdhcmUxEzARBgNVBAcMCk5l
+dyBDYXN0bGUxFTATBgNVBAoMDFN1cGFiYXNlIEluYzEeMBwGA1UEAwwVU3VwYWJh
+c2UgUm9vdCAyMDIxIENBMB4XDTIxMDQyODEwNTY1M1oXDTMxMDQyNjEwNTY1M1ow
+azELMAkGA1UEBhMCVVMxEDAOBgNVBAgMB0RlbHdhcmUxEzARBgNVBAcMCk5ldyBD
+YXN0bGUxFTATBgNVBAoMDFN1cGFiYXNlIEluYzEeMBwGA1UEAwwVU3VwYWJhc2Ug
+Um9vdCAyMDIxIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqQXW
+QyHOB+qR2GJobCq/CBmQ40G0oDmCC3mzVnn8sv4XNeWtE5XcEL0uVih7Jo4Dkx1Q
+DmGHBH1zDfgs2qXiLb6xpw/CKQPypZW1JssOTMIfQppNQ87K75Ya0p25Y3ePS2t2
+GtvHxNjUV6kjOZjEn2yWEcBdpOVCUYBVFBNMB4YBHkNRDa/+S4uywAoaTWnCJLUi
+cvTlHmMw6xSQQn1UfRQHk50DMCEJ7Cy1RxrZJrkXXRP3LqQL2ijJ6F4yMfh+Gyb4
+O4XajoVj/+R4GwywKYrrS8PrSNtwxr5StlQO8zIQUSMiq26wM8mgELFlS/32Uclt
+NaQ1xBRizkzpZct9DwIDAQABo2AwXjALBgNVHQ8EBAMCAQYwHQYDVR0OBBYEFKjX
+uXY32CztkhImng4yJNUtaUYsMB8GA1UdIwQYMBaAFKjXuXY32CztkhImng4yJNUt
+aUYsMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAB8spzNn+4VU
+tVxbdMaX+39Z50sc7uATmus16jmmHjhIHz+l/9GlJ5KqAMOx26mPZgfzG7oneL2b
+VW+WgYUkTT3XEPFWnTp2RJwQao8/tYPXWEJDc0WVQHrpmnWOFKU/d3MqBgBm5y+6
+jB81TU/RG2rVerPDWP+1MMcNNy0491CTL5XQZ7JfDJJ9CCmXSdtTl4uUQnSuv/Qx
+Cea13BX2ZgJc7Au30vihLhub52De4P/4gonKsNHYdbWjg7OWKwNv/zitGDVDB9Y2
+CMTyZKG3XEu5Ghl1LEnI3QmEKsqaCLv12BnVjbkSeZsMnevJPs1Ye6TjjJwdik5P
+o/bKiIz+Fq8=
+-----END CERTIFICATE-----
+`;
+export const databaseLoader = new ResourceLoader<Database>({
+  async load() {
+    // Automatically create the database schema on startup.
+    const caCert = getEnvOrThrow("SUPABASE_CA_CERTIFICATE").replace(
+      /\s+(?!CERTIFICATE--)/g,
+      "\n",
+    );
+    const sql = postgres('postgresql://postgres:fynEwxRY3k6zOjzB@db.tmmjytvhlnutythnnmta.supabase.co:5432/postgres', {
+      keep_alive: false, // Otherwise required '--unstable' flag.
+      ssl: { caCerts: [SUPABASE_CA_CERTIFICATE] },
+    });
+    await sql`
+      create table if not exists users (
+        id integer generated by default as identity primary key,
+        created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+        username text unique,
+        avatar_url text,
+        access_token text
+      )`;
+    await sql`
+      create table if not exists rooms (
+        id integer generated by default as identity primary key,
+        created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+        name text unique not null
+      )`;
+    await sql`
+      create table if not exists messages (
+        id integer generated by default as identity primary key,
+        created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+        message text,
+        "from" integer references users (id),
+        "room" integer references rooms (id)
+      )`;
+    await sql`
+      create or replace view rooms_with_activity
+      as select
+        rooms.id as id,
+        rooms.name as name,
+        max(messages.created_at) as last_message_at
+      from rooms
+      left join messages on messages.room = rooms.id
+      group by rooms.id
+      order by last_message_at desc nulls last`;
+    await sql`
+      insert into rooms (id, name)
+      values (0, 'Lobby')
+      on conflict(id) do nothing`;
+    await sql.end();
+    return Promise.resolve(new Database());
+
+    function getEnvOrThrow(name: string) {
+      const value = Deno.env.get(name);
+      if (value == null) {
+        throw new Error(`Missing env variable: ${name}`);
+      }
+      return value;
+    }
+  },
+});
