@@ -171,7 +171,7 @@ export const databaseLoader = new ResourceLoader<Database>({
   async load() {
     // Automatically create the database schema on startup.
   
-    const sql = postgres('postgresql://postgres:fynEwxRY3k6zOjzB@db.tmmjytvhlnutythnnmta.supabase.co:5432/postgres', {
+    const sql = postgres('postgresql://postgres:jpt@12345666@db.tmmjytvhlnutythnnmta.supabase.co:5432/postgres', {
       keep_alive: false, // Otherwise required '--unstable' flag.
       ssl: { caCerts: [SUPABASE_CA_CERTIFICATE] },
     });
