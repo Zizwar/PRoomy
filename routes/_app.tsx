@@ -9,7 +9,7 @@ export default function App({ Component }: AppProps) {
       <Head>
         <link rel="icon" href="/favicon.ico" sizes="32x32" />
 
-        <meta charset="UTF-8" />
+        <meta charSet="UTF-8" />
         <title>ChatDPT</title>
 
         <meta property="og:locale" content="en_US" />
