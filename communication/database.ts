@@ -153,7 +153,7 @@ export const databaseLoader = new ResourceLoader<Database>({
     );
     */
     const sql = postgres(getEnvOrThrow("SUPABASE_POSTGRES_URI"), {
-      keep_alive: false, // Otherwise required '--unstable' flag.
+      keep_alive: null, // Otherwise required '--unstable' flag.
     //  ssl: { caCerts: [caCert] },
     });
     await sql`

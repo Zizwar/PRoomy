@@ -4,7 +4,7 @@ image:
 
 tasks:
   - command: |
-      deno upgrade --version 1.32.1 && deno task start
+      deno task start
 
 ports:
   - port: 8080
