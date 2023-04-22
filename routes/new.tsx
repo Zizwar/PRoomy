@@ -27,10 +27,10 @@ export default function NewRoom() {
           </div>
           <AddRoom />
 
-<!-- Button trigger modal -->
+
 <button type="button" class="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg" data-modal-toggle="modal">Open Modal</button>
 
-<!-- Modal -->
+
 <div class="modal fade" id="modal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
