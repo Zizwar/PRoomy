@@ -1,4 +1,6 @@
 export class GoogleAuth {
+clientId: string|undefined;
+clientSecret: string|undefined;
   constructor() {
     this.clientId = Deno.env.get("GOOGLE_CLIENT_ID");
     this.clientSecret = Deno.env.get("GOOGLE_CLIENT_SECRET");
@@ -50,4 +52,4 @@ export class GoogleAuth {
   }
 }
 
-export const googleAuth = new GoogleAuth();
+export const googleApi = new GoogleAuth();
