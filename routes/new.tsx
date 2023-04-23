@@ -26,33 +26,7 @@ export default function NewRoom() {
             <div />
           </div>
           <AddRoom />
-
-
-<button type="button" class="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg" data-modal-toggle="modal">Open Modal</button>
-
-
-<div class="modal fade" id="modal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Modal Title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>This is the modal body.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-secondary">Save</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-       </div>
+        </div>
       </Page>
     </>
   );
