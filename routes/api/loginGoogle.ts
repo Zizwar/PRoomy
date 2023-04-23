@@ -5,5 +5,6 @@ export const handler: Handler = (req: Request): Response => {
   url.searchParams.set("client_id", Deno.env.get("GOOGLE_CLIENT_ID") || "");
   url.searchParams.set("redirect_uri", new URL(req.url).origin);
   url.searchParams.set("scope", "https://www.googleapis.com/auth/userinfo.email");
+  url.searchParams.set("response_type", "code");
   return Response.redirect(url, 302);
 };
