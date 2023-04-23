@@ -16,6 +16,7 @@ clientSecret: string|undefined;
           client_id: this.clientId,
           client_secret: this.clientSecret,
           grant_type: "authorization_code",
+          redirect_uri: "https://www.jpt.ma"
         }),
         headers: {
           Accept: "application/json",
