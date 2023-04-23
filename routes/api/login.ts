@@ -6,3 +6,4 @@ export const handler: Handler = (req: Request): Response => {
   url.searchParams.set("redirect_uri", new URL(req.url).origin);
   return Response.redirect(url, 302);
 };
+ 
