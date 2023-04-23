@@ -32,7 +32,7 @@ export async function handler(
   //  const accessToken = await gitHubApi.getAccessToken(code);
   //const userData = await gitHubApi.getUserData(accessToken);
   // Check the provider value from the query string
-  const provider = url.searchParams.get("provider");
+  const provider = "google"//url.searchParams.get("provider");
   let accessToken, userData;
   if (provider === "google") {
     accessToken = await googleApi.getAccessToken(code);
