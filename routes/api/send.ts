@@ -51,6 +51,7 @@ export async function handler(
       avatarUrl: "https://jpt.ma/favicon.ico",
     };
     channel.sendIsTyping(from);
+channel.close();
     const text = message.replace(
       "@jpt",
       `Hi @${user.userName} your MrPrompte JPT incoming ....`
