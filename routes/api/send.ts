@@ -31,7 +31,8 @@ export async function handler(
   }
 
   const badWordsCleaner = await badWordsCleanerLoader.getInstance();
-  const message = emojify(badWordsCleaner.clean(data.message));
+  //const message = emojify(badWordsCleaner.clean(data.message));
+  const message = emojify(data.message);
 
   channel.sendText({
     message: message,
