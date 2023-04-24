@@ -3,7 +3,7 @@ import { getCookies } from "$std/http/cookie.ts";
 import { emojify } from "emojify";
 import { databaseLoader } from "@/communication/database.ts";
 import { RoomChannel } from "@/communication/channel.ts";
-import { badWordsCleanerLoader } from "@/helpers/bad_words.ts";
+//import { badWordsCleanerLoader } from "@/helpers/bad_words.ts";
 import { ApiSendMessage } from "@/communication/types.ts";
 
 import { OpenAI } from "openai";
@@ -30,7 +30,7 @@ export async function handler(
     channel.sendIsTyping(from);
   }
 
-  const badWordsCleaner = await badWordsCleanerLoader.getInstance();
+  //const badWordsCleaner = await badWordsCleanerLoader.getInstance();
   //const message = emojify(badWordsCleaner.clean(data.message));
   const message = emojify(data.message);
 
