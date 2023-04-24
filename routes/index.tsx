@@ -171,7 +171,7 @@ export default function Main({ url, data }: PageProps<{ rooms: RoomView[] }>) {
           ) : (
             <div class="flex justify-center items-center flex-col">
               <a
-                href="/api/login"
+                href="/api/auth/github"
                 class="bg-gray-900 text-gray-100 hover:text-white shadow font-bold text-sm py-3 px-4 rounded flex justify-start items-center cursor-pointer mt-2"
               >
                 <svg
@@ -183,7 +183,7 @@ export default function Main({ url, data }: PageProps<{ rooms: RoomView[] }>) {
                 </svg>
                 <span>Sign up with Github</span>
               </a>   <a
-                href="/api/loginGoogle"
+                href="/api/auth/google"
                 class="bg-gray-900 text-gray-100 hover:text-white shadow font-bold text-sm py-3 px-4 rounded flex justify-start items-center cursor-pointer mt-2"
               >
              <img style={{width:30}} src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/120px-Google_%22G%22_Logo.svg.png"/>

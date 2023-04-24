@@ -1,9 +1,11 @@
 export class GoogleAuth {
 clientId: string|undefined;
 clientSecret: string|undefined;
+redirectUri: string|undefined;
   constructor() {
     this.clientId = Deno.env.get("GOOGLE_CLIENT_ID");
     this.clientSecret = Deno.env.get("GOOGLE_CLIENT_SECRET");
+    this.redirectUri = Deno.env.get("REDIRECT_URI");
   }
 
   async getAccessToken(code: string) {
@@ -16,7 +18,7 @@ clientSecret: string|undefined;
           client_id: this.clientId,
           client_secret: this.clientSecret,
           grant_type: "authorization_code",
-          redirect_uri: "https://www.jpt.ma"
+          redirect_uri:  this.redirectUri 
         }),
         headers: {
           Accept: "application/json",

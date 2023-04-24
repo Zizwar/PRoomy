@@ -5,10 +5,10 @@
 import config from "./deno.json" assert { type: "json" };
 import * as $0 from "./routes/[room].tsx";
 import * as $1 from "./routes/_app.tsx";
-import * as $2 from "./routes/api/connect.ts";
-import * as $3 from "./routes/api/create_room.ts";
-import * as $4 from "./routes/api/login.ts";
-import * as $5 from "./routes/api/loginGoogle.ts";
+import * as $2 from "./routes/api/auth/github.ts";
+import * as $3 from "./routes/api/auth/google.ts";
+import * as $4 from "./routes/api/connect.ts";
+import * as $5 from "./routes/api/create_room.ts";
 import * as $6 from "./routes/api/logout.ts";
 import * as $7 from "./routes/api/send.ts";
 import * as $8 from "./routes/chat.tsx";
@@ -21,10 +21,10 @@ const manifest = {
   routes: {
     "./routes/[room].tsx": $0,
     "./routes/_app.tsx": $1,
-    "./routes/api/connect.ts": $2,
-    "./routes/api/create_room.ts": $3,
-    "./routes/api/login.ts": $4,
-    "./routes/api/loginGoogle.ts": $5,
+    "./routes/api/auth/github.ts": $2,
+    "./routes/api/auth/google.ts": $3,
+    "./routes/api/connect.ts": $4,
+    "./routes/api/create_room.ts": $5,
     "./routes/api/logout.ts": $6,
     "./routes/api/send.ts": $7,
     "./routes/chat.tsx": $8,
