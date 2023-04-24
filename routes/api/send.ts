@@ -46,15 +46,27 @@ export async function handler(
     userId: user.userId,
   });
   if (message.includes("@jpt")) {
+    const from = {
+      name: "@JPT",
+      avatarUrl: "https://jpt.ma/favicon.ico",
+    };
+    channel.sendIsTyping(from);
     const text = message.replace(
       "@jpt",
       `Hi @${user.userName} your MrPrompte JPT incoming ....`
     );
+
     await database.insertMessage({
       text,
       roomId: data.roomId,
       userId: 12345666,
     });
+    channel.sendText({
+      message: text,
+      from,
+      createdAt: new Date().toISOString(),
+    });
+    channel.close();
   }
 
   return new Response("OK");
