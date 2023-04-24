@@ -40,11 +40,21 @@ export async function handler(
   });
   channel.close();
 
+ 
+
   await database.insertMessage({
     text: message,
     roomId: data.roomId,
     userId: user.userId,
   });
+ if(message.includes('@jpt')){
+  const text = message.replace('@jpt','@chatdpt incoming ....')
+     await database.insertMessage({
+    text,
+    roomId: data.roomId,
+    userId: user.userId,
+  });
+  }
 
   return new Response("OK");
 }
