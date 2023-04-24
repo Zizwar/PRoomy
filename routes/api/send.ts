@@ -6,6 +6,8 @@ import { RoomChannel } from "@/communication/channel.ts";
 import { badWordsCleanerLoader } from "@/helpers/bad_words.ts";
 import { ApiSendMessage } from "@/communication/types.ts";
 
+import { OpenAI } from "openai";
+
 export async function handler(
   req: Request,
   _ctx: HandlerContext
@@ -42,29 +44,45 @@ export async function handler(
     roomId: data.roomId,
     userId: user.userId,
   });
+
+  ///paly ai
   if (message.includes("@jpt")) {
+    const openAI = new OpenAI(Deno.env.get("KEY_OPEN_AI") ?? "");
+
     const from = {
       name: "@JPT",
       avatarUrl: "https://jpt.ma/favicon.ico",
     };
     channel.sendIsTyping(from);
-    const text = message.replace(
-      "@jpt",
-      `Hi @${user.userName} your MrPrompte JPT incoming ....`
-    );
+
+    const userContent = message.replace("@jpt", `chatgpt`);
+    const SystemRoleContenet =
+      "شات جي بي تي  انت تفهم جميع اللغاتوفي جميع المجالاتاي نص اعطيته لك افهمه وعالجه وورد على اي إستفسار لك رد باللهجة المغربية يمكنك كتابة كلمات تقنية لكن اكتبها بالدارجة المغربية، ركز الرد بالدارجة المغربية";
+
+    const chatCompletion = await openAI.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "system", content: SystemRoleContenet },
+        { role: "user", content: userContent },
+      ],
+    });
+
+    const choices = chatCompletion?.choices;
+
+    const text = choices[0]?.message.content;
 
     await database.insertMessage({
-      text,
+      text: `${user.userId ?? ""}:${text}`,
       roomId: data.roomId,
       userId: 12345666,
     });
     channel.sendText({
-      message: text,
+      message: `${user.userId ?? ""}:${text}`,
       from,
       createdAt: new Date().toISOString(),
     });
   }
-
+  //// end ai
   channel.close();
 
   return new Response("OK");
