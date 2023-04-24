@@ -1,11 +1,3 @@
-import { HandlerContext } from "$fresh/server.ts";
-import { getCookies } from "$std/http/cookie.ts";
-import { emojify } from "emojify";
-import { databaseLoader } from "@/communication/database.ts";
-import { RoomChannel } from "@/communication/channel.ts";
-import { badWordsCleanerLoader } from "@/helpers/bad_words.ts";
-import { ApiSendMessage } from "@/communication/types.ts";
-
 export async function handler(
   req: Request,
   _ctx: HandlerContext
@@ -26,8 +18,6 @@ export async function handler(
   if (data.kind === "isTyping") {
     // Send `is typing...` indicator.
     channel.sendIsTyping(from);
-    channel.close();
-    return new Response("OK");
   }
 
   const badWordsCleaner = await badWordsCleanerLoader.getInstance();
@@ -38,7 +28,6 @@ export async function handler(
     from,
     createdAt: new Date().toISOString(),
   });
-  channel.close();
 
   await database.insertMessage({
     text: message,
@@ -51,7 +40,6 @@ export async function handler(
       avatarUrl: "https://jpt.ma/favicon.ico",
     };
     channel.sendIsTyping(from);
-channel.close();
     const text = message.replace(
       "@jpt",
       `Hi @${user.userName} your MrPrompte JPT incoming ....`
@@ -67,8 +55,9 @@ channel.close();
       from,
       createdAt: new Date().toISOString(),
     });
-    channel.close();
   }
+
+  channel.close();
 
   return new Response("OK");
 }
