@@ -8,7 +8,7 @@ import { ApiSendMessage } from "@/communication/types.ts";
 
 export async function handler(
   req: Request,
-  _ctx: HandlerContext,
+  _ctx: HandlerContext
 ): Promise<Response> {
   const accessToken = getCookies(req.headers)["deploy_chat_token"];
   if (!accessToken) {
@@ -40,20 +40,21 @@ export async function handler(
   });
   channel.close();
 
- 
-
   await database.insertMessage({
     text: message,
     roomId: data.roomId,
     userId: user.userId,
   });
- if(message.includes('@jpt')){
-  const text = message.replace('@jpt','@chatdpt incoming ....')
-     await database.insertMessage({
-    text,
-    roomId: data.roomId,
-    userId: user.userId,
-  });
+  if (message.includes("@jpt")) {
+    const text = message.replace(
+      "@jpt",
+      `Hi @${user.userName} your MrPrompte JPT incoming ....`
+    );
+    await database.insertMessage({
+      text,
+      roomId: data.roomId,
+      userId: 12345666,
+    });
   }
 
   return new Response("OK");
