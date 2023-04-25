@@ -12,11 +12,15 @@ import * as $5 from "./routes/api/connect.ts";
 import * as $6 from "./routes/api/create_room.ts";
 import * as $7 from "./routes/api/logout.ts";
 import * as $8 from "./routes/api/send.ts";
-import * as $9 from "./routes/chat.tsx";
-import * as $10 from "./routes/index.tsx";
+import * as $9 from "./routes/index.tsx";
+import * as $10 from "./routes/index23.tsx";
 import * as $11 from "./routes/new.tsx";
 import * as $$0 from "./islands/AddRoom.tsx";
 import * as $$1 from "./islands/Chat.tsx";
+import * as $$2 from "./islands/chat-aria.tsx";
+import * as $$3 from "./islands/conversation.tsx";
+import * as $$4 from "./islands/detail.tsx";
+import * as $$5 from "./islands/header.tsx";
 
 const manifest = {
   routes: {
@@ -29,13 +33,17 @@ const manifest = {
     "./routes/api/create_room.ts": $6,
     "./routes/api/logout.ts": $7,
     "./routes/api/send.ts": $8,
-    "./routes/chat.tsx": $9,
-    "./routes/index.tsx": $10,
+    "./routes/index.tsx": $9,
+    "./routes/index23.tsx": $10,
     "./routes/new.tsx": $11,
   },
   islands: {
     "./islands/AddRoom.tsx": $$0,
     "./islands/Chat.tsx": $$1,
+    "./islands/chat-aria.tsx": $$2,
+    "./islands/conversation.tsx": $$3,
+    "./islands/detail.tsx": $$4,
+    "./islands/header.tsx": $$5,
   },
   baseUrl: import.meta.url,
   config,
