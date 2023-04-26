@@ -57,7 +57,7 @@ export async function handler(
 
     const userContent = message.replace("@jpt", `chatgpt`);
     const SystemRoleContenet =
-      "شات جي بي تي  انت تفهم جميع اللغاتوفي جميع المجالاتاي نص اعطيته لك افهمه وعالجه وورد على اي إستفسار لك رد باللهجة المغربية يمكنك كتابة كلمات تقنية لكن اكتبها بالدارجة المغربية، ركز الرد بالدارجة المغربية";
+      "رد على جميع الأسئلة والاستفسارات بنفس اللغة التي تُسأل بها";
 
     const chatCompletion = await openAI.createChatCompletion({
       model: "gpt-3.5-turbo",
