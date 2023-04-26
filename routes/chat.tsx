@@ -1,5 +1,5 @@
 import ChatArea from "@/islands/chat-aria.tsx";
-import Conversation from "@/islands/conversation.tsx";
+import Rooms from "@/islands/rooms.tsx";
 import Detail from "@/islands/detail.tsx";
 import Header from "@/islands/header.tsx";
 //
@@ -29,7 +29,7 @@ export default function Home({ url, data, params }: PageProps<Data>) {
         <Header />
         {data && (
           <div class="wrapper">
-            <Conversation url={url} data={data} />
+            <Rooms url={url} data={data} />
 
             <ChatArea
               roomId={+params.room || 1}
