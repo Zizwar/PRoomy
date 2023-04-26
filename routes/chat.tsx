@@ -3,7 +3,7 @@ import Conversation from "@/islands/conversation.tsx";
 import Detail from "@/islands/detail.tsx";
 import Header from "@/islands/header.tsx";
 //
-import { HandlerContext, PageProps } from "$fresh/server.ts";
+import { Handler, HandlerContext, PageProps, RouteConfig } from "$fresh/server.ts";
 
 import { getCookies, setCookie } from "$std/http/cookie.ts";
 import { databaseLoader } from "@/communication/database.ts";
@@ -13,12 +13,13 @@ import { googleApi } from "@/communication/google.ts";
 import type { RoomView } from "@/communication/types.ts";
 import type { MessageView, UserView } from "@/communication/types.ts";
 //
+
+//
 interface Data {
   messages: MessageView[];
   roomName: string;
   user: UserView;
   rooms: RoomView[];
- 
 }
 
 export default function Home({ url, data, params }: PageProps<Data>) {
@@ -26,16 +27,20 @@ export default function Home({ url, data, params }: PageProps<Data>) {
     <>
       <div class="app">
         <Header />
-        <div class="wrapper">
-          <Conversation url={url} data={data} />
-          <ChatArea
-            roomId={+params.room || 1}
-            initialMessages={data.messages}
-            roomName={data.roomName}
-            user={data.user}
-          />
-          <Detail />
-        </div>
+        {data && (
+          <div class="wrapper">
+            <Conversation url={url} data={data} />
+
+            <ChatArea
+              roomId={+params.room || 1}
+              initialMessages={data.messages}
+              roomName={data.roomName}
+              user={data.user}
+            />
+
+            <Detail />
+          </div>
+        )}
       </div>
     </>
   );
@@ -50,7 +55,18 @@ export async function handler(
   if (maybeAccessToken) {
     const user = await database.getUserByAccessToken(maybeAccessToken);
     if (user) {
-      return ctx.render({ rooms: await database.getRooms() });
+      const [rooms, messages, roomName] = await Promise.all([
+        database.getRooms(),
+        database.getRoomMessages(+ctx.params.room || 2),
+        database.getRoomName(+ctx.params.room || 2) ,
+      ]);
+      const response = await ctx.render({
+        user,
+        rooms,
+        messages,
+        roomName,
+      });
+      return response;
     }
   }
 
@@ -88,6 +104,7 @@ export async function handler(
     database.getRoomName(+ctx.params.room),
   ]);
   const response = await ctx.render({
+    user: userData,
     rooms,
     messages,
     roomName,
@@ -100,3 +117,6 @@ export async function handler(
   });
   return response;
 }
+export const config: RouteConfig = {
+  routeOverride: "/chat/:room",
+};
