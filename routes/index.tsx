@@ -146,7 +146,7 @@ export default function Main({ url, data }: PageProps<{ rooms: RoomView[] }>) {
                 return (
                   <li key={room.roomId}>
                     <a
-                      href={new URL(room.roomId.toString(), url).href}
+                      href={"/chat/"+room.roomId}
                       class="grid grid-cols-3 items-center bg-white rounded-full h-18 border-2 border-gray-300 transition-colors hover:(bg-gray-100 border-gray-400) group"
                     >
                       <div

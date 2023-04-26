@@ -1,10 +1,6 @@
 const toggleButton = document.querySelector(".dark-light");
 const colors = document.querySelectorAll(".color");
 const toggleSettings = document.querySelector(".settings");
-const rooms = document.querySelector(".logo");
-
-rooms.addEventListener("click", ()=>handleColorClick(1));
-
 
 function handleColorClick() {
   colors.forEach((color) => color.classList.remove("selected"));
@@ -23,12 +19,11 @@ function toggleDarkMode() {
 
 toggleButton.addEventListener("click", toggleDarkMode);
 
-function handleSettingsClick(rooms) {
+function handleSettingsClick() {
   const chatArea = document.querySelector(".chat-area");
   const detailArea = document.querySelector(".detail-area");
   const conversationArea = document.querySelector(".conversation-area");
 
-  
   const displayDetailArea = window.getComputedStyle(detailArea).display;
   const displayConversationArea =
     window.getComputedStyle(conversationArea).display;
@@ -37,13 +32,9 @@ function handleSettingsClick(rooms) {
     chatArea.classList.toggle("displayNone");
     conversationArea.classList.toggle("displayBlock");
 
-    if(rooms){
-      conversationArea.classList.toggle("displayBlock");
-       chatArea.classList.toggle("displayNone");
-    detailArea.classList.toggle("displayNone");
-    }
     if (displayConversationArea !== "flex") {
-      detailArea.classList.toggle("fullWidth");
+      detailArea.classList.toggle("fullWidth"); 
+       conversationArea.classList.toggle("displayNone");
     }
   }
 }

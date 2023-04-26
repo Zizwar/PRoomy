@@ -13,7 +13,7 @@ import * as $6 from "./routes/api/create_room.ts";
 import * as $7 from "./routes/api/logout.ts";
 import * as $8 from "./routes/api/send.ts";
 import * as $9 from "./routes/chat.tsx";
-import * as $10 from "./routes/index23.tsx";
+import * as $10 from "./routes/index.tsx";
 import * as $11 from "./routes/new.tsx";
 import * as $$0 from "./islands/AddRoom.tsx";
 import * as $$1 from "./islands/Chat.tsx";
@@ -34,7 +34,7 @@ const manifest = {
     "./routes/api/logout.ts": $7,
     "./routes/api/send.ts": $8,
     "./routes/chat.tsx": $9,
-    "./routes/index23.tsx": $10,
+    "./routes/index.tsx": $10,
     "./routes/new.tsx": $11,
   },
   islands: {
