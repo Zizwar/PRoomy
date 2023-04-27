@@ -17,9 +17,12 @@ export async function handler(
     return new Response("Not signed in", { status: 401 });
   }
   const database = await databaseLoader.getInstance();
+ 
   const user = await database.getUserByAccessTokenOrThrow(accessToken);
   const data = (await req.json()) as ApiSendMessage;
-  const channel = new RoomChannel(data.roomId);
+  const channel = new RoomChannel(data.roomId); 
+  const prooms = await database.getRoomPrompt(data.roomId);
+
   const from = {
     name: user.userName,
     avatarUrl: user.avatarUrl,
@@ -46,7 +49,7 @@ export async function handler(
   });
 
   ///paly ai
-  if (message.includes("@jpt")) {
+  if (message?.includes("@jpt")) {
     const openAI = new OpenAI(Deno.env.get("KEY_OPEN_AI") ?? "");
 
     const from = {
@@ -55,9 +58,9 @@ export async function handler(
     };
     channel.sendIsTyping(from);
 
-    const userContent = message.replace("@jpt", `chatgpt`);
-    const SystemRoleContenet =
-      "رد على جميع الأسئلة والاستفسارات بنفس اللغة التي تُسأل بها";
+    const userContent = message.replace("@jpt", "");
+    const SystemRoleContenet = prooms 
+    console.log({prooms})
 
     const chatCompletion = await openAI.createChatCompletion({
       model: "gpt-3.5-turbo",

@@ -3,18 +3,19 @@
 // This file is automatically updated during development when running `dev.ts`.
 
 import config from "./deno.json" assert { type: "json" };
-import * as $0 from "./routes/[room].tsx";
-import * as $1 from "./routes/_app.tsx";
-import * as $2 from "./routes/api/ai.ts";
-import * as $3 from "./routes/api/auth/github.ts";
-import * as $4 from "./routes/api/auth/google.ts";
-import * as $5 from "./routes/api/connect.ts";
-import * as $6 from "./routes/api/create_room.ts";
-import * as $7 from "./routes/api/logout.ts";
-import * as $8 from "./routes/api/send.ts";
-import * as $9 from "./routes/chat.tsx";
-import * as $10 from "./routes/index.tsx";
-import * as $11 from "./routes/new.tsx";
+import * as $0 from "./routes/23_middleware.ts";
+import * as $1 from "./routes/[room].tsx";
+import * as $2 from "./routes/_app.tsx";
+import * as $3 from "./routes/api/ai.ts";
+import * as $4 from "./routes/api/auth/github.ts";
+import * as $5 from "./routes/api/auth/google.ts";
+import * as $6 from "./routes/api/connect.ts";
+import * as $7 from "./routes/api/create_room.ts";
+import * as $8 from "./routes/api/logout.ts";
+import * as $9 from "./routes/api/send.ts";
+import * as $10 from "./routes/chat.tsx";
+import * as $11 from "./routes/index.tsx";
+import * as $12 from "./routes/new.tsx";
 import * as $$0 from "./islands/AddRoom.tsx";
 import * as $$1 from "./islands/Chat.tsx";
 import * as $$2 from "./islands/chat-aria.tsx";
@@ -24,18 +25,19 @@ import * as $$5 from "./islands/rooms.tsx";
 
 const manifest = {
   routes: {
-    "./routes/[room].tsx": $0,
-    "./routes/_app.tsx": $1,
-    "./routes/api/ai.ts": $2,
-    "./routes/api/auth/github.ts": $3,
-    "./routes/api/auth/google.ts": $4,
-    "./routes/api/connect.ts": $5,
-    "./routes/api/create_room.ts": $6,
-    "./routes/api/logout.ts": $7,
-    "./routes/api/send.ts": $8,
-    "./routes/chat.tsx": $9,
-    "./routes/index.tsx": $10,
-    "./routes/new.tsx": $11,
+    "./routes/23_middleware.ts": $0,
+    "./routes/[room].tsx": $1,
+    "./routes/_app.tsx": $2,
+    "./routes/api/ai.ts": $3,
+    "./routes/api/auth/github.ts": $4,
+    "./routes/api/auth/google.ts": $5,
+    "./routes/api/connect.ts": $6,
+    "./routes/api/create_room.ts": $7,
+    "./routes/api/logout.ts": $8,
+    "./routes/api/send.ts": $9,
+    "./routes/chat.tsx": $10,
+    "./routes/index.tsx": $11,
+    "./routes/new.tsx": $12,
   },
   islands: {
     "./islands/AddRoom.tsx": $$0,

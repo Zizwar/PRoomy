@@ -5,7 +5,7 @@ import { getCookies, setCookie } from "$std/http/cookie.ts";
 import { databaseLoader } from "@/communication/database.ts";
 import { gitHubApi } from "@/communication/github.ts";
 import { googleApi } from "@/communication/google.ts";
-import { Footer } from "@/helpers/Footer.tsx";
+
 import type { RoomView } from "@/communication/types.ts";
 
 export async function handler(
@@ -32,9 +32,9 @@ export async function handler(
   //  const accessToken = await gitHubApi.getAccessToken(code);
   //const userData = await gitHubApi.getUserData(accessToken);
   // Check the provider value from the query string
-  const provider = "github"//url.searchParams.get("provider");
+  const provider = url.searchParams.get("scope");
   let accessToken, userData;
-  if (provider === "google") {
+  if (provider?.includes("google")) {
     accessToken = await googleApi.getAccessToken(code);
     userData = await googleApi.getUserData(accessToken);
   } else {
@@ -66,7 +66,7 @@ export default function Main({ url, data }: PageProps<{ rooms: RoomView[] }>) {
   return (
     <>
       <Head>
-        <title>Deno Chat</title>
+        <title>Deno ChatDPT</title>
       </Head>
       <img
         src="/background.png"
@@ -76,7 +76,7 @@ export default function Main({ url, data }: PageProps<{ rooms: RoomView[] }>) {
       <div class="flex justify-center items-center h-screen text-gray-600">
         <div>
           <div class="mb-16 mx-8 text-center">
-            <img class="h-24 mx-auto mb-6" src="/logo.svg" alt="Deno Logo" />
+            <img class="h-24 mx-auto mb-6" src="/favicon.ico" alt="JPT Logo" />
             <span class="block text-3xl font-bold text-black mb-3">
               Deno Chat
             </span>
@@ -128,19 +128,7 @@ export default function Main({ url, data }: PageProps<{ rooms: RoomView[] }>) {
               role="list"
               class="max-h-[21.375rem] mx-2 md:mx-0 overflow-y-scroll space-y-4.5"
             >
-              <li>
-                <a
-                  href="/new"
-                  class="flex justify-center items-center bg-white rounded-full h-18 border-2 border-gray-300 transition-colors hover:(bg-green-100 border-green-400) group"
-                >
-                  <div class="w-8 h-8 flex justify-center items-center mr-2.5">
-                    <img src="/plus.svg" alt="Plus" />
-                  </div>
-                  <span class="text-xl font-bold text-gray-900 group-hover:underline group-focus:underline">
-                    New Room
-                  </span>
-                </a>
-              </li>
+        
 
               {data.rooms.map((room) => {
                 return (
@@ -192,7 +180,7 @@ export default function Main({ url, data }: PageProps<{ rooms: RoomView[] }>) {
 
             </div>
           )}
-          <Footer />
+
         </div>
       </div>
     </>

@@ -45,10 +45,10 @@ export class Server {
     });
   }
 
-  async createRoom(name: string) {
+  async createRoom({name,prompt}:{name: string,prompt:string}) {
     const res = await fetch("/api/create_room", {
       method: "POST",
-      body: name,
+      body:  JSON.stringify({name,prompt}),
     });
     const text = await res.text();
     if (!res.ok) {
