@@ -6,6 +6,8 @@ import { RoomChannel } from "@/communication/channel.ts";
 import { badWordsCleanerLoader } from "@/helpers/bad_words.ts";
 import { ApiSendMessage } from "@/communication/types.ts";
 
+import {OpenAI} from "openai";
+
 const openAI = new OpenAI(Deno.env.get("KEY_OPEN_AI") ?? "");
 
 async function streamResults(openAI, query) {
