@@ -1,7 +1,7 @@
 
 import { getCookies } from "$std/http/cookie.ts";
 //import { supabase } from "@/lib/supabase.ts";
-import * as supabase from "supabase";
+/*import * as supabase from "supabase";
 import { MiddlewareHandlerContext } from "$fresh/server.ts";
 
 export const handler = async (req: Request, ctx: MiddlewareHandlerContext) => {
@@ -25,3 +25,4 @@ export const handler = async (req: Request, ctx: MiddlewareHandlerContext) => {
 
 	return ctx.next();
 };
+*/
