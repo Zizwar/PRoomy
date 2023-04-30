@@ -3,9 +3,9 @@
 // This file is automatically updated during development when running `dev.ts`.
 
 import config from "./deno.json" assert { type: "json" };
-import * as $0 from "./routes/23_middleware.ts";
-import * as $1 from "./routes/[room].tsx";
-import * as $2 from "./routes/_app.tsx";
+import * as $0 from "./routes/[room].tsx";
+import * as $1 from "./routes/_app.tsx";
+import * as $2 from "./routes/_middleware.ts";
 import * as $3 from "./routes/api/ai.ts";
 import * as $4 from "./routes/api/auth/github.ts";
 import * as $5 from "./routes/api/auth/google.ts";
@@ -15,7 +15,9 @@ import * as $8 from "./routes/api/logout.ts";
 import * as $9 from "./routes/api/send.ts";
 import * as $10 from "./routes/chat.tsx";
 import * as $11 from "./routes/index.tsx";
-import * as $12 from "./routes/new.tsx";
+import * as $12 from "./routes/login.tsx";
+import * as $13 from "./routes/new.tsx";
+import * as $14 from "./routes/test.tsx";
 import * as $$0 from "./islands/AddRoom.tsx";
 import * as $$1 from "./islands/Chat.tsx";
 import * as $$2 from "./islands/chat-aria.tsx";
@@ -25,9 +27,9 @@ import * as $$5 from "./islands/rooms.tsx";
 
 const manifest = {
   routes: {
-    "./routes/23_middleware.ts": $0,
-    "./routes/[room].tsx": $1,
-    "./routes/_app.tsx": $2,
+    "./routes/[room].tsx": $0,
+    "./routes/_app.tsx": $1,
+    "./routes/_middleware.ts": $2,
     "./routes/api/ai.ts": $3,
     "./routes/api/auth/github.ts": $4,
     "./routes/api/auth/google.ts": $5,
@@ -37,7 +39,9 @@ const manifest = {
     "./routes/api/send.ts": $9,
     "./routes/chat.tsx": $10,
     "./routes/index.tsx": $11,
-    "./routes/new.tsx": $12,
+    "./routes/login.tsx": $12,
+    "./routes/new.tsx": $13,
+    "./routes/test.tsx": $14,
   },
   islands: {
     "./islands/AddRoom.tsx": $$0,
