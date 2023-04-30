@@ -13,9 +13,10 @@ export default function Romms({ url, data }: any) {
    if(!nameRoom) return alert("void name room!")
    if(!promptRoom) return alert("void Prompt room!")
     try {
-      const create = server.createRoom({name:nameRoom,prompt:promptRoom});
-      const roomId = await create;
-      alert("room ID:" + roomId);
+      const create = await server.createRoom({name:nameRoom,prompt:promptRoom});
+      //const roomId = await create
+      alert("room ID:" + create);
+      document.location = create
     } catch (err) {
       alert(`Cannot create room: ${err.message}`);
     }
