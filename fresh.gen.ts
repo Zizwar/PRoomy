@@ -20,10 +20,11 @@ import * as $13 from "./routes/new.tsx";
 import * as $14 from "./routes/test.tsx";
 import * as $$0 from "./islands/AddRoom.tsx";
 import * as $$1 from "./islands/Chat.tsx";
-import * as $$2 from "./islands/chat-aria.tsx";
-import * as $$3 from "./islands/detail.tsx";
-import * as $$4 from "./islands/header.tsx";
-import * as $$5 from "./islands/rooms.tsx";
+import * as $$2 from "./islands/auth.tsx";
+import * as $$3 from "./islands/chat-aria.tsx";
+import * as $$4 from "./islands/detail.tsx";
+import * as $$5 from "./islands/header.tsx";
+import * as $$6 from "./islands/rooms.tsx";
 
 const manifest = {
   routes: {
@@ -46,10 +47,11 @@ const manifest = {
   islands: {
     "./islands/AddRoom.tsx": $$0,
     "./islands/Chat.tsx": $$1,
-    "./islands/chat-aria.tsx": $$2,
-    "./islands/detail.tsx": $$3,
-    "./islands/header.tsx": $$4,
-    "./islands/rooms.tsx": $$5,
+    "./islands/auth.tsx": $$2,
+    "./islands/chat-aria.tsx": $$3,
+    "./islands/detail.tsx": $$4,
+    "./islands/header.tsx": $$5,
+    "./islands/rooms.tsx": $$6,
   },
   baseUrl: import.meta.url,
   config,

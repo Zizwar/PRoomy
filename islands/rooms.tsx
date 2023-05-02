@@ -18,9 +18,10 @@ export default function Romms({ url, data }: any) {
       alert("room ID:" + create);
       document.location = create
     } catch (err) {
-      alert(`Cannot create room: ${err.message}`);
+      alert(`Cannot create room`);
+      location.reload()
     }
-  };
+  }; 
   return (
     <>
       <div class="conversation-area">
@@ -52,8 +53,8 @@ export default function Romms({ url, data }: any) {
           );
         })}
 
-       <button onClick={creatRoms} class="add"></button>
-        <div class="overlay"></div>
+     
+        <div class="overlay">  <button onClick={creatRoms} class="add"></button></div>
       </div>
     </>
   );

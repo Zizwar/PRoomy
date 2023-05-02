@@ -31,7 +31,7 @@ function handleSettingsClick() {
   if (displayDetailArea !== "flex") {
     chatArea.classList.toggle("displayNone");
     conversationArea.classList.toggle("displayBlock");
-
+ conversationArea.classList.toggle("fullWidth");
     if (displayConversationArea !== "flex") {
       detailArea.classList.toggle("fullWidth"); 
        conversationArea.classList.toggle("displayNone");
