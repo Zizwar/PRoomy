@@ -66,13 +66,9 @@ export default function Main({ url, data }: PageProps<{ rooms: RoomView[] }>) {
   return (
     <>
       <Head>
-        <title>Deno ChatDPT</title>
+        <title>JPT</title>
       </Head>
-      <img
-        src="/background.png"
-        alt="bg"
-        class="absolute top-0 left-0 w-full min-h-screen -z-10 bg-gray-900 object-cover"
-      />
+
       <div class="flex justify-center items-center h-screen text-gray-600">
         <div>
           <div class="mb-16 mx-8 text-center">
@@ -83,46 +79,7 @@ export default function Main({ url, data }: PageProps<{ rooms: RoomView[] }>) {
             <span class="block text-lg -mb-1.5">
               A minimal chat platform template.
             </span>
-            <span class="block text-lg">
-              It uses{" "}
-              <a
-                class="font-bold underline"
-                href="https://fresh.deno.dev"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Fresh
-              </a>
-              {" + "}
-              <a
-                class="font-bold underline"
-                href="https://supabase.com"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Supabase
-              </a>
-              {" + "}
-              <a
-                class="font-bold underline"
-                href="https://twind.dev/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                twind
-              </a>
-              {" + "}
-              <a
-                class="font-bold underline"
-                href="https://developer.mozilla.org/en-US/docs/Web/API/Broadcast_Channel_API"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Broadcast Channel API
-              </a>{" "}
-              on Deno Deploy.
-            </span>
-          </div>
+              </div>
           {data ? (
             <ul
               role="list"
@@ -139,9 +96,7 @@ export default function Main({ url, data }: PageProps<{ rooms: RoomView[] }>) {
                     >
                       <div
                         class="w-12 h-12 bg-cover rounded-3xl ml-3"
-                        style={`background-image: url(${
-                          "https://deno-avatar.deno.dev/avatar/" + room.roomId
-                        })`}
+                        style={`background-image: url(/images/logos/jpt%20(${room.roomId % 36 + 1}).jpg)`}
                       />
                       <p class="text-xl font-bold text-gray-900 justify-self-center group-hover:underline group-focus:underline">
                         {room.name}
