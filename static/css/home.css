@@ -350,6 +350,7 @@ html {
 }
 
 .overlay {
+  
   position: sticky;
   bottom: 0;
   left: 0;
@@ -357,6 +358,7 @@ html {
   flex-shrink: 0;
   background: var(--overlay-bg);
   height: 80px;
+  text-align: center;
 }
 
 .chat-area {
@@ -808,7 +810,7 @@ html {
 
 .displayBlock {
   display: block;
-  width: 56%;
+ /* width: 56%;*/
 }
 
 .fullWidth {
