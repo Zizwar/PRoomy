@@ -32,7 +32,7 @@ export default function Romms({ url, data }: any) {
         
                   <img
                     class="msg-profile"
-                    src={"https://deno-avatar.deno.dev/avatar/" + room.roomId}
+                    src={`/images/logos/jpt%20(${room.roomId % 36 + 1}).jpg`}
                     alt=""
                   />
                   <div class="msg-detail">
