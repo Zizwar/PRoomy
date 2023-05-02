@@ -3,13 +3,7 @@ export default function Header() {
     <>
       <div class="header">
         <div class="logo">
- <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="50" cy="50" r="40" stroke="#369" stroke-width="6" fill="none" />
-  <circle cx="50" cy="50" r="30" stroke="#5181b8" stroke-width="5" fill="none" />
-  <circle cx="50" cy="50" r="20" stroke="#6fa4e1" stroke-width="4" fill="none" />
-  <circle cx="50" cy="50" r="10" stroke="#8bc6ff" stroke-width="2" fill="none" />
-  <circle cx="50" cy="50" r="5" stroke="#b0d7ff" stroke-width="1" fill="#369" />
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8M8 12h8"></path></svg>
 
         </div>
         <div class="search-bar">
