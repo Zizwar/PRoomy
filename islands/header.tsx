@@ -3,17 +3,14 @@ export default function Header() {
     <>
       <div class="header">
         <div class="logo">
-          <svg
-            viewBox="0 0 513 513"
-            fill="currentColor"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M256.025.05C117.67-2.678 3.184 107.038.025 245.383a240.703 240.703 0 0085.333 182.613v73.387c0 5.891 4.776 10.667 10.667 10.667a10.67 10.67 0 005.653-1.621l59.456-37.141a264.142 264.142 0 0094.891 17.429c138.355 2.728 252.841-106.988 256-245.333C508.866 107.038 394.38-2.678 256.025.05z" />
-            <path
-              d="M330.518 131.099l-213.825 130.08c-7.387 4.494-5.74 15.711 2.656 17.97l72.009 19.374a9.88 9.88 0 007.703-1.094l32.882-20.003-10.113 37.136a9.88 9.88 0 001.083 7.704l38.561 63.826c4.488 7.427 15.726 5.936 18.003-2.425l65.764-241.49c2.337-8.582-7.092-15.72-14.723-11.078zM266.44 356.177l-24.415-40.411 15.544-57.074c2.336-8.581-7.093-15.719-14.723-11.078l-50.536 30.744-45.592-12.266L319.616 160.91 266.44 356.177z"
-              fill="#fff"
-            />
-          </svg>
+ <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="50" r="40" stroke="#369" stroke-width="6" fill="none" />
+  <circle cx="50" cy="50" r="30" stroke="#5181b8" stroke-width="5" fill="none" />
+  <circle cx="50" cy="50" r="20" stroke="#6fa4e1" stroke-width="4" fill="none" />
+  <circle cx="50" cy="50" r="10" stroke="#8bc6ff" stroke-width="2" fill="none" />
+  <circle cx="50" cy="50" r="5" stroke="#b0d7ff" stroke-width="1" fill="#369" />
+</svg>
+
         </div>
         <div class="search-bar">
           <input type="text" placeholder="Search..." />
@@ -47,7 +44,7 @@ export default function Header() {
           </div>
           <img
             class="user-profile account-profile"
-            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png"
+            src="/images/logos/jpt%20(21).jpg"
             alt=""
           />
         </div>
