@@ -20,7 +20,7 @@ export default function Romms({ url, data }: any) {
     } catch (err) {
       alert(`Cannot create room: ${err.message}`);
     }
-  };
+  }; 
   return (
     <>
       <div class="conversation-area">
