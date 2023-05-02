@@ -1,6 +1,8 @@
 const toggleButton = document.querySelector(".dark-light");
 const colors = document.querySelectorAll(".color");
 const toggleSettings = document.querySelector(".settings");
+const toggleLogo = document.querySelector(".logo");
+
 
 function handleColorClick() {
   colors.forEach((color) => color.classList.remove("selected"));
@@ -40,3 +42,4 @@ function handleSettingsClick() {
 }
 
 toggleSettings.addEventListener("click", handleSettingsClick);
+toggleLogo.addEventListener("click", handleSettingsClick);
