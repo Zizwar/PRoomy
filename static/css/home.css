@@ -438,6 +438,7 @@ html {
 
 .chat-msg-text {
   color: var(--chat-text-color);
+  white-space: pre-line;
 }
 
 .owner {

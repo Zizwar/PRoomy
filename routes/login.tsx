@@ -1,3 +1,12 @@
+import Auth from "../islands/auth.tsx";
+
+export default function HomePage() { 
+  return ( 
+    <Auth 
+    /> 
+  ); 
+}
+/*
 import { Head } from "$fresh/runtime.ts";
 import type { Handler } from "$fresh/server.ts";
 
@@ -28,3 +37,4 @@ export const handler: Handler = (_, ctx) => {
 
   return ctx.render();
 };
+*/

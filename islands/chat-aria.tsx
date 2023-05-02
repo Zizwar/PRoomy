@@ -78,9 +78,7 @@ export default function Chat({
         <div class="chat-area-header">
           
           <div class="chat-area-title">{roomName}</div>
-          {typing && (
-            <div class="detail-change">{typing.user.name} is typing...</div>
-          )}
+        
           <div class="chat-area-group">
             <img
               class="chat-area-profile"
@@ -114,10 +112,13 @@ export default function Chat({
               </div>
             </div>
           ))}
-      
+         {typing && (
+            <div class="detail-change">{typing?.user?.name} is typing...</div>
+          )}
         </div>
 
-        <div class="chat-area-footer">
+        <div class="chat-area-footer"> 
+      
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
