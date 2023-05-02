@@ -74,10 +74,10 @@ export default function Main({ url, data }: PageProps<{ rooms: RoomView[] }>) {
           <div class="mb-16 mx-8 text-center">
             <img class="h-24 mx-auto mb-6" src="/favicon.ico" alt="JPT Logo" />
             <span class="block text-3xl font-bold text-black mb-3">
-              Deno Chat
+              Deno JPT
             </span>
             <span class="block text-lg -mb-1.5">
-              A minimal chat platform template.
+              
             </span>
               </div>
           {data ? (
@@ -85,8 +85,6 @@ export default function Main({ url, data }: PageProps<{ rooms: RoomView[] }>) {
               role="list"
               class="max-h-[21.375rem] mx-2 md:mx-0 overflow-y-scroll space-y-4.5"
             >
-        
-
               {data.rooms.map((room) => {
                 return (
                   <li key={room.roomId}>
@@ -96,7 +94,7 @@ export default function Main({ url, data }: PageProps<{ rooms: RoomView[] }>) {
                     >
                       <div
                         class="w-12 h-12 bg-cover rounded-3xl ml-3"
-                        style={`background-image: url(/images/logos/jpt%20(${room.roomId % 36 + 1}).jpg)`}
+                        style={`background-image: url('/images/logos/jpt%20(${room.roomId % 36 + 1}).jpg')`}
                       />
                       <p class="text-xl font-bold text-gray-900 justify-self-center group-hover:underline group-focus:underline">
                         {room.name}
