@@ -18,7 +18,8 @@ export default function Romms({ url, data }: any) {
       alert("room ID:" + create);
       document.location = create
     } catch (err) {
-      alert(`Cannot create room: ${err.message}`);
+      alert(`Cannot create room`);
+      location.reload()
     }
   }; 
   return (

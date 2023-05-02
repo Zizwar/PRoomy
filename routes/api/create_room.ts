@@ -8,7 +8,7 @@ export const handler: Handlers = {
      // const name = badWordsCleaner.clean(await req.text());
      const data = (await req.json())
      const database = await databaseLoader.getInstance();
-     console.log({data})
+    // console.log({data})
     const roomId = await database.ensureRoom(data);
 
     return new Response(roomId, {

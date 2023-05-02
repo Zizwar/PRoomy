@@ -103,29 +103,29 @@ export class Database {
     return data[0]?.prompt;
   }
 
-  async ensureRoom({name,prompt}:{name: string,prompt: string}) {
-    const insert = await this.#client.from("rooms").insert([{ name,prompt }], {
+  async ensureRoom({ name, prompt }: { name: string, prompt: string }) {
+    const insert = await this.#client.from("rooms").insert([{ name, prompt }], {
       upsert: false,
       returning: "representation",
     });
-
+    
     if (insert.error) {
       if (insert.error.code !== "23505") {
         throw new Error(insert.error.message);
       }
-      const get = await this.#client
-        .from("rooms")
-        .select("id")
-        .eq("name", name);
-      if (get.error) {
-        throw new Error(get.error.message);
-      }
+    }
+    const get = await this.#client
+      .from("rooms")
+      .select("id")
+      .eq("name", name);
+    if (get.error) {
+      throw new Error(get.error.message);
+    }
+    if (get.data && get.data[0]) {
       return get.data[0].id;
     }
-
-    return insert.data![0].id;
+    // return insert.data![0].id;
   }
-
   async insertMessage(message: {
     text: string;
     roomId: number;
