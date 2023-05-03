@@ -49,7 +49,7 @@ export async function handler(
   });
 
   ///paly ai
-  if (message?.includes("@jpt")) {
+  if (message?.includes("@")) {
     const openAI = new OpenAI(Deno.env.get("KEY_OPEN_AI") ?? "");
 
     const from = {
@@ -58,7 +58,7 @@ export async function handler(
     };
     channel.sendIsTyping(from);
 
-    const userContent = message.replace("@jpt", "");
+    const userContent = message.replace("@jpt", "").replace("@", "");
     const SystemRoleContenet = prooms 
     //console.log({prooms})
 
