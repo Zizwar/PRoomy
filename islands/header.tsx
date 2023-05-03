@@ -1,9 +1,11 @@
-export default function Header() {
+
+import type {  UserView } from "@/communication/types.ts";
+export default function Header({user}:{user:UserView}) {
   return (
     <>
       <div class="header">
         <div class="logo">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8M8 12h8"></path></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8M8 12h8"></path></svg>
 
         </div>
         <div class="search-bar">
@@ -38,8 +40,7 @@ export default function Header() {
           </div>
           <img
             class="user-profile account-profile"
-            src="/images/logos/jpt%20(21).jpg"
-            alt=""
+            src={user.avatarUrl} alt={user.name}
           />
         </div>
       </div>

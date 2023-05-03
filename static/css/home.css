@@ -350,9 +350,9 @@ html {
 }
 
 .overlay {
-  
+
   position: sticky;
-  bottom: 0;
+  bottom: 25px;
   left: 0;
   width: 340px;
   flex-shrink: 0;
@@ -437,7 +437,7 @@ html {
   padding: 15px;
   border-radius: 20px 20px 20px 0;
   line-height: 1.5;
- font-size: 1.23rem;
+  font-size: 1.23rem;
   font-weight: 500;
 }
 
@@ -811,7 +811,7 @@ html {
 
 .displayBlock {
   display: block;
- /* width: 56%;*/
+  /* width: 56%;*/
 }
 
 .fullWidth {
@@ -824,4 +824,9 @@ html {
 
 .rtl {
   direction: rtl;
+}
+
+.text-area-input {
+  width: -webkit-fill-available;
+  color: #273346
 }
