@@ -105,6 +105,17 @@ export class Database {
     return { name, prompt }
 
   }
+  async getRoomPrompt(roomId: number): Promise<string> {
+    const { data, error } = await this.#client
+      .from("rooms")
+      .select("prompt")
+      .eq("id", roomId).single();
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data?.prompt;
+  }
+
 
   async ensureRoom({ name, prompt }: { name: string, prompt: string }) {
     const insert = await this.#client.from("rooms").insert([{ name, prompt }], {
@@ -191,7 +202,6 @@ export const databaseLoader = new ResourceLoader<Database>({
         created_at timestamp with time zone default timezone('utc'::text, now()) not null,
         name text unique not null,
         prompt text,
-        "from" integer references users (id)
       )`;
     await sql`
       create table if not exists messages (

@@ -21,7 +21,7 @@ function toggleDarkMode() {
 
 toggleButton.addEventListener("click", toggleDarkMode);
 
-function handleSettingsClick() {
+function handleSettingsClick(arg) {
   const chatArea = document.querySelector(".chat-area");
   const detailArea = document.querySelector(".detail-area");
   const conversationArea = document.querySelector(".conversation-area");
@@ -29,6 +29,18 @@ function handleSettingsClick() {
   const displayDetailArea = window.getComputedStyle(detailArea).display;
   const displayConversationArea =
     window.getComputedStyle(conversationArea).display;
+
+       
+  if (arg && displayDetailArea !== "flex") {
+    detailArea.classList.toggle("fullWidth"); 
+    detailArea.classList.toggle("displayBlock");
+    //conversationArea.classList.toggle("fullWidth");
+    if (displayConversationArea !== "flex") {
+      //detailArea.classList.toggle("fullWidth"); 
+      // conversationArea.classList.toggle("displayNone");
+    }
+    return;
+  }
 
   if (displayDetailArea !== "flex") {
     chatArea.classList.toggle("displayNone");
@@ -42,4 +54,4 @@ function handleSettingsClick() {
 }
 
 toggleSettings.addEventListener("click", handleSettingsClick);
-toggleLogo.addEventListener("click", handleSettingsClick);
+toggleLogo.addEventListener("click",()=> handleSettingsClick(true));
