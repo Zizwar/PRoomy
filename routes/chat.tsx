@@ -18,6 +18,7 @@ import type { MessageView, UserView } from "@/communication/types.ts";
 interface Data {
   messages: MessageView[];
   roomName: string;
+  prompt:string;
   user: UserView;
   rooms: RoomView[];
 }
@@ -26,7 +27,7 @@ export default function Home({ url, data, params }: PageProps<Data>) {
   return (
     <>
       <div class="app">
-        <Header />
+        <Header user={data.user || []} />
         {data && (
           <div class="wrapper">
             <Rooms url={url} data={data} />
@@ -38,7 +39,7 @@ export default function Home({ url, data, params }: PageProps<Data>) {
               user={data.user}
             />
 
-            <Detail />
+            <Detail roomId={+params.room || 1} name={data.roomName} prompt={data.prompt} />
           </div>
         )}
       </div>
@@ -55,16 +56,22 @@ export async function handler(
   if (maybeAccessToken) {
     const user = await database.getUserByAccessToken(maybeAccessToken);
     if (user) {
-      const [rooms, messages, roomName] = await Promise.all([
+  
+      const [rooms, messages, namePrompt] = await Promise.all([
         database.getRooms(),
-        database.getRoomMessages(+ctx.params.room || 2),
-        database.getRoomName(+ctx.params.room || 2) ,
-      ]);
+        database.getRoomMessages(+ctx.params.room ?? 2),
+        database.getRoomNamePrompt(+ctx.params.room ?? 2),
+
+      ]);  
+     
+      const { name: roomName, prompt } = namePrompt
+      console.log()
       const response = await ctx.render({
         user,
         rooms,
         messages,
         roomName,
+        prompt
       });
       return response;
     }
@@ -80,13 +87,13 @@ export async function handler(
   //  const accessToken = await gitHubApi.getAccessToken(code);
   //const userData = await gitHubApi.getUserData(accessToken);
   // Check the provider value from the query string
-  const provider = "google"; //url.searchParams.get("provider");
+  const scope = url.searchParams.get("scope");
   let accessToken, userData;
-  if (provider === "google") {
+  if (scope?.includes("google")) {
     accessToken = await googleApi.getAccessToken(code);
     userData = await googleApi.getUserData(accessToken);
   } else {
-    console.log({ provider });
+    //console.log({ provider });
     // Provider is github
     accessToken = await gitHubApi.getAccessToken(code);
     userData = await gitHubApi.getUserData(accessToken);
@@ -98,16 +105,18 @@ export async function handler(
     avatarUrl: userData.avatarUrl,
   });
 
-  const [rooms, messages, roomName] = await Promise.all([
+  const [rooms, messages, { name: roomName, prompt }] = await Promise.all([
     database.getRooms(),
     database.getRoomMessages(+ctx.params.room),
-    database.getRoomName(+ctx.params.room),
+    database.getRoomNamePrompt(+ctx.params.room),
   ]);
+
   const response = await ctx.render({
     user: userData,
     rooms,
     messages,
     roomName,
+    prompt
   });
   setCookie(response.headers, {
     name: "deploy_chat_token",

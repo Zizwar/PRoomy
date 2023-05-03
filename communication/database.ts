@@ -92,15 +92,18 @@ export class Database {
     }
     return data[0].name;
   }
-  async getRoomPrompt(roomId: number): Promise<string> {
-    const { data, error } = await this.#client
+  async getRoomNamePrompt(roomId: number) {
+    const { data = [], error } = await this.#client
       .from("rooms")
-      .select("prompt")
-      .eq("id", roomId);
+      .select("name,prompt")
+      .eq("id", roomId).single();
     if (error) {
       throw new Error(error.message);
     }
-    return data[0]?.prompt;
+   
+    const { name, prompt } = data;
+    return { name, prompt }
+
   }
 
   async ensureRoom({ name, prompt }: { name: string, prompt: string }) {
@@ -108,7 +111,7 @@ export class Database {
       upsert: false,
       returning: "representation",
     });
-    
+
     if (insert.error) {
       if (insert.error.code !== "23505") {
         throw new Error(insert.error.message);

@@ -1,25 +1,17 @@
-export default function Detail() {
+export default function Detail({ name, prompt, roomId }: { name: string, prompt: string, roomId: number }) {
   return (
     <>
       <div class="detail-area">
         <div class="detail-area-header">
           <div class="msg-profile group">
-            <svg
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="css-i6dzq1"
-            >
-              <path d="M12 2l10 6.5v7L12 22 2 15.5v-7L12 2zM12 22v-6.5" />
-              <path d="M22 8.5l-10 7-10-7" />
-              <path d="M2 15.5l10-7 10 7M12 2v6.5" />
-            </svg>
-          </div>
-          <div class="detail-title">CodePen Group</div>
-          <div class="detail-subtitle">Created by Aysenur, 1 May 2020</div>
+            <img
+              class="msg-profile"
+              src={`/images/logos/jpt%20(${roomId % 36 + 1}).jpg`}
+              alt=""
+            />  </div>
+          <div class="detail-title">{name}</div>
+          <div class="detail-subtitle">{prompt}</div>
+          {/*
           <div class="detail-buttons">
             <button class="detail-button">
               <svg
@@ -53,6 +45,8 @@ export default function Detail() {
               Video Chat
             </button>
           </div>
+       
+  */}
         </div>
         <div class="detail-changes">
           <input type="text" placeholder="Search in Conversation" />
@@ -65,6 +59,7 @@ export default function Detail() {
               <div class="color orange" data-color="orange"></div>
             </div>
           </div>
+       {/*
           <div class="detail-change">
             Change Emoji
             <svg
@@ -80,6 +75,7 @@ export default function Detail() {
               <path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3zM7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3" />
             </svg>
           </div>
+*/}
         </div>
         <div class="detail-photos">
           <div class="detail-photo-title">
@@ -97,7 +93,6 @@ export default function Detail() {
               <circle cx="8.5" cy="8.5" r="1.5" />
               <path d="M21 15l-5-5L5 21" />
             </svg>
-            Shared photos
           </div>
           <div class="detail-photo-grid">
             <img src="https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2168&q=80" />
@@ -116,30 +111,6 @@ export default function Detail() {
           </div>
           <div class="view-more">View More</div>
         </div>
-        <a
-          href="https://twitter.com/AysnrTrkk"
-          class="follow-me"
-          target="_blank"
-        >
-          <span class="follow-text">
-            <svg
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="css-i6dzq1"
-            >
-              <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-            </svg>
-            Follow me on Twitter
-          </span>
-          <span class="developer">
-            <img src="https://pbs.twimg.com/profile_images/1253782473953157124/x56UURmt_400x400.jpg" />
-            Aysenur Turk — @AysnrTrkk
-          </span>
-        </a>
       </div>
     </>
   );

@@ -60,7 +60,7 @@ export async function handler(
 
     const userContent = message.replace("@jpt", "");
     const SystemRoleContenet = prooms 
-    console.log({prooms})
+    //console.log({prooms})
 
     const chatCompletion = await openAI.createChatCompletion({
       model: "gpt-3.5-turbo",
@@ -75,12 +75,12 @@ export async function handler(
     const text = choices[0]?.message.content;
 
     await database.insertMessage({
-      text: `${user.userId ?? ""}:${text}`,
+      text: `${user.userName || ""}:${text}`,
       roomId: data.roomId,
       userId: 12345666,
     });
     channel.sendText({
-      message: `${user.userId ?? ""}:${text}`,
+      message: `@${user.userName || ""}:${text}`,
       from,
       createdAt: new Date().toISOString(),
     });

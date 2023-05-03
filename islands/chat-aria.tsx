@@ -14,6 +14,7 @@ export default function Chat({
   initialMessages: MessageView[];
   user: UserView;
 }) {
+  
   const messagesContainer = useRef<HTMLDivElement>(null);
   const [input, setInput] = useState("");
   const [messages, addMessage] = useReducer<MessageView[], MessageView>(
@@ -148,7 +149,7 @@ export default function Chat({
             setInput(e.currentTarget.value);
             server.sendIsTyping(roomId);
           }}
-          style={{width: "-webkit-fill-available"}}
+         class="text-area-input"
            placeholder="Type something here..." />
 <svg onClick={(e) => send()} viewBox="0 0 513 513" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path d="M256.025.05C117.67-2.678 3.184 107.038.025 245.383a240.703 240.703 0 0085.333 182.613v73.387c0 5.891 4.776 10.667 10.667 10.667a10.67 10.67 0 005.653-1.621l59.456-37.141a264.142 264.142 0 0094.891 17.429c138.355 2.728 252.841-106.988 256-245.333C508.866 107.038 394.38-2.678 256.025.05z" class="feather feather-plus-circle" fill="#0086ff"></path>
