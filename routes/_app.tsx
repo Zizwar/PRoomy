@@ -5,8 +5,10 @@ import { Head } from "$fresh/runtime.ts";
 
 export default function App({ Component }: AppProps) {
   return (
-    <div>
+    <div fixed>
       <Head>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+
         <link rel="icon" href="/favicon.ico" sizes="32x32" />
 
         <meta charSet="UTF-8" />
