@@ -352,7 +352,7 @@ html {
 .overlay {
   
   position: sticky;
-  bottom: 0;
+  bottom: 25px;
   left: 0;
   width: 340px;
   flex-shrink: 0;
