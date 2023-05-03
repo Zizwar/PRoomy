@@ -22,7 +22,7 @@ export async function handler(
   const data = (await req.json()) as ApiSendMessage;
   const channel = new RoomChannel(data.roomId); 
   const prooms = await database.getRoomPrompt(data.roomId);
-
+  
   const from = {
     name: user.userName,
     avatarUrl: user.avatarUrl,
