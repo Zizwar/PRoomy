@@ -3,7 +3,7 @@ import Rooms from "@/islands/rooms.tsx";
 import Detail from "@/islands/detail.tsx";
 import Header from "@/islands/header.tsx";
 //
-import { Handler, HandlerContext, PageProps, RouteConfig } from "$fresh/server.ts";
+import {  HandlerContext, PageProps, RouteConfig } from "$fresh/server.ts";
 
 import { getCookies, setCookie } from "$std/http/cookie.ts";
 import { databaseLoader } from "@/communication/database.ts";
