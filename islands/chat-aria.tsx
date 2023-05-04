@@ -73,34 +73,26 @@ export default function Chat({
     server.sendMessage(roomId, input);
     setInput("");
   };
-  const _TextAreaInput = () => {
-    const [input, setInput] = useState("");
-    const textareaRef = useRef(null);
-  
-    const handleInput = (e) => {
-      setInput(e.currentTarget.value);
-      server.sendIsTyping(roomId);
-      resizeTextarea();
-    };
-  
-    const resizeTextarea = () => {
-      const textarea = textareaRef.current;
-      textarea.style.height = "auto";
-      textarea.style.height = `${Math.min(textarea.scrollHeight, 3 * parseFloat(getComputedStyle(textarea).lineHeight))}px`;
-    };
-  
-    return (
-      <textarea
-        type="text"
-        value={input}
-        onInput={handleInput}
-        ref={textareaRef}
-        className="text-area-input"
-        placeholder="Type something here..."
-        style={{ resize: "none", overflow: "hidden" }}
-      />
-    );
+  const GroupAreaAvatar = () => {
+    const uniqueAvatars = new Set();
+    let num = 0;
+    const avatarElements = messages.map((message, index) => {
+      const avatarUrl = message.from.avatarUrl;
+      if (uniqueAvatars.has(avatarUrl)) {
+        return null;
+      } else {
+        if (num > 7) return null;
+        uniqueAvatars.add(avatarUrl);
+        num++
+        return (
+          <img class="chat-area-profile" src={avatarUrl} />
+        );
+      }
+    });
+    return <>{avatarElements}</>;
   };
+
+
   return (
 
     <div class="chat-area" ref={messagesContainer}>
@@ -109,18 +101,10 @@ export default function Chat({
         <div class="chat-area-title">{roomName}</div>
 
         <div class="chat-area-group">
-          <img
-            class="chat-area-profile"
-            src="https://jpt.ma/favicon.ico"
-            alt=""
-          />
-          <img
-            class="chat-area-profile"
-            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%282%29.png"
-            alt=""
-          />
 
-          <span>+2</span>
+          <GroupAreaAvatar />
+
+          <span>+</span>
         </div>
       </div>
       <div class="chat-area-main" >
@@ -177,8 +161,8 @@ export default function Chat({
             setInput(e.currentTarget.value);
             server.sendIsTyping(roomId);
           }}
-         class="text-area-input"
-           placeholder="Type something here..." />
+          class="text-area-input"
+          placeholder="Type something here..." />
         <svg onClick={(e) => send()} viewBox="0 0 513 513" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
           <path d="M256.025.05C117.67-2.678 3.184 107.038.025 245.383a240.703 240.703 0 0085.333 182.613v73.387c0 5.891 4.776 10.667 10.667 10.667a10.67 10.67 0 005.653-1.621l59.456-37.141a264.142 264.142 0 0094.891 17.429c138.355 2.728 252.841-106.988 256-245.333C508.866 107.038 394.38-2.678 256.025.05z" class="feather feather-plus-circle" fill="#0086ff"></path>
           <path d="M330.518 131.099l-213.825 130.08c-7.387 4.494-5.74 15.711 2.656 17.97l72.009 19.374a9.88 9.88 0 007.703-1.094l32.882-20.003-10.113 37.136a9.88 9.88 0 001.083 7.704l38.561 63.826c4.488 7.427 15.726 5.936 18.003-2.425l65.764-241.49c2.337-8.582-7.092-15.72-14.723-11.078zM266.44 356.177l-24.415-40.411 15.544-57.074c2.336-8.581-7.093-15.719-14.723-11.078l-50.536 30.744-45.592-12.266L319.616 160.91 266.44 356.177z" fill="#fff"></path>

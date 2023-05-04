@@ -3,6 +3,7 @@ const colors = document.querySelectorAll(".color");
 const toggleSettings = document.querySelector(".settings");
 const toggleLogo = document.querySelector(".logo");
 
+const chatHeader = document.querySelector(".chat-area-header");
 
 function handleColorClick() {
   colors.forEach((color) => color.classList.remove("selected"));
@@ -30,28 +31,29 @@ function handleSettingsClick(arg) {
   const displayConversationArea =
     window.getComputedStyle(conversationArea).display;
 
-       
-  if (arg && displayDetailArea !== "flex") {
-    detailArea.classList.toggle("fullWidth"); 
+
+  if (arg === "setting" && displayDetailArea !== "flex") {
     detailArea.classList.toggle("displayBlock");
-    //conversationArea.classList.toggle("fullWidth");
     if (displayConversationArea !== "flex") {
-      //detailArea.classList.toggle("fullWidth"); 
-      // conversationArea.classList.toggle("displayNone");
+      chatArea.classList.toggle("displayNone");
+      detailArea.classList.toggle("fullWidth");
     }
+
     return;
   }
 
+
   if (displayDetailArea !== "flex") {
-    chatArea.classList.toggle("displayNone");
     conversationArea.classList.toggle("displayBlock");
- conversationArea.classList.toggle("fullWidth");
     if (displayConversationArea !== "flex") {
-      detailArea.classList.toggle("fullWidth"); 
-       conversationArea.classList.toggle("displayNone");
+      detailArea.classList.toggle("fullWidth");
+      conversationArea.classList.toggle("displayNone");
+
     }
   }
-}
 
-toggleSettings.addEventListener("click", handleSettingsClick);
-toggleLogo.addEventListener("click",()=> handleSettingsClick(true));
+}
+toggleSettings.addEventListener("click", () => handleSettingsClick("setting"));
+chatHeader.addEventListener("click", () => handleSettingsClick("setting"));
+
+toggleLogo.addEventListener("click", handleSettingsClick);

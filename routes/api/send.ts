@@ -22,7 +22,7 @@ export async function handler(
   const data = (await req.json()) as ApiSendMessage;
   const channel = new RoomChannel(data.roomId); 
   const prooms = await database.getRoomPrompt(data.roomId);
-  
+
   const from = {
     name: user.userName,
     avatarUrl: user.avatarUrl,
@@ -49,7 +49,7 @@ export async function handler(
   });
 
   ///paly ai
-  if (message?.includes("@jpt")) {
+  if (!message?.startsWith("@")) {
     const openAI = new OpenAI(Deno.env.get("KEY_OPEN_AI") ?? "");
 
     const from = {
@@ -58,10 +58,10 @@ export async function handler(
     };
     channel.sendIsTyping(from);
 
-    const userContent = message?.replace("@jpt", "");
-    const SystemRoleContenet = prooms 
+    const userContent = message.replace("@", "")
+    const SystemRoleContenet = prooms || "";
     //console.log({prooms})
-
+    console.log({SystemRoleContenet,userContent})
     const chatCompletion = await openAI.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: [
@@ -72,13 +72,14 @@ export async function handler(
 
     const choices = chatCompletion?.choices;
 
-    const text = choices[0]?.message.content;
+    const text = choices[0]?.message.content ?? 'no result';
 
     await database.insertMessage({
       text: `${user.userName || ""}:${text}`,
       roomId: data.roomId,
       userId: 12345666,
     });
+
     channel.sendText({
       message: `@${user.userName || ""}:${text}`,
       from,

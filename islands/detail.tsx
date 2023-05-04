@@ -1,4 +1,12 @@
+import Edit from "@/component/edit.tsx";
 export default function Detail({ name, prompt, roomId }: { name: string, prompt: string, roomId: number }) {
+
+  const onclickTitle = () => {
+    alert("edit Title")
+  }
+  const onclickPrompt = () => {
+    alert("editprompt")
+  }
   return (
     <>
       <div class="detail-area">
@@ -9,8 +17,8 @@ export default function Detail({ name, prompt, roomId }: { name: string, prompt:
               src={`/images/logos/jpt%20(${roomId % 36 + 1}).jpg`}
               alt=""
             />  </div>
-          <div class="detail-title">{name}</div>
-          <div class="detail-subtitle">{prompt}</div>
+          <div class="detail-title"><Edit onclick={onclickTitle} />{name}</div>
+          <div class={`detail-change ${/[\u0600-\u06FF]/.test(prompt) && "rtl"}`}><Edit onclick={onclickPrompt} />{prompt}</div>
           {/*
           <div class="detail-buttons">
             <button class="detail-button">
@@ -59,7 +67,7 @@ export default function Detail({ name, prompt, roomId }: { name: string, prompt:
               <div class="color orange" data-color="orange"></div>
             </div>
           </div>
-       {/*
+          {/*
           <div class="detail-change">
             Change Emoji
             <svg
