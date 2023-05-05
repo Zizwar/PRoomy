@@ -5,6 +5,7 @@ export default function NewRoom() {
     <>
 
 <a
+onClick={()=>alert(23)}
   href="#"
   style={{backgroundImage:"url(https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1592&q=80)"}}
   class="relative block overflow-hidden rounded-xl bg-cover bg-center bg-no-repeat"
@@ -15,7 +16,7 @@ export default function NewRoom() {
     <div class="sm:pt-18 pt-12 text-white lg:pt-24">
       <h3 class="text-xl font-bold sm:text-2xl">Rome</h3>
 
-      <p class="text-sm">Italy</p>
+      <p onClick={()=>alert(23)} class="text-sm">Italy</p>
     </div>
 
     <span
