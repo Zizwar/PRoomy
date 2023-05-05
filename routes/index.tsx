@@ -35,12 +35,11 @@ export async function handler(
   const provider = url.searchParams.get("scope");
   let accessToken, userData;
   if (provider?.includes("google")) {
-    
     accessToken = await googleApi.getAccessToken(code);
     userData = await googleApi.getUserData(accessToken);
-    console.log("google",{provider},{userData})
+    console.log({provider,userData})
   } else {
-    console.log("provider",provider)
+    //console.log({provider})
     // Provider is github
     accessToken = await gitHubApi.getAccessToken(code);
     userData = await gitHubApi.getUserData(accessToken);
