@@ -1,8 +1,7 @@
 export class GoogleAuth {
-  clientId: string|undefined;
-  clientSecret: string|undefined;
-  redirectUri: string|undefined;
-
+clientId: string|undefined;
+clientSecret: string|undefined;
+redirectUri: string|undefined;
   constructor() {
     this.clientId = Deno.env.get("GOOGLE_CLIENT_ID");
     this.clientSecret = Deno.env.get("GOOGLE_CLIENT_SECRET");
@@ -19,7 +18,7 @@ export class GoogleAuth {
           client_id: this.clientId,
           client_secret: this.clientSecret,
           grant_type: "authorization_code",
-          redirect_uri: this.redirectUri
+          redirect_uri:  this.redirectUri 
         }),
         headers: {
           Accept: "application/json",
@@ -48,15 +47,14 @@ export class GoogleAuth {
       throw new Error(await response.text());
     }
     const userData = await response.json();
-console.log('###userData',userData)
-    return {
-      userId: userData.sub,
-      userName: userData?.email?.split("@")[0],
-      avatarUrl: userData.picture,
+    const userName = userData.email.split("@")[0];
+     console.log({userName,userData})
+      return  {
+      userId: +userData.sub,
+      userName,
+      avatarUrl: userData.picture
     };
   }
-}
-
 }
 
 export const googleApi = new GoogleAuth();
