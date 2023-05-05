@@ -50,11 +50,13 @@ export class GoogleAuth {
     const userData = await response.json();
 console.log('###userData',userData)
     return {
-      userId: userData.id,
-      userName: userData.name,
+      userId: userData.sub,
+      userName: userData?.email?.split("@")[0],
       avatarUrl: userData.picture,
     };
   }
+}
+
 }
 
 export const googleApi = new GoogleAuth();
