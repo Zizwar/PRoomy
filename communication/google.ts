@@ -50,7 +50,7 @@ redirectUri: string|undefined;
     const userName = userData.email.split("@")[0];
      console.log({userName,userData})
       return  {
-      userId: +userData.sub,
+      userId: undefined,//+userData.sub,
       userName,
       avatarUrl: userData.picture
     };
