@@ -48,6 +48,7 @@ export class GoogleAuth {
       throw new Error(await response.text());
     }
     const userData = await response.json();
+console.log('###userData',userData)
     return {
       userId: userData.id,
       userName: userData.name,
