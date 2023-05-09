@@ -40,7 +40,7 @@ export default function Header({user}:{user:UserView}) {
           </div>
           <img
             class="user-profile account-profile"
-            src={user.avatarUrl} alt={user.name}
+            src={user.avatarUrl} alt={user.userName}
           />
         </div>
       </div>

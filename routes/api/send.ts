@@ -3,7 +3,7 @@ import { getCookies } from "$std/http/cookie.ts";
 import { emojify } from "emojify";
 import { databaseLoader } from "@/communication/database.ts";
 import { RoomChannel } from "@/communication/channel.ts";
-import { badWordsCleanerLoader } from "@/helpers/bad_words.ts";
+import { cleanBadWors } from "@/helpers/bad_words.ts";
 import { ApiSendMessage } from "@/communication/types.ts";
 
 import { OpenAI } from "openai";
@@ -21,7 +21,7 @@ export async function handler(
   const user = await database.getUserByAccessTokenOrThrow(accessToken);
   const data = (await req.json()) as ApiSendMessage;
   const channel = new RoomChannel(data.roomId); 
-  const prooms = await database.getRoomPrompt(data.roomId);
+  const proomy = await database.getRoomPrompt(data.roomId);
 
   const from = {
     name: user.userName,
@@ -33,8 +33,7 @@ export async function handler(
     channel.sendIsTyping(from);
   }
 
-  const badWordsCleaner = await badWordsCleanerLoader.getInstance();
-  const message = emojify(badWordsCleaner.clean(data.message));
+  const message = emojify(cleanBadWors(data.message));
 
   channel.sendText({
     message: message,
@@ -49,7 +48,7 @@ export async function handler(
   });
 
   ///paly ai
-  if (!message?.startsWith("@")) {
+  if (!message?.startsWith("@") && proomy) {
     const openAI = new OpenAI(Deno.env.get("KEY_OPEN_AI") ?? "");
 
     const from = {
@@ -59,13 +58,13 @@ export async function handler(
     channel.sendIsTyping(from);
 
     const userContent = message.replace("@", "")
-    const SystemRoleContenet = prooms || "";
-    //console.log({prooms})
-    console.log({SystemRoleContenet,userContent})
+    
+    //console.log({proomy})
+    
     const chatCompletion = await openAI.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: [
-        { role: "system", content: SystemRoleContenet },
+        { role: "system", content: proomy },
         { role: "user", content: userContent },
       ],
     });

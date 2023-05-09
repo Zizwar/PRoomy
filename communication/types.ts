@@ -12,8 +12,9 @@ export interface RoomIsTypingChannelMessage {
 }
 
 export interface UserView {
-  name: string;
+  name?: string;
   avatarUrl: string;
+  userName:string;
 }
 
 export interface MessageView {
