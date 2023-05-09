@@ -53,7 +53,7 @@ export async function handler(
     const openAI = new OpenAI(Deno.env.get("KEY_OPEN_AI") ?? "");
 
     const from = {
-      name: "@JPT",
+      name: "@GPT",
       avatarUrl: "https://jpt.ma/favicon.ico",
     };
     channel.sendIsTyping(from);

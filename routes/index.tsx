@@ -67,15 +67,15 @@ export default function Main({ url, data }: PageProps<{ rooms: RoomView[] }>) {
   return (
     <>
       <Head>
-        <title>JPT</title>
+        <title>PRoomy - Roomy Prompt</title>
       </Head>
 
       <div class="flex justify-center items-center h-screen text-gray-600">
         <div>
           <div class="mb-16 mx-8 text-center">
-            <img class="h-24 mx-auto mb-6" src="/favicon.ico" alt="JPT Logo" />
+            <img class="h-24 mx-auto mb-6" src="/favicon.ico" alt="PRoomy Logo" />
             <span class="block text-3xl font-bold text-black mb-3">
-              Deno JPT
+            Roomy Prompt - ChatGPT Rooms
             </span>
             <span class="block text-lg -mb-1.5">
               
