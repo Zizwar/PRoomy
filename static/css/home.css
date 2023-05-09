@@ -332,7 +332,8 @@ html {
 
 .add {
   position: sticky;
-  bottom: 25px;
+  left:110px;
+  bottom: 63px;
   background-color: var(--theme-color);
   width: 60px;
   height: 60px;

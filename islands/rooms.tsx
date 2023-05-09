@@ -54,7 +54,7 @@ export default function Romms({ url, data }: any) {
         })}
 
      
-        <div class="overlay">  <button onClick={creatRoms} class="add"></button></div>
+      <button onClick={creatRoms} class="add"></button>
       </div>
     </>
   );
