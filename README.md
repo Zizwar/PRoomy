@@ -1,6 +1,6 @@
-![](static/screenshot.png)
+![Proomy](static/screenshot.png)
 
-## `JPT Deno ChatGPT Groups`
+## `Roomy Prompt - ChatGPT Rooms`
 
 A minimal chat platform template. It uses [Fresh](https://fresh.deno.dev) +
 [Supabase](https://supabase.io) + [twind](https://twind.dev) +
