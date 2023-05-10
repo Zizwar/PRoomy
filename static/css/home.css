@@ -20,32 +20,38 @@
   --button-color: var(--theme-color);
   --detail-font-color: #919ca2;
   --msg-hover-bg: rgba(238, 242, 244, 0.4);
-  --active-conversation-bg: linear-gradient(to right,
-      rgba(238, 242, 244, 0.4) 0%,
-      rgba(238, 242, 244, 0) 100%);
-  --overlay-bg: linear-gradient(to bottom,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 1) 65%,
-      rgba(255, 255, 255, 1) 100%);
-  --chat-header-bg: linear-gradient(to bottom,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(255, 255, 255, 1) 78%,
-      rgba(255, 255, 255, 0) 100%);
+  --active-conversation-bg: linear-gradient(
+    to right,
+    rgba(238, 242, 244, 0.4) 0%,
+    rgba(238, 242, 244, 0) 100%
+  );
+  --overlay-bg: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 1) 65%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  --chat-header-bg: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 1) 78%,
+    rgba(255, 255, 255, 0) 100%
+  );
 }
 
-[data-theme=purple] {
+[data-theme="purple"] {
   --theme-color: #9f7aea;
   --button-color: #9f7aea;
   --button-bg-color: rgba(159, 122, 234, 0.12);
 }
 
-[data-theme=green] {
+[data-theme="green"] {
   --theme-color: #38b2ac;
   --button-color: #38b2ac;
   --button-bg-color: rgba(56, 178, 171, 0.15);
 }
 
-[data-theme=orange] {
+[data-theme="orange"] {
   --theme-color: #ed8936;
   --button-color: #ed8936;
   --button-bg-color: rgba(237, 137, 54, 0.12);
@@ -56,23 +62,29 @@
   --theme-bg-color: #27292d;
   --border-color: #323336;
   --body-color: #d1d1d2;
-  --active-conversation-bg: linear-gradient(to right,
-      rgba(47, 50, 56, 0.54),
-      rgba(238, 242, 244, 0) 100%);
+  --active-conversation-bg: linear-gradient(
+    to right,
+    rgba(47, 50, 56, 0.54),
+    rgba(238, 242, 244, 0) 100%
+  );
   --msg-hover-bg: rgba(47, 50, 56, 0.54);
   --chat-text-bg: #383b40;
   --chat-text-color: #b5b7ba;
   --msg-date: #626466;
   --msg-message: var(--msg-date);
-  --overlay-bg: linear-gradient(to bottom,
-      rgba(0, 0, 0, 0) 0%,
-      #27292d 65%,
-      #27292d 100%);
+  --overlay-bg: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    #27292d 65%,
+    #27292d 100%
+  );
   --input-bg: #2f3236;
-  --chat-header-bg: linear-gradient(to bottom,
-      #27292d 0%,
-      #27292d 78%,
-      rgba(255, 255, 255, 0) 100%);
+  --chat-header-bg: linear-gradient(
+    to bottom,
+    #27292d 0%,
+    #27292d 78%,
+    rgba(255, 255, 255, 0) 100%
+  );
   --settings-icon-color: #7c7e80;
   --developer-color: var(--border-color);
   --button-bg-color: #393b40;
@@ -208,7 +220,7 @@ html {
   flex-shrink: 0;
 }
 
-.user-settings>*+* {
+.user-settings > * + * {
   margin-left: 14px;
 }
 
@@ -332,7 +344,7 @@ html {
 
 .add {
   position: sticky;
-  left:110px;
+  left: 110px;
   bottom: 63px;
   background-color: var(--theme-color);
   width: 60px;
@@ -351,7 +363,6 @@ html {
 }
 
 .overlay {
-
   position: sticky;
   bottom: 25px;
   left: 0;
@@ -442,15 +453,12 @@ html {
   font-weight: 500;
 }
 
-.chat-msg-text+.chat-msg-text {
+.chat-msg-text + .chat-msg-text {
   margin-top: 10px;
 }
 
 .chat-msg-text {
-
-    border-radius: 20px 20px 20px 0;
-
-
+  border-radius: 20px 20px 20px 0;
 
   color: var(--chat-text-color);
   white-space: pre-line;
@@ -506,7 +514,7 @@ html {
   color: var(--settings-icon-hover);
 }
 
-.chat-area-footer svg+svg {
+.chat-area-footer svg + svg {
   margin-left: 12px;
 }
 
@@ -774,7 +782,7 @@ html {
   border: 2px solid var(--theme-bg-color);
 }
 
-.chat-area-group *+* {
+.chat-area-group * + * {
   margin-left: -5px;
 }
 
@@ -822,7 +830,7 @@ html {
 }
 
 .fullWidth {
-  width: 98%
+  width: 98%;
 }
 
 .ltr {
@@ -837,16 +845,16 @@ html {
   height: 60px;
   resize: inherit;
   width: -webkit-fill-available;
-  color: #273346
+  color: #273346;
 }
-.pre-code{
-  font-size: .8rem;
-    padding: 1rem;
-    background: bisque;
-    border-radius: 4px;
-    max-height: 11em;
-    overflow: auto;
-   /* white-space: pre-wrap;*/
-    margin: 0;
-    direction: ltr;
+.pre-code {
+  font-size: 1rem;
+  padding: 1rem;
+  background: bisque;
+  border-radius: 4px;
+  max-height: 11em;
+  overflow: auto;
+  white-space: pre-wrap;
+  margin: 0;
+  direction: ltr;
 }
