@@ -1,12 +1,8 @@
-// deno-lint-ignore-file
-// deno-lint-ignore-file no-explicit-any
-//import type { RoomView } from "@/communication/types.ts";
-// deno-lint-ignore ban-unused-ignore
-// deno-lint-ignore no-explicit-any
+
 import { server } from "@/communication/server.ts";
 import twas from "twas";
-//import AddRoom from "./AddRoom.tsx";
-export default function Romms({ url, data }: any) {
+
+export default function Romms({ data }: any) {
   const creatRoms = async () => {
     const nameRoom = prompt("name room");
     const promptRoom = prompt("your prompte for this room") || '';
@@ -25,6 +21,7 @@ export default function Romms({ url, data }: any) {
   return (
     <>
       <div class="conversation-area">
+        
         {data.rooms.map((room: any) => {
           return (
             <>

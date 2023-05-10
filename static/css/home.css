@@ -329,7 +329,7 @@ html {
   content: "•";
   margin-right: 2px;
 }
-deploy_chat_token
+
 .add {
   position: sticky;
   left:110px;
@@ -548,6 +548,7 @@ deploy_chat_token
   font-size: 12px;
   font-weight: 600;
   color: var(--msg-date);
+  position: absolute;
 }
 
 .detail-button {
@@ -833,6 +834,19 @@ deploy_chat_token
 }
 
 .text-area-input {
+  height: 60px;
+  resize: inherit;
   width: -webkit-fill-available;
   color: #273346
+}
+.pre-code{
+  font-size: .8rem;
+    padding: 1rem;
+    background: bisque;
+    border-radius: 4px;
+    max-height: 11em;
+    overflow: auto;
+   /* white-space: pre-wrap;*/
+    margin: 0;
+    direction: ltr;
 }

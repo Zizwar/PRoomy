@@ -126,8 +126,14 @@ export default function Chat({
                 class={`chat-msg-text ${
                   /[\u0600-\u06FF]/.test(message.message) ? "rtl" : ""
                 }`}
+                dangerouslySetInnerHTML={{ __html:message.message.replace(
+                  /```(.*?)```/gs,
+                  (_match, group) => {
+                    return `<pre class="pre-code"><code>${group}</code></pre>`;
+                  }
+                )}}
               >
-                {message.message}
+                {}
               </div>
             </div>
           </div>

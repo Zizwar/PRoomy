@@ -17,7 +17,7 @@ import * as $10 from "./routes/index.tsx";
 import * as $11 from "./routes/proomy/[room].tsx";
 import * as $12 from "./routes/proomy/index.tsx";
 import * as $13 from "./routes/test.tsx";
-import * as $$0 from "./islands/chat-aria.tsx";
+import * as $$0 from "./islands/chat.tsx";
 import * as $$1 from "./islands/detail.tsx";
 import * as $$2 from "./islands/header.tsx";
 import * as $$3 from "./islands/rooms.tsx";
@@ -40,7 +40,7 @@ const manifest = {
     "./routes/test.tsx": $13,
   },
   islands: {
-    "./islands/chat-aria.tsx": $$0,
+    "./islands/chat.tsx": $$0,
     "./islands/detail.tsx": $$1,
     "./islands/header.tsx": $$2,
     "./islands/rooms.tsx": $$3,

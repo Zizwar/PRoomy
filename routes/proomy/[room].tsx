@@ -1,4 +1,4 @@
-import ChatArea from "@/islands/chat-aria.tsx";
+import ChatArea from "@/islands/chat.tsx";
 import Rooms from "@/islands/rooms.tsx";
 import Detail from "@/islands/detail.tsx";
 import Header from "@/islands/header.tsx";
@@ -126,6 +126,3 @@ export async function handler(
   });
   return response;
 }
-export const config: RouteConfig = {
-  routeOverride: "/proomy/:room",
-};
