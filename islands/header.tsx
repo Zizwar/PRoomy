@@ -5,7 +5,7 @@ export default function Header({user}:{user:UserView}) {
     <>
       <div class="header">
         <div class="logo">
-        <img class="chat-msg-img" src="/favicon.ico" alt="JPT Logo"/>
+       <svg height="64px" viewBox="0 0 512 512" width="20px" xmlns="http://www.w3.org/2000/svg" fill="currentcolor"><path d="M512 256a256 256 0 1 1-512 0 256 256 0 0 1 512 0zm0 0"></path><path d="M448 256a192 192 0 1 1-384 0 192 192 0 0 1 384 0zm0 0"></path><path d="M416 256a160 160 0 1 1-320 0 160 160 0 0 1 320 0zm0 0"></path><path d="M240 240h32v32h-32zm0 0" fill="#fff"></path></svg>
 
         </div>
         <div class="search-bar">
