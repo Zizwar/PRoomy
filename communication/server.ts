@@ -3,7 +3,7 @@ import type {
   ApiTextMessage,
   ChannelMessage,
 } from "./types.ts";
-
+ 
 export class Server {
   subscribeMessages(
     roomId: number,

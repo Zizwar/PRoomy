@@ -70,8 +70,9 @@ export class Database {
 
   async getRooms() {
     const { data, error } = await this.#client
-      .from("rooms_with_activity")
-      .select("id,name,last_message_at");
+      .from("rooms_activity")
+      .select("id,name,last_message_at")
+      .is("status", null);
     if (error) {
       throw new Error(error.message);
     }
@@ -96,42 +97,49 @@ export class Database {
     const { data = [], error } = await this.#client
       .from("rooms")
       .select("name,prompt")
-      .eq("id", roomId).single();
+      .eq("id", roomId)
+      .single();
     if (error) {
       throw new Error(error.message);
     }
-   
-    const { name, prompt } = data;
-    return { name, prompt }
 
+    const { name, prompt } = data;
+    return { name, prompt };
   }
   async getRoomPrompt(roomId: number): Promise<string> {
     const { data, error } = await this.#client
       .from("rooms")
       .select("prompt")
-      .eq("id", roomId).single();
+      .eq("id", roomId)
+      .single();
     if (error) {
       throw new Error(error.message);
     }
     return data?.prompt;
   }
 
-
-  async ensureRoom({ name, prompt }: { name: string, prompt: string }) {
-    const insert = await this.#client.from("rooms").insert([{ name, prompt }], {
-      upsert: false,
-      returning: "representation",
-    });
+  async ensureRoom({
+    name,
+    prompt,
+    userId,
+  }: {
+    name: string;
+    prompt: string;
+    userId: number;
+  }) {
+    const insert = await this.#client
+      .from("rooms")
+      .insert([{ name, prompt, by: userId }], {
+        upsert: false,
+        returning: "representation",
+      });
 
     if (insert.error) {
       if (insert.error.code !== "23505") {
         throw new Error(insert.error.message);
       }
     }
-    const get = await this.#client
-      .from("rooms")
-      .select("id")
-      .eq("name", name);
+    const get = await this.#client.from("rooms").select("id").eq("name", name);
     if (get.error) {
       throw new Error(get.error.message);
     }
@@ -140,17 +148,24 @@ export class Database {
     }
     // return insert.data![0].id;
   }
-  async insertMessage(message: {
+  async insertMessage({
+    text,
+    roomId,
+    userId,
+    to,
+  }: {
     text: string;
     roomId: number;
     userId: number;
+    to?: number;
   }) {
     await this.#client.from("messages").insert(
       [
         {
-          message: message.text,
-          room: message.roomId,
-          from: message.userId,
+          message: text,
+          room: roomId,
+          from: userId,
+          to,
         },
       ],
       { returning: "minimal" }
@@ -212,15 +227,20 @@ export const databaseLoader = new ResourceLoader<Database>({
         "room" integer references rooms (id)
       )`;
     await sql`
-      create or replace view rooms_with_activity
-      as select
-        rooms.id as id,
-        rooms.name as name,
-        max(messages.created_at) as last_message_at
-      from rooms
+      create or replace view
+      public.rooms_activity as
+    select
+      rooms.id,
+      rooms.name,
+      rooms.status,
+      max(messages.created_at) as last_message_at
+    from
+      rooms
       left join messages on messages.room = rooms.id
-      group by rooms.id
-      order by last_message_at desc nulls last`;
+    group by
+      rooms.id
+    order by
+      (max(messages.created_at)) desc nulls last;`;
     await sql`
       insert into rooms (id, name)
       values (0, 'Lobby')

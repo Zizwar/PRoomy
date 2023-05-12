@@ -52,14 +52,12 @@ export async function handler(
     const openAI = new OpenAI(Deno.env.get("KEY_OPEN_AI") ?? "");
 
     const from = {
-      name: "@GPT",
+      name: "JPT",
       avatarUrl: "https://jpt.ma/favicon.ico",
     };
     channel.sendIsTyping(from);
 
     const userContent = message.replace("@", "")
-    
-    //console.log({proomy})
     
     const chatCompletion = await openAI.createChatCompletion({
       model: "gpt-3.5-turbo",
@@ -77,6 +75,8 @@ export async function handler(
       text: `${user.userName || ""}:${text}`,
       roomId: data.roomId,
       userId: 12345666,
+      to:user.userId,
+
     });
 
     channel.sendText({
