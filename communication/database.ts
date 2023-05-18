@@ -176,7 +176,7 @@ export class Database {
     const { data, error } = await this.#client
       .from("messages")
       .select("message,from(username,avatar_url),created_at")
-      .eq("room", roomId);
+      .eq("room", roomId).order("created_at", { ascending: false });
     if (error) {
       throw new Error(error.message);
     }
