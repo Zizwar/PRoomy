@@ -11,9 +11,24 @@ export async function handler(
   req: Request,
   ctx: HandlerContext
 ): Promise<Response> {
-  // Get cookie from request header and parse it
+  
+
+
+      
+
+    // Get cookie from request header and parse it
   const maybeAccessToken = getCookies(req.headers)["roomy_prompt_token"];
   const database = await databaseLoader.getInstance();
+  const responses = await ctx.render({
+    rooms: await database.getRooms(),
+  });
+    setCookie(responses.headers, {
+        name: "roomy_prompt_token",
+        value: "123456",
+        maxAge: 60 * 60 * 24 * 7,
+        httpOnly: true,
+      });
+
   if (maybeAccessToken) {
     const user = await database.getUserByAccessToken(maybeAccessToken);
     if (user) {
