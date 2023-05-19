@@ -8,7 +8,7 @@ export const authenticateUser = async (req: Request, ctx: MiddlewareHandlerConte
     // The user is not authenticated.
     return ctx.next();
   }
-
+ 
   const { data } = await supabase.auth.getUser(authData.access_token);
   if (!data.user) {
     // The user does not exist.

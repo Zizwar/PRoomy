@@ -13,7 +13,7 @@ export async function handler(
   ctx: HandlerContext
 ): Promise<Response> {
   // Get cookie from request header and parse it
-  const maybeAccessToken = getCookies(req.headers)["deploy_chat_token"];
+  const maybeAccessToken = getCookies(req.headers)["roomy_prompt_token"];
   const database = await databaseLoader.getInstance();
   if (maybeAccessToken) {
     const user = await database.getUserByAccessToken(maybeAccessToken);
@@ -52,7 +52,7 @@ export async function handler(
     rooms: await database.getRooms(),
   });
   setCookie(response.headers, {
-    name: "deploy_chat_token",
+    name: "roomy_prompt_token",
     value: accessToken,
     maxAge: 60 * 60 * 24 * 7,
     httpOnly: true,
