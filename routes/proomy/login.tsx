@@ -1,5 +1,6 @@
 import { HandlerContext, PageProps } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
+import twas from "twas";
 import { getCookies, setCookie } from "$std/http/cookie.ts";
 import { databaseLoader } from "@/communication/database.ts";
 import { gitHubApi } from "@/communication/github.ts";
@@ -11,29 +12,18 @@ export async function handler(
   req: Request,
   ctx: HandlerContext
 ): Promise<Response> {
-  
-
-
-      
-
-    // Get cookie from request header and parse it
+  // Get cookie from request header and parse it
   const maybeAccessToken = getCookies(req.headers)["roomy_prompt_token"];
   const database = await databaseLoader.getInstance();
-  const responses = await ctx.render({
-    rooms: await database.getRooms(),
-  });
-    setCookie(responses.headers, {
-        name: "roomy_prompt_token",
-        value: "123456",
-        maxAge: 60 * 60 * 24 * 7,
-        httpOnly: true,
-      });
-
   if (maybeAccessToken) {
     const user = await database.getUserByAccessToken(maybeAccessToken);
     if (user) {
-     // return ctx.render({ rooms: await database.getRooms() });
-     return Response.redirect('/proomy');
+      return new Response("Already logged in", {
+        status: 307,
+        headers: {
+          Location: "/proomy",
+        },
+      });
     }
   }
 
@@ -44,15 +34,14 @@ export async function handler(
     return ctx.render(false);
   }
 
-  //  const accessToken = await gitHubApi.getAccessToken(code);
-  //const userData = await gitHubApi.getUserData(accessToken);
-  // Check the provider value from the query string
   const provider = url.searchParams.get("scope");
   let accessToken, userData;
   if (provider?.includes("google")) {
     accessToken = await googleApi.getAccessToken(code);
     userData = await googleApi.getUserData(accessToken);
+    console.log({ provider, userData });
   } else {
+    // Provider is github
     accessToken = await gitHubApi.getAccessToken(code);
     userData = await gitHubApi.getUserData(accessToken);
   }
@@ -63,23 +52,25 @@ export async function handler(
     avatarUrl: userData.avatarUrl,
   });
 
-  const response = await ctx.render({
-    rooms: await database.getRooms(),
-  });
-  setCookie(response.headers, {
+  setCookie(req.headers, {
     name: "roomy_prompt_token",
     value: accessToken,
     maxAge: 60 * 60 * 24 * 7,
     httpOnly: true,
   });
-  return response;
+  return new Response("Already logged in", {
+    status: 307,
+    headers: {
+      Location: "/proomy",
+    },
+  });
 }
 
 export default function Main({ url, data }: PageProps<{ rooms: RoomView[] }>) {
   return (
     <>
       <Head>
-        <title>Login - Roomy Prompt</title>
+        <title>PRoomy - Roomy Prompt</title>
       </Head>
 
       <div class="flex justify-center items-center h-screen text-gray-600">
@@ -91,10 +82,42 @@ export default function Main({ url, data }: PageProps<{ rooms: RoomView[] }>) {
               alt="PRoomy Logo"
             />
             <span class="block text-3xl font-bold text-black mb-3">
-              Login Roomy Prompt - Deno ChatGPT Rooms
+              Roomy Prompt - ChatGPT Rooms
             </span>
             <span class="block text-lg -mb-1.5"></span>
           </div>
+          {data ? (
+            <ul
+              role="list"
+              class="max-h-[21.375rem] mx-2 md:mx-0 overflow-y-scroll space-y-4.5"
+            >
+              {data.rooms.map((room) => {
+                return (
+                  <li key={room.roomId}>
+                    <a
+                      href={"/proomy/" + room.roomId}
+                      class="grid grid-cols-3 items-center bg-white rounded-full h-18 border-2 border-gray-300 transition-colors hover:(bg-gray-100 border-gray-400) group"
+                    >
+                      <div
+                        class="w-12 h-12 bg-cover rounded-3xl ml-3"
+                        style={`background-image: url('/images/logos/jpt%20(${
+                          (room.roomId % 36) + 1
+                        }).jpg')`}
+                      />
+                      <p class="text-xl font-bold text-gray-900 justify-self-center group-hover:underline group-focus:underline">
+                        {room.name}
+                      </p>
+                      <p class="font-medium text-gray-400 mr-8 justify-self-end">
+                        {room.lastMessageAt
+                          ? twas(new Date(room.lastMessageAt).getTime())
+                          : "No messages"}
+                      </p>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
             <div class="flex justify-center items-center flex-col">
               <a
                 href="/api/auth/github"
@@ -120,7 +143,8 @@ export default function Main({ url, data }: PageProps<{ rooms: RoomView[] }>) {
                 <span>Sign up with Google</span>
               </a>
             </div>
-          </div>
+          )}
+        </div>
       </div>
     </>
   );
