@@ -26,8 +26,7 @@ export class Database {
       [
         {
           id: user.userId,
-          username:
-            user.userName + Math.floor(Math.random() * (23232 - 23 + 1)) + 23,
+          username: user.userName,
           avatar_url: user.avatarUrl,
           access_token: user.accessToken,
         },
@@ -177,8 +176,7 @@ export class Database {
     const { data, error } = await this.#client
       .from("messages")
       .select("message,from(username,avatar_url),created_at")
-      .eq("room", roomId)
-      .order("created_at", { ascending: true });
+      .eq("room", roomId).order("created_at", { ascending: true });
     if (error) {
       throw new Error(error.message);
     }
