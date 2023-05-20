@@ -18,7 +18,12 @@ export async function handler(
   if (maybeAccessToken) {
     const user = await database.getUserByAccessToken(maybeAccessToken);
     if (user) {
-      return ctx.render({ rooms: await database.getRooms() });
+      return new Response("Already logged in", {
+        status: 307,
+        headers: {
+          Location: "/proomy",
+        },
+      });
     }
   }
 
@@ -29,15 +34,14 @@ export async function handler(
     return ctx.render(false);
   }
 
-  //  const accessToken = await gitHubApi.getAccessToken(code);
-  //const userData = await gitHubApi.getUserData(accessToken);
-  // Check the provider value from the query string
   const provider = url.searchParams.get("scope");
   let accessToken, userData;
   if (provider?.includes("google")) {
     accessToken = await googleApi.getAccessToken(code);
     userData = await googleApi.getUserData(accessToken);
+    console.log({ provider, userData });
   } else {
+    // Provider is github
     accessToken = await gitHubApi.getAccessToken(code);
     userData = await gitHubApi.getUserData(accessToken);
   }
@@ -48,16 +52,18 @@ export async function handler(
     avatarUrl: userData.avatarUrl,
   });
 
-  const response = await ctx.render({
-    rooms: await database.getRooms(),
-  });
-  setCookie(response.headers, {
+  setCookie(req.headers, {
     name: "roomy_prompt_token",
     value: accessToken,
     maxAge: 60 * 60 * 24 * 7,
     httpOnly: true,
   });
-  return response;
+  return new Response("Already logged in", {
+    status: 307,
+    headers: {
+      Location: "/proomy",
+    },
+  });
 }
 
 export default function Main({ url, data }: PageProps<{ rooms: RoomView[] }>) {

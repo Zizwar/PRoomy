@@ -12,7 +12,7 @@ export async function handler(
   req: Request,
   _ctx: HandlerContext
 ): Promise<Response> {
-  const accessToken = getCookies(req.headers)["deploy_chat_token"];
+  const accessToken = getCookies(req.headers)["roomy_prompt_token"];
   if (!accessToken) {
     return new Response("Not signed in", { status: 401 });
   }
