@@ -22,37 +22,21 @@ export class Database {
   }
 
   async insertUser(user: DatabaseUser & { accessToken: string }) {
-const { error } = await this.#client.from("users").upsert(
-  [
-    {
-      id: user.userId,
-      username: user.userName,
-      avatar_url: user.avatarUrl,
-      access_token: user.accessToken,
-    },
-  ],
-  { returning: "minimal" }
-);
-
-if (error) {
-  if (error.code === "E11000") {
-    throw new Error("Username already exists");
-  } else {
-    throw new Error(error.message);
-  }
-} else {
-  const randomNumber = Math.random().toString(36).substring(7);
-  const newUsername = `${user.userName}-${randomNumber}`;
-  await this.#client.from("users").insert(
-    {
-      id: user.userId,
-      username: newUsername,
-      avatar_url: user.avatarUrl,
-      access_token: user.accessToken,
+    const { error } = await this.#client.from("users").upsert(
+      [
+        {
+          id: user.userId,
+          username: user.userName,
+          avatar_url: user.avatarUrl,
+          access_token: user.accessToken,
+        },
+      ],
+      { returning: "minimal" }
+    );
+    if (error) {
+      throw new Error(error.message);
     }
-  );
-}
-
+  }
 
   async getUserByAccessTokenOrThrow(
     accessToken: string
