@@ -25,8 +25,9 @@ export class Database {
     const { error } = await this.#client.from("users").upsert(
       [
         {
-          id: user.userId + Math.floor(Math.random() * (23232 - 23 + 1)) + 23,
-          username: user.userName,
+          id: user.userId,
+          username:
+            user.userName + Math.floor(Math.random() * (23232 - 23 + 1)) + 23,
           avatar_url: user.avatarUrl,
           access_token: user.accessToken,
         },
