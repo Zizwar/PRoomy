@@ -37,12 +37,16 @@ export async function handler(
   if (provider?.includes("google")) {
     accessToken = await googleApi.getAccessToken(code);
     userData = await googleApi.getUserData(accessToken);
-    console.log({provider,userData})
+    
   } else {
     //console.log({provider})
     // Provider is github
     accessToken = await gitHubApi.getAccessToken(code);
     userData = await gitHubApi.getUserData(accessToken);
+  }
+  const user = await database.getUserByAccessToken(accessToken);
+  if (user) {
+    return ctx.render({ rooms: await database.getRooms() });
   }
   await database.insertUser({
     userId: userData.userId,

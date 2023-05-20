@@ -34,7 +34,22 @@ export class Database {
       { returning: "minimal" }
     );
     if (error) {
-      throw new Error(error.message);
+      if(error.message.includes("users_username_key")){
+        const { error } = await this.#client.from("users").upsert(
+          [
+            {
+              id: user.userId+Math.floor(Math.random() * (23232 - 23 + 1)) + 23,
+              username: user.userName,
+              avatar_url: user.avatarUrl,
+              access_token: user.accessToken,
+            },
+          ],
+          { returning: "minimal" }
+        );
+        if (error) {
+          throw new Error(error.message);
+      }
+      throw new Error(error?.message);
     }
   }
 
