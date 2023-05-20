@@ -51,7 +51,8 @@ export class Database {
       }
       throw new Error(error?.message);
     }
-  }
+  
+    }}
 
   async getUserByAccessTokenOrThrow(
     accessToken: string
