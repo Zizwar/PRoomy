@@ -1,14 +1,14 @@
+
+import { Head } from "$fresh/runtime.ts";
+import { HandlerContext, PageProps } from "$fresh/server.ts";
+import { getCookies } from "$std/http/cookie.ts";
+//
 import ChatArea from "@/islands/chat.tsx";
 import Rooms from "@/islands/rooms.tsx";
 import Detail from "@/islands/detail.tsx";
 import Header from "@/islands/header.tsx";
 //
-import { HandlerContext, PageProps } from "$fresh/server.ts";
-
-import { getCookies } from "$std/http/cookie.ts";
 import { databaseLoader } from "@/communication/database.ts";
-
-
 import type { RoomView } from "@/communication/types.ts";
 import type { MessageView, UserView } from "@/communication/types.ts";
 //
@@ -25,6 +25,11 @@ interface Data {
 export default function Room({ url, data, params }: PageProps<Data>) {
   return (
     <>
+
+<Head>
+        <title>{data.roomName} - Roomy Prompt</title>
+      </Head>
+
       <div class="app">
         <Header user={data.user || []} />
         {data && (

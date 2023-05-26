@@ -1,18 +1,21 @@
 import { SitemapContext } from 'seo';
 
-import manifest from '../fresh.gen.ts';
+import manifest from '@/fresh.gen.ts';
 
 export const handler = {
     
-    GET(request,context){
+    GET(_request,_context){
         
         const sitemap = new SitemapContext(
-            'https://jpt.ma'
+            'https://jpt.ma',
             manifest
         );
-
-        // You can add additional page here
-        sitemap.add('/proomy');
+             const removeListe =[ 'send',
+             
+             'connect',
+             'logout','ai','create_room','auth/github','auth/google']
+removeListe.forEach((param)=>sitemap.remove('/api/'+param))
+        
         return sitemap.render();
     }
 }

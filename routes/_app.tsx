@@ -5,14 +5,14 @@ import { Head } from "$fresh/runtime.ts";
 
 export default function App({ Component }: AppProps) {
   return (
-    <div fixed>
+    <div>
       <Head>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 
         <link rel="icon" href="/favicon.ico" sizes="32x32" />
 
         <meta charSet="UTF-8" />
-        <title>ChatDPT</title>
+        
 
         <meta property="og:locale" content="en_US" />
         <meta property="og:site_name" content="ChatDpt" />
