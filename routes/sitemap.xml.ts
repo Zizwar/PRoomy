@@ -15,7 +15,7 @@ export const handler = {
              'connect',
              'logout','ai','create_room','auth/github','auth/google']
 removeListe.forEach((param)=>sitemap.remove('/api/'+param))
-        
+sitemap.remove('/test')
         return sitemap.render();
     }
 }

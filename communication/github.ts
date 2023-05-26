@@ -36,6 +36,7 @@ export class GitHubApi {
       throw new Error(await response.text());
     }
     const userData = await response.json();
+    console.log("usergithub:",{userData})
     return {
       userId: userData.id as number,
       userName: userData.login as string,
