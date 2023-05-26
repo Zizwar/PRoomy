@@ -1,8 +1,8 @@
 import { SitemapContext } from 'seo';
-import { Handlers } from '$fresh/server.ts';
+
 import manifest from '../fresh.gen.ts';
 
-export const handler : Handlers = {
+export const handler = {
     
     GET(request,context){
         
