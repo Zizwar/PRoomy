@@ -66,6 +66,10 @@ export default function Chat({
   }, [messages?.length]);
 
   const send = () => {
+    user.userName === "demo" &&
+      confirm("need login :)") &&
+      (document.location = "/login");
+
     if (input === "") {
       return;
     }

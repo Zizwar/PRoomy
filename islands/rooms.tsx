@@ -2,8 +2,13 @@
 import { server } from "@/communication/server.ts";
 import twas from "twas";
 
-export default function Romms({ data }: any) {
+export default function Romms({ data,user }: any) {
   const creatRoms = async () => {
+    
+    user.userName === "demo" &&
+    confirm("need login :)") &&
+    (document.location = "/login");
+
     const nameRoom = prompt("name room");
     const promptRoom = prompt("your prompte for this room") || '';
    if(!nameRoom) return alert("void name room!")
