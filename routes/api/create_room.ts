@@ -5,7 +5,7 @@ import { getCookies } from "$std/http/cookie.ts";
 
 export const handler: Handlers = {
   async POST(req, _ctx) {  
-    const accessToken = getCookies(req.headers)["deploy_chat_token"];
+    const accessToken = getCookies(req.headers)["roomy_prompt_token"];
     if (!accessToken) {
       return new Response("Not signed in", { status: 401 });
     }

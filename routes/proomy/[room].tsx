@@ -3,12 +3,11 @@ import Rooms from "@/islands/rooms.tsx";
 import Detail from "@/islands/detail.tsx";
 import Header from "@/islands/header.tsx";
 //
-import {  HandlerContext, PageProps,RouteConfig } from "$fresh/server.ts";
+import { HandlerContext, PageProps } from "$fresh/server.ts";
 
-import { getCookies, setCookie } from "$std/http/cookie.ts";
+import { getCookies } from "$std/http/cookie.ts";
 import { databaseLoader } from "@/communication/database.ts";
-import { gitHubApi } from "@/communication/github.ts";
-import { googleApi } from "@/communication/google.ts";
+
 
 import type { RoomView } from "@/communication/types.ts";
 import type { MessageView, UserView } from "@/communication/types.ts";
@@ -18,19 +17,19 @@ import type { MessageView, UserView } from "@/communication/types.ts";
 interface Data {
   messages: MessageView[];
   roomName: string;
-  prompt:string;
+  prompt: string;
   user: UserView;
   rooms: RoomView[];
 }
 
-export default function Home({ url, data, params }: PageProps<Data>) {
+export default function Room({ url, data, params }: PageProps<Data>) {
   return (
     <>
       <div class="app">
         <Header user={data.user || []} />
         {data && (
           <div class="wrapper">
-            <Rooms url={url} data={data} />
+            <Rooms  user={data.user} url={url} data={data} />
 
             <ChatArea
               roomId={+params.room || 1}
@@ -39,7 +38,12 @@ export default function Home({ url, data, params }: PageProps<Data>) {
               user={data.user}
             />
 
-            <Detail roomId={+params.room || 1} name={data.roomName} prompt={data.prompt} />
+            <Detail
+              roomId={+params.room || 1}
+              name={data.roomName}
+              prompt={data.prompt}
+             
+            />
           </div>
         )}
       </div>
@@ -51,78 +55,33 @@ export async function handler(
   ctx: HandlerContext
 ): Promise<Response> {
   // Get cookie from request header and parse it
-  const maybeAccessToken = getCookies(req.headers)["deploy_chat_token"];
+  const maybeAccessToken = getCookies(req.headers)["roomy_prompt_token"];
   const database = await databaseLoader.getInstance();
-  if (maybeAccessToken) {
-    const user = await database.getUserByAccessToken(maybeAccessToken);
-    if (user) {
-  
-      const [rooms, messages, namePrompt] = await Promise.all([
-        database.getRooms(),
-        database.getRoomMessages(+ctx.params.room ?? 2),
-        database.getRoomNamePrompt(+ctx.params.room ?? 2),
 
-      ]);  
-     
-      const { name: roomName, prompt } = namePrompt
-      console.log()
-      const response = await ctx.render({
-        user,
-        rooms,
-        messages,
-        roomName,
-        prompt
-      });
-      return response;
-    }
-  }
+  const userDemo = {
+    name: "demo",
+    avatarUrl: "/images/logos/jpt%20(11).jpg",
+    userName: "demo",
+  };
 
-  // This is an oauth callback request.
-  const url = new URL(req.url);
-  const code = url.searchParams.get("code");
-  if (!code) {
-    return ctx.render(false);
-  }
+    const user = maybeAccessToken ?
+      (await database.getUserByAccessToken(maybeAccessToken)) : userDemo;
 
-  //  const accessToken = await gitHubApi.getAccessToken(code);
-  //const userData = await gitHubApi.getUserData(accessToken);
-  // Check the provider value from the query string
-  const scope = url.searchParams.get("scope");
-  let accessToken, userData;
-  if (scope?.includes("google")) {
-    accessToken = await googleApi.getAccessToken(code);
-    userData = await googleApi.getUserData(accessToken);
-  } else {
-    //console.log({ provider });
-    // Provider is github
-    accessToken = await gitHubApi.getAccessToken(code);
-    userData = await gitHubApi.getUserData(accessToken);
-  }
-  await database.insertUser({
-    userId: userData.userId,
-    userName: userData.userName,
-    accessToken,
-    avatarUrl: userData.avatarUrl,
-  });
-
-  const [rooms, messages, { name: roomName, prompt }] = await Promise.all([
+  const [rooms, messages, namePrompt] = await Promise.all([
     database.getRooms(),
-    database.getRoomMessages(+ctx.params.room),
-    database.getRoomNamePrompt(+ctx.params.room),
+    database.getRoomMessages(+ctx.params.room ?? 2),
+    database.getRoomNamePrompt(+ctx.params.room ?? 2),
   ]);
 
+  const { name: roomName, prompt } = namePrompt;
+
   const response = await ctx.render({
-    user: userData,
+    user,
     rooms,
     messages,
     roomName,
-    prompt
-  });
-  setCookie(response.headers, {
-    name: "deploy_chat_token",
-    value: accessToken,
-    maxAge: 60 * 60 * 24 * 7,
-    httpOnly: true,
+    prompt,
   });
   return response;
+
 }
