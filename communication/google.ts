@@ -48,8 +48,9 @@ redirectUri: string|undefined;
     }
     const userData = await response.json();
     const userName = userData.email.split("@")[0];
-     console.log({userName,userData})
-      return  {
+     
+    console.log("user google:",{userData})
+    return  {
       userId: undefined,//+userData.sub,
       userName,
       avatarUrl: userData.picture
