@@ -1,12 +1,19 @@
 import Edit from "@/component/edit.tsx";
-export default function Detail({ name, prompt, roomId }: { name: string, prompt: string, roomId: number }) {
-
+export default function Detail({
+  name,
+  prompt,
+  roomId,
+}: {
+  name: string;
+  prompt: string;
+  roomId: number;
+}) {
   const onclickTitle = () => {
-    alert("edit Title")
-  }
+    alert("edit Title");
+  };
   const onclickPrompt = () => {
-    alert("editprompt")
-  }
+    alert("editprompt");
+  };
   return (
     <>
       <div class="detail-area">
@@ -14,11 +21,20 @@ export default function Detail({ name, prompt, roomId }: { name: string, prompt:
           <div class="msg-profile group">
             <img
               class="msg-profile"
-              src={`/images/logos/jpt%20(${roomId % 36 + 1}).jpg`}
+              src={`/images/logos/jpt%20(${(roomId % 36) + 1}).jpg`}
               alt=""
-            />  </div>
-          <div class="detail-title"><Edit onclick={onclickTitle} />{name}</div>
-          <div class={`detail-change ${/[\u0600-\u06FF]/.test(prompt) && "rtl"}`}><Edit onclick={onclickPrompt} />{prompt}</div>
+            />{" "}
+          </div>
+          <div class="detail-title">
+            <Edit onclick={onclickTitle} />
+            {name}
+          </div>
+          <div
+            class={`detail-change ${/[\u0600-\u06FF]/.test(prompt) && "rtl"}`}
+          >
+            <Edit onclick={onclickPrompt} />
+            {prompt}
+          </div>
           {/*
           <div class="detail-buttons">
             <button class="detail-button">
@@ -102,6 +118,7 @@ export default function Detail({ name, prompt, roomId }: { name: string, prompt:
               <path d="M21 15l-5-5L5 21" />
             </svg>
           </div>
+          {/*
           <div class="detail-photo-grid">
             <img src="https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2168&q=80" />
             <img src="https://images.unsplash.com/photo-1516085216930-c93a002a8b01?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80" />
@@ -117,6 +134,7 @@ export default function Detail({ name, prompt, roomId }: { name: string, prompt:
             <img src="https://images.unsplash.com/photo-1579613832111-ac7dfcc7723f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80" />
             <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2189&q=80" />
           </div>
+          */}
           <div class="view-more">View More</div>
         </div>
       </div>
