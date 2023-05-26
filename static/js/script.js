@@ -1,23 +1,4 @@
 
-document.addEventListener('DOMContentLoaded', function() {
-  var buttons = document.querySelectorAll('.button');
-  var modalContainer = document.getElementById('modal-container');
-
-  for (var i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener('click', function() {
-      var buttonId = this.id;
-      modalContainer.removeAttribute('class');
-      modalContainer.classList.add(buttonId);
-      document.body.classList.add('modal-active');
-    });
-  }
-
-  modalContainer.addEventListener('click', function() {
-    this.classList.add('out');
-    document.body.classList.remove('modal-active');
-  });
-
-////
 const toggleButton = document.querySelector(".dark-light");
 const colors = document.querySelectorAll(".color");
 const toggleSettings = document.querySelector(".settings");
@@ -77,7 +58,23 @@ toggleSettings.addEventListener("click", () => handleSettingsClick("setting"));
 chatHeader.addEventListener("click", () => handleSettingsClick("setting"));
 
 toggleLogo.addEventListener("click", handleSettingsClick);
+document.addEventListener('DOMContentLoaded', function() {
+  const buttons = document.querySelectorAll('.button');
+  const modalContainer = document.getElementById('modal-container');
 
+  for (const i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener('click', function() {
+      const buttonId = this.id;
+      modalContainer.removeAttribute('class');
+      modalContainer.classList.add(buttonId);
+      document.body.classList.add('modal-active');
+    });
+  }
+
+  modalContainer.addEventListener('click', function() {
+    this.classList.add('out');
+    document.body.classList.remove('modal-active');
+  });
 
 });
 
