@@ -39,7 +39,7 @@ export class GitHubApi {
     console.log("usergithub:",{userData})
     return {
       userId: userData.id as number,
-      userName: userData.login as string,
+      userName: userData.login+"-gi" as string,
       avatarUrl: userData["avatar_url"] as string,
     };
   }
