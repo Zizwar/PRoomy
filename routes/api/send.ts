@@ -80,7 +80,7 @@ export async function handler(
     });
 
     channel.sendText({
-      message: `@${user.userName || ""}:${text}`,
+      message: `@${user.userName || ""}:\r\n${text}`,
       from,
       createdAt: new Date().toISOString(),
     });
