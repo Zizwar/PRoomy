@@ -72,7 +72,7 @@ export async function handler(
     const text = choices[0]?.message.content ?? 'no result';
 
     await database.insertMessage({
-      text: `${user.userName || ""}:${text}`,
+      text: `${user.userName || ""}:\n ${text}`,
       roomId: data.roomId,
       userId: 12345666,
       to:user.userId,
