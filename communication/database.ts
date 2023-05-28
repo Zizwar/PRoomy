@@ -67,7 +67,17 @@ export class Database {
       avatarUrl: data[0].avatar_url,
     };
   }
-
+  async getUserByUsername(user:string): Promise<any> { 
+     const { data, error } = await this.#client 
+       .from("rooms") 
+       .select("*") 
+       .eq("username", user) 
+       .single(); 
+     if (error) { 
+       throw new Error(error.message); 
+     } 
+     return data?? []; 
+   }
   async getRooms() {
     const { data, error } = await this.#client
       .from("rooms_activity")
