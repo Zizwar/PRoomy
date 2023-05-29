@@ -51,7 +51,7 @@ redirectUri: string|undefined;
      
     console.log("user google:",{userData})
     return  {
-      userId: undefined,//+userData.sub,
+      userId:userData.sub,
       userName,
       avatarUrl: userData.picture
     };
