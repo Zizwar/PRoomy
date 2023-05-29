@@ -21,22 +21,35 @@ export class Database {
       );
   }
 
-  async insertUser(user: DatabaseUser & { accessToken: string }) {
-    const { error } = await this.#client.from("users").upsert(
-      [
-        {
-          id: user.userId,
+  //
+async insertUser(user: DatabaseUser & { accessToken: string }) {
+  const { error } = await this.#client.from("users").upsert(
+    [
+      {
+        id: user.userId,
+        username: user.userName,
+        avatar_url: user.avatarUrl,
+        access_token: user.accessToken,
+      },
+    ],
+    {
+      returning: "minimal",
+      onConflict: {
+        update: {
           username: user.userName,
           avatar_url: user.avatarUrl,
           access_token: user.accessToken,
         },
-      ],
-      { returning: "minimal" }
-    );
-    if (error) {
-      throw new Error(error.message);
+      },
     }
+  );
+  if (error) {
+    throw new Error(error.message);
   }
+}
+
+//
+
 
   async getUserByAccessTokenOrThrow(
     accessToken: string
