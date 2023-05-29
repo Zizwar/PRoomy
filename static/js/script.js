@@ -78,3 +78,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
+const modal = document.getElementById("my-modal");
+const closeButton = document.getElementById("close-modal");
+
+closeButton.addEventListener("click", () => {
+  modal.classList.remove("show");
+});
+
+
