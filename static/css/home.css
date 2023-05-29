@@ -1417,3 +1417,31 @@ html.modal-active, body.modal-active {
     transform: scale(0);
   }
 }
+.modal {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  width: 300px;
+  height: 150px;
+  z-index: 1000;
+  transition: 0.5s;
+}
+
+.modal.show {
+  opacity: 1;
+}
+
+.modal.show::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 900;
+}
