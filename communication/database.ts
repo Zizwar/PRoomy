@@ -35,11 +35,8 @@ async insertUser(user: DatabaseUser & { accessToken: string }) {
     {
       returning: "minimal",
       onConflict: {
-        update: {
-          username: user.userName,
-          avatar_url: user.avatarUrl,
-          access_token: user.accessToken,
-        },
+        action: "update",
+        fields: ["username", "avatar_url", "access_token"],
       },
     }
   );
@@ -47,6 +44,7 @@ async insertUser(user: DatabaseUser & { accessToken: string }) {
     throw new Error(error.message);
   }
 }
+
 
 //
 
