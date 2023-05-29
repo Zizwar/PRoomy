@@ -22,6 +22,7 @@ export class Database {
   }
 
   //
+
 async insertUser(user: DatabaseUser & { accessToken: string }) {
   const { error } = await this.#client.from("users").upsert(
     [
@@ -35,8 +36,8 @@ async insertUser(user: DatabaseUser & { accessToken: string }) {
     {
       returning: "minimal",
       onConflict: {
-        action: "update",
-        fields: ["username", "avatar_url", "access_token"],
+        columns: ["avatar_url", "access_token"],
+        merge: ["avatar_url", "access_token"],
       },
     }
   );
@@ -44,8 +45,6 @@ async insertUser(user: DatabaseUser & { accessToken: string }) {
     throw new Error(error.message);
   }
 }
-
-
 //
 
 
