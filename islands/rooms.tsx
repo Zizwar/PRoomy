@@ -39,7 +39,7 @@ export default function Romms({ data,user }: any) {
                     alt=""
                   />
                   <div class="msg-detail">
-                    <div class="msg-username"> {room.name}</div>
+                    <a href={room.roomId} class="msg-username"> {room.name}</a>
                     <div class="msg-content">
                       <span class="msg-message"></span>
                       <span class="msg-date">
