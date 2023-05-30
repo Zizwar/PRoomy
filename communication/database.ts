@@ -23,30 +23,25 @@ export class Database {
 
   //
 
-async insertUser(user: DatabaseUser & { accessToken: string }) {
-  const { error } = await this.#client.from("users").upsert(
-    [
+  async insertUser(user: DatabaseUser & { accessToken: string }) {
+    const { error } = await this.#client.from("users").upsert(
+      [
+        {
+       //   id: user.userId,
+          avatar_url: user.avatarUrl,
+          access_token: user.accessToken,
+        },
+      ],
       {
-        id: user.userId,
-        username: user.userName,
-        avatar_url: user.avatarUrl,
-        access_token: user.accessToken,
-      },
-    ],
-    {
-      returning: "minimal",
-      onConflict: {
-        columns: ["avatar_url", "access_token"],
-        merge: ["avatar_url", "access_token"],
-      },
+        returning: "minimal",
+        where: { username: user.userName },
+      }
+    );
+    if (error) {
+      throw new Error(error.message);
     }
-  );
-  if (error) {
-    throw new Error(error.message);
   }
-}
-//
-
+  //
 
   async getUserByAccessTokenOrThrow(
     accessToken: string
@@ -77,17 +72,17 @@ async insertUser(user: DatabaseUser & { accessToken: string }) {
       avatarUrl: data[0].avatar_url,
     };
   }
-  async getUserByUsername(user:string): Promise<any> { 
-     const { data, error } = await this.#client 
-       .from("rooms") 
-       .select("*") 
-       .eq("username", user) 
-       .single(); 
-     if (error) { 
-       throw new Error(error.message); 
-     } 
-     return data?? []; 
-   }
+  async getUserByUsername(user: string): Promise<any> {
+    const { data, error } = await this.#client
+      .from("rooms")
+      .select("*")
+      .eq("username", user)
+      .single();
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data ?? [];
+  }
   async getRooms() {
     const { data, error } = await this.#client
       .from("rooms_activity")
@@ -196,7 +191,8 @@ async insertUser(user: DatabaseUser & { accessToken: string }) {
     const { data, error } = await this.#client
       .from("messages")
       .select("message,from(username,avatar_url),created_at")
-      .eq("room", roomId).order("created_at", { ascending: true });
+      .eq("room", roomId)
+      .order("created_at", { ascending: true });
     if (error) {
       throw new Error(error.message);
     }
