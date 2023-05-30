@@ -205,7 +205,54 @@ export class Database {
       createdAt: m.created_at,
     }));
   }
+
+  async upsertUser(user: DatabaseUser & { accessToken: string }) {
+    const { data, error } = await this.#client
+      .from("users")
+      .select("*")
+      .eq("username", user.userName);
+  
+    if (error) {
+      throw new Error(error.message);
+    }
+  
+    if (data.length > 0) {
+      // Username already exists, update the existing record
+      const { error: updateError } = await this.#client
+        .from("users")
+        .update({
+          username: user.userName,
+          avatar_url: user.avatarUrl,
+          access_token: user.accessToken,
+        })
+        .eq("id", user.userId);
+  
+      if (updateError) {
+        throw new Error(updateError.message);
+      }
+    } else {
+      // Username does not exist, insert a new record
+      const { error: insertError } = await this.#client
+        .from("users")
+        .upsert([
+          {
+            id: user.userId,
+            username: user.userName,
+            avatar_url: user.avatarUrl,
+            access_token: user.accessToken,
+          },
+        ], { returning: "minimal" });
+  
+      if (insertError) {
+        throw new Error(insertError.message);
+      }
+    }
+  }
+  
 }
+
+
+
 
 export const databaseLoader = new ResourceLoader<Database>({
   async load() {
