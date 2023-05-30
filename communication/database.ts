@@ -23,7 +23,7 @@ export class Database {
 
   //
 
-  async insertUser(user: DatabaseUser & { accessToken: string }) {
+  async __insertUser(user: DatabaseUser & { accessToken: string }) {
     const { error } = await this.#client.from("users").upsert(
       [
         {
@@ -206,7 +206,7 @@ export class Database {
     }));
   }
 
-  async upsertUser(user: DatabaseUser & { accessToken: string }) {
+  async insertUser(user: DatabaseUser & { accessToken: string }) {
     const { data, error } = await this.#client
       .from("users")
       .select("*")
