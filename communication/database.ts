@@ -221,11 +221,10 @@ export class Database {
       const { error: updateError } = await this.#client
         .from("users")
         .update({
-          username: user.userName,
           avatar_url: user.avatarUrl,
           access_token: user.accessToken,
         })
-        .eq("id", user.userId);
+        .eq("username", user.userName);
   
       if (updateError) {
         throw new Error(updateError.message);
@@ -236,7 +235,7 @@ export class Database {
         .from("users")
         .upsert([
           {
-            id: user.userId,
+           
             username: user.userName,
             avatar_url: user.avatarUrl,
             access_token: user.accessToken,
