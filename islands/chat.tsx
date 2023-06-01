@@ -108,7 +108,7 @@ export default function Chat({
         {messages.map((message) => (
           <div
             class={`chat-msg ${
-              message.from.name === user.userName ? "owner" : ""
+              message.from.name === user?.userName ? "owner" : ""
             }`}
           >
             <div class="chat-msg-profile">
