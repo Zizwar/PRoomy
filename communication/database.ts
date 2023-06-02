@@ -132,7 +132,36 @@ export class Database {
     }
     return data?.prompt;
   }
+//
+async updateRoomPrompt(roomId: number, prompt: string,userId:number) {
+  const { error: updateError } = await this.#client
+    .from("rooms")
+    .update({
+      prompt: prompt,
+    })
+    .eq("id", roomId)
+				.eq("by", userId);
 
+  if (updateError) {
+    throw new Error(updateError.message);
+  }
+}
+
+async updateRoomName(roomId: number, newName: string,userId:number) {
+  const { error: updateError } = await this.#client
+    .from("rooms")
+    .update({
+      name: newName,
+    })
+    .eq("id", roomId)
+					.eq("by", userId);
+
+  if (updateError) {
+    throw new Error(updateError.message);
+  }
+}
+
+//
   async ensureRoom({
     name,
     prompt,
