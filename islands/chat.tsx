@@ -70,9 +70,8 @@ export default function Chat({
       confirm("need login :)") &&
       (document.location = "/login");
 
-    if (input === "") {
-      return;
-    }
+    if (input === "") return;
+
     server.sendMessage(roomId, input);
     setInput("");
   };

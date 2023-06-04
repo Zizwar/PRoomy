@@ -27,7 +27,7 @@ export class Database {
     const { error } = await this.#client.from("users").upsert(
       [
         {
-       //   id: user.userId,
+          //   id: user.userId,
           avatar_url: user.avatarUrl,
           access_token: user.accessToken,
         },
@@ -132,36 +132,52 @@ export class Database {
     }
     return data?.prompt;
   }
-//
-async updateRoomPrompt(roomId: number, prompt: string,userId:number) {
-  const { error: updateError } = await this.#client
-    .from("rooms")
-    .update({
-      prompt: prompt,
-    })
-    .eq("id", roomId)
-				.eq("by", userId);
+  //
+  async updateRoom({
+    roomId,
+    prompt,
+    userId,
+    name,
+  }: {
+    roomId: number;
+    prompt?: string;
+    userId: number;
+    name?: string;
+  }) {
+    const { error: updateError } = await this.#client
+      .from("rooms")
+      .update({ prompt, name })
+      .eq("id", roomId)
+      .eq("by", userId);
 
-  if (updateError) {
-    throw new Error(updateError.message);
+    if (updateError) {
+      throw new Error(updateError.message);
+    }
   }
-}
 
-async updateRoomName(roomId: number, newName: string,userId:number) {
-  const { error: updateError } = await this.#client
-    .from("rooms")
-    .update({
-      name: newName,
-    })
-    .eq("id", roomId)
-					.eq("by", userId);
+  async updateRoomName({
+    roomId,
+    name,
+    userId,
+  }: {
+    roomId: number;
+    name: string;
+    userId: number;
+  }) {
+    const { error: updateError } = await this.#client
+      .from("rooms")
+      .update({
+        name,
+      })
+      .eq("id", roomId)
+      .eq("by", userId);
 
-  if (updateError) {
-    throw new Error(updateError.message);
+    if (updateError) {
+      throw new Error(updateError.message);
+    }
   }
-}
 
-//
+  //
   async ensureRoom({
     name,
     prompt,
@@ -240,11 +256,11 @@ async updateRoomName(roomId: number, newName: string,userId:number) {
       .from("users")
       .select("*")
       .eq("username", user.userName);
-  
+
     if (error) {
       throw new Error(error.message);
     }
-  
+
     if (data.length > 0) {
       // Username already exists, update the existing record
       const { error: updateError } = await this.#client
@@ -254,33 +270,29 @@ async updateRoomName(roomId: number, newName: string,userId:number) {
           access_token: user.accessToken,
         })
         .eq("username", user.userName);
-  
+
       if (updateError) {
         throw new Error(updateError.message);
       }
     } else {
       // Username does not exist, insert a new record
-      const { error: insertError } = await this.#client
-        .from("users")
-        .upsert([
+      const { error: insertError } = await this.#client.from("users").upsert(
+        [
           {
-           
             username: user.userName,
             avatar_url: user.avatarUrl,
             access_token: user.accessToken,
           },
-        ], { returning: "minimal" });
-  
+        ],
+        { returning: "minimal" }
+      );
+
       if (insertError) {
         throw new Error(insertError.message);
       }
     }
   }
-  
 }
-
-
-
 
 export const databaseLoader = new ResourceLoader<Database>({
   async load() {

@@ -3,11 +3,11 @@ import type {
   ApiTextMessage,
   ChannelMessage,
 } from "./types.ts";
- 
+
 export class Server {
   subscribeMessages(
     roomId: number,
-    onMessage: (message: ChannelMessage) => void,
+    onMessage: (message: ChannelMessage) => void
   ) {
     const events = new EventSource(`/api/connect/${roomId}`);
     const listener = (e: MessageEvent) => {
@@ -45,14 +45,33 @@ export class Server {
     });
   }
 
-  async createRoom({name,prompt}:{name: string,prompt:string}) {
+  async createRoom({ name, prompt }: { name: string; prompt: string }) {
     const res = await fetch("/api/create_room", {
       method: "POST",
-      body:  JSON.stringify({name,prompt}),
+      body: JSON.stringify({ name, prompt }),
     });
     const text = await res.text();
     if (!res.ok) {
-     // alert(text); // Nothing fancy
+      // alert(text); // Nothing fancy
+      throw new Error(text);
+    }
+    return text;
+  }
+  async updateRoom({
+    name,
+    prompt,
+    roomId,
+  }: {
+    name: string;
+    prompt: string;
+    roomId: string;
+  }) {
+    const res = await fetch("/api/update_room", {
+      method: "POST",
+      body: JSON.stringify({ name, prompt, roomId }),
+    });
+    const text = await res.text();
+    if (!res.ok) {
       throw new Error(text);
     }
     return text;
