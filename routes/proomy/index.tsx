@@ -51,7 +51,6 @@ export async function handler(
     avatarUrl: userData.avatarUrl,
   });
 
-
   setCookie(response.headers, {
     name: "roomy_prompt_token",
     value: accessToken,

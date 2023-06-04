@@ -44,6 +44,7 @@ export default function Room({ url, data, params }: PageProps<Data>) {
             />
 
             <Detail
+             userName={data.user.userName }
               roomId={+params.room || 1}
               name={data.roomName}
               prompt={data.prompt}

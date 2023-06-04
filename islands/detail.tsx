@@ -1,19 +1,53 @@
+import { server } from "@/communication/server.ts";
+
 import Edit from "@/component/edit.tsx";
 export default function Detail({
   name,
-  prompt,
+  prompt: _prompt,
   roomId,
+  userName,
 }: {
   name: string;
   prompt: string;
   roomId: number;
+  userName: string;
 }) {
-  const onclickTitle = () => {
-    alert("edit Title");
+  const updateRoom = async ({
+    prompt,
+    name,
+  }: {
+    name?: string | undefined;
+    prompt?: string | undefined;
+  }) => {
+    if (userName === "demo") {
+      confirm("need login :)") && (document.location = "/login");
+      return;
+    }
+    try {
+      const res = await server.updateRoom({ prompt, name, roomId });
+      if (res) location.reload();
+    } catch (err) {
+      console.error(err);
+      alert(`Cannot update room, need permission !`);
+    }
   };
-  const onclickPrompt = () => {
-    alert("editprompt");
+
+  const onclickUpdate = (val: string) => {
+    if (userName === "demo") {
+      confirm("need login :)") && (document.location = "/login");
+      return;
+    }
+    if (val === "name") {
+      const nameRoom = prompt(name);
+
+      if (nameRoom === name || !nameRoom || nameRoom === "")
+        updateRoom({ name });
+    }
+    const promptRoom = prompt(_prompt);
+    if (promptRoom === _prompt || !promptRoom || promptRoom === "")
+      updateRoom({ prompt: _prompt });
   };
+
   return (
     <>
       <div class="detail-area">
@@ -26,14 +60,14 @@ export default function Detail({
             />{" "}
           </div>
           <div class="detail-title">
-            <Edit onclick={onclickTitle} />
+            <Edit onclick={() => onclickUpdate("name")} />
             {name}
           </div>
           <div
-            class={`detail-change ${/[\u0600-\u06FF]/.test(prompt) && "rtl"}`}
+            class={`detail-change ${/[\u0600-\u06FF]/.test(_prompt) && "rtl"}`}
           >
-            <Edit onclick={onclickPrompt} />
-            {prompt}
+            <Edit onclick={() => onclickUpdate("prompt")} />
+            {_prompt}
           </div>
           {/*
           <div class="detail-buttons">
