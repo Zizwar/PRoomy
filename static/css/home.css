@@ -556,7 +556,7 @@ html {
   font-size: 12px;
   font-weight: 600;
   color: var(--msg-date);
-  position: absolute;
+ 
 }
 
 .detail-button {

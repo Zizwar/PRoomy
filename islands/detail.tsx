@@ -1,4 +1,5 @@
 import { server } from "@/communication/server.ts";
+import twas from "twas";
 
 import Edit from "@/component/edit.tsx";
 export default function Detail({
@@ -6,11 +7,15 @@ export default function Detail({
   prompt: _prompt,
   roomId,
   userName,
+  createAt,
+  roomBy
 }: {
   name: string;
   prompt: string;
   roomId: number;
   userName: string;
+  createAt: string;
+  roomBy: string;
 }) {
   const updateRoom = async ({
     prompt,
@@ -63,6 +68,8 @@ export default function Detail({
             <Edit onclick={() => onclickUpdate("name")} />
             {name}
           </div>
+          <div class="detail-subtitle">Created by {roomBy},
+                {twas(new Date(createAt).getTime())}</div>
           <div
             class={`detail-change ${/[\u0600-\u06FF]/.test(_prompt) && "rtl"}`}
           >

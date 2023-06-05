@@ -20,6 +20,7 @@ interface Data {
   user: UserView;
   rooms: RoomView[];
   roomBy:string;
+  createAt:string;
 }
 
 export default function Room({ url, data, params }: PageProps<Data>) {
@@ -43,6 +44,8 @@ export default function Room({ url, data, params }: PageProps<Data>) {
             />
 
             <Detail
+            roomBy={data.roomBy}
+            createAt={data.createAt}
               userName={data.user.userName}
               roomId={+params.room || 1}
               name={data.roomName}
@@ -78,7 +81,7 @@ export async function handler(
     database.getRoom(+ctx.params.room ?? 2),
   ]);
 
-  const { name: roomName, prompt,by:roomBy,created_at:creatAt } = room;
+  const { name: roomName, prompt,by:roomBy,created_at:createAt } = room;
 
   const response = await ctx.render({
     user,
@@ -88,7 +91,7 @@ export async function handler(
     messages,
     roomName,
     prompt,
-    creatAt
+    createAt
   });
   return response;
 }
