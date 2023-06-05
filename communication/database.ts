@@ -120,7 +120,7 @@ export class Database {
 
     const { name, prompt, by=[], created_at }: any = data;
 
-    return { name, prompt, by:by.username, created_at };
+    return { name, prompt, by:by?.username, created_at };
   }
   async getRoomPrompt(roomId: number): Promise<string> {
     const { data, error } = await this.#client

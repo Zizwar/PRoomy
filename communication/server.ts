@@ -62,8 +62,8 @@ export class Server {
     prompt,
     roomId,
   }: {
-    name: string;
-    prompt: string;
+    name?: string | undefined;
+    prompt?: string | undefined;
     roomId: string;
   }) {
     const res = await fetch("/api/update_room", {

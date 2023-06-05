@@ -2,8 +2,9 @@ export default function Edit({ onclick }: { onclick: any }) {
   return (
     <>
       <div
+        class="dark-light"
         onClick={onclick}
-        style={"width:13px; height:13px; position: inherit"}
+        style={"cursor: pointer; width:13px; height:13px; position: inherit"}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

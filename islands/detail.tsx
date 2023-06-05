@@ -8,7 +8,7 @@ export default function Detail({
   roomId,
   userName,
   createAt,
-  roomBy
+  roomBy,
 }: {
   name: string;
   prompt: string;
@@ -43,12 +43,13 @@ export default function Detail({
       return;
     }
     if (val === "name") {
-      const nameRoom = prompt(name);
+      const nameRoom = prompt("change name room", name);
 
       if (nameRoom === name || !nameRoom || nameRoom === "")
         updateRoom({ name });
+      return;
     }
-    const promptRoom = prompt(_prompt);
+    const promptRoom = prompt("change prompt room", _prompt);
     if (promptRoom === _prompt || !promptRoom || promptRoom === "")
       updateRoom({ prompt: _prompt });
   };
@@ -68,8 +69,9 @@ export default function Detail({
             <Edit onclick={() => onclickUpdate("name")} />
             {name}
           </div>
-          <div class="detail-subtitle">Created by {roomBy},
-                {twas(new Date(createAt).getTime())}</div>
+          <div class="detail-subtitle">
+            Created by {roomBy ?? "demo"},{twas(new Date(createAt).getTime())}
+          </div>
           <div
             class={`detail-change ${/[\u0600-\u06FF]/.test(_prompt) && "rtl"}`}
           >
