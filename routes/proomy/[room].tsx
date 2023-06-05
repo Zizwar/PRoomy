@@ -1,4 +1,3 @@
-
 import { Head } from "$fresh/runtime.ts";
 import { HandlerContext, PageProps } from "$fresh/server.ts";
 import { getCookies } from "$std/http/cookie.ts";
@@ -20,13 +19,13 @@ interface Data {
   prompt: string;
   user: UserView;
   rooms: RoomView[];
+  roomBy:string;
 }
 
 export default function Room({ url, data, params }: PageProps<Data>) {
   return (
     <>
-
-<Head>
+      <Head>
         <title>{data.roomName} - Roomy Prompt</title>
       </Head>
 
@@ -34,7 +33,7 @@ export default function Room({ url, data, params }: PageProps<Data>) {
         <Header user={data.user || []} />
         {data && (
           <div class="wrapper">
-            <Rooms  user={data.user} url={url} data={data} />
+            <Rooms user={data.user} url={url} data={data} />
 
             <ChatArea
               roomId={+params.room || 1}
@@ -44,11 +43,10 @@ export default function Room({ url, data, params }: PageProps<Data>) {
             />
 
             <Detail
-             userName={data.user.userName }
+              userName={data.user.userName}
               roomId={+params.room || 1}
               name={data.roomName}
               prompt={data.prompt}
-             
             />
           </div>
         )}
@@ -70,24 +68,27 @@ export async function handler(
     userName: "demo",
   };
 
-    const user = maybeAccessToken ?
-      (await database.getUserByAccessToken(maybeAccessToken)) : userDemo;
+  const user = maybeAccessToken
+    ? await database.getUserByAccessToken(maybeAccessToken)
+    : userDemo;
 
-  const [rooms, messages, namePrompt] = await Promise.all([
+  const [rooms, messages, room] = await Promise.all([
     database.getRooms(),
     database.getRoomMessages(+ctx.params.room ?? 2),
-    database.getRoomNamePrompt(+ctx.params.room ?? 2),
+    database.getRoom(+ctx.params.room ?? 2),
   ]);
 
-  const { name: roomName, prompt } = namePrompt;
+  const { name: roomName, prompt,by:roomBy,created_at:creatAt } = room;
 
   const response = await ctx.render({
     user,
+    roomBy,
     rooms,
+    room,
     messages,
     roomName,
     prompt,
+    creatAt
   });
   return response;
-
 }

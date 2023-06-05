@@ -108,18 +108,18 @@ export class Database {
     }
     return data[0].name;
   }
-  async getRoomNamePrompt(roomId: number) {
+  async getRoom(roomId: number) {
     const { data = [], error } = await this.#client
       .from("rooms")
-      .select("name,prompt")
+      .select("name,prompt,by,created_at")
       .eq("id", roomId)
       .single();
     if (error) {
       throw new Error(error.message);
     }
 
-    const { name, prompt } = data;
-    return { name, prompt };
+    const { name, prompt, by, created_at }: any = data;
+    return { name, prompt, by, created_at };
   }
   async getRoomPrompt(roomId: number): Promise<string> {
     const { data, error } = await this.#client
