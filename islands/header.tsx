@@ -1,12 +1,12 @@
 import type { UserView } from "@/communication/types.ts";
-export default function Header({ user }: { user: UserView }) {
+export default function Header({ user, userName }: { user: UserView; userName: string }) {
   const login = () => (document.location = "/login");
   const logout = () =>
     confirm("are you sure you want to log out") &&
     (document.location = "/api/logout");
 
   const Login = (username: any) =>
-     username === "demo" ? (
+     userName === "demo" ? (
       <div class="dark-light" onClick={logout}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
