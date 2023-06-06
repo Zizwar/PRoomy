@@ -31,7 +31,7 @@ export default function Room({ url, data, params }: PageProps<Data>) {
       </Head>
 
       <div class="app">
-        <Header user={data.user || []} />
+        <Header user={data.user}               userName={data.user.userName} />
         {data && (
           <div class="wrapper">
             <Rooms user={data.user} url={url} data={data} />
