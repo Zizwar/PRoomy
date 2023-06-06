@@ -45,13 +45,15 @@ export default function Detail({
     if (val === "name") {
       const nameRoom = prompt("change name room", name);
 
-      if (nameRoom === name || !nameRoom || nameRoom === "")
-        updateRoom({ name });
+      if (nameRoom === name || !nameRoom || nameRoom === "") return 
+        
+updateRoom({ name });
       return;
     }
     const promptRoom = prompt("change prompt room", _prompt);
-    if (promptRoom === _prompt || !promptRoom || promptRoom === "")
-      updateRoom({ prompt: _prompt });
+    if (promptRoom === _prompt || !promptRoom || promptRoom === "") return;
+    
+ updateRoom({ prompt: _prompt });
   };
 
   return (
