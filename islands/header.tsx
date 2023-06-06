@@ -6,7 +6,7 @@ export default function Header({ user, userName }: { user: UserView; userName: s
     (document.location = "/api/logout");
 
   const Login = (username: any) =>
-     userName === "demo" ? (
+     userName !== "demo" ? (
       <div class="dark-light" onClick={logout}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
