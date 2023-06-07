@@ -74,7 +74,7 @@ export async function handler(
   const user = maybeAccessToken
     ? await database.getUserByAccessToken(maybeAccessToken)
     : userDemo;
-
+console.info({user})
   const [rooms, messages, room] = await Promise.all([
     database.getRooms(),
     database.getRoomMessages(+ctx.params.room ?? 2),
