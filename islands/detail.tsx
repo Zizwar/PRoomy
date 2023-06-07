@@ -47,13 +47,13 @@ export default function Detail({
 
       if (nameRoom === name || !nameRoom || nameRoom === "") return 
         
-updateRoom({ name });
+updateRoom({ name:nameRoom });
       return;
     }
     const promptRoom = prompt("change prompt room", _prompt);
     if (promptRoom === _prompt || !promptRoom || promptRoom === "") return;
     
- updateRoom({ prompt: _prompt });
+ updateRoom({ prompt: promptRoom });
   };
 
   return (
