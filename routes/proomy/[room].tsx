@@ -75,6 +75,7 @@ let _user;
 if(maybeAccessToken)
    _user = await database.getUserByAccessToken(maybeAccessToken);
 const user = _user || userDemo;
+
 console.info({user})
   const [rooms, messages, room] = await Promise.all([
     database.getRooms(),
