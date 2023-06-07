@@ -46,7 +46,7 @@ export default function Room({ url, data, params }: PageProps<Data>) {
             <Detail
             roomBy={data.roomBy}
             createAt={data.createAt}
-              userName={data.user.userName}
+              userName={data.user?.userName || "demo"}
               roomId={+params.room || 1}
               name={data.roomName}
               prompt={data.prompt}
