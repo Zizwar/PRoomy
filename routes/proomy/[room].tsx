@@ -31,7 +31,7 @@ export default function Room({ url, data, params }: PageProps<Data>) {
       </Head>
 
       <div class="app">
-        <Header user={data.user}               userName={data.user?.userName || "demo"} />
+        <Header user={data.user}               userName={data.user?.userName} />
         {data && (
           <div class="wrapper">
             <Rooms user={data.user} url={url} data={data} />
@@ -46,7 +46,7 @@ export default function Room({ url, data, params }: PageProps<Data>) {
             <Detail
             roomBy={data.roomBy}
             createAt={data.createAt}
-              userName={data.user?.userName || "demo"}
+              userName={data.user?.userName}
               roomId={+params.room || 1}
               name={data.roomName}
               prompt={data.prompt}
@@ -71,9 +71,10 @@ export async function handler(
     userName: "demo",
   };
 
-  const user = maybeAccessToken
-    ? await database.getUserByAccessToken(maybeAccessToken)
-    : userDemo;
+let _user;
+if(maybeAccessToken)
+   _user = await database.getUserByAccessToken(maybeAccessToken);
+const user = _user || userDemo;
 console.info({user})
   const [rooms, messages, room] = await Promise.all([
     database.getRooms(),
