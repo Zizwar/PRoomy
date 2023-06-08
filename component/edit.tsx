@@ -2,7 +2,7 @@ export default function Edit({ onclick }: { onclick: any }) {
   return (
     <>
       <div
-        class="dark-light"
+       
         onClick={onclick}
         style={"cursor: pointer; width:13px; height:13px; position: inherit"}
       >
