@@ -30,7 +30,8 @@ export default function Detail({
     }
     try {
       const res = await server.updateRoom({ prompt, name, roomId });
-      if (res) location.reload();
+      //if (res) 
+        location.reload();
     } catch (err) {
       console.error(err);
       alert(`Cannot update room, need permission !`);
