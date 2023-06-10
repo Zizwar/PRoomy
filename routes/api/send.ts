@@ -69,7 +69,7 @@ export async function handler(
 
     const choices = chatCompletion?.choices || [];
 
-    const text = choices[0]?.message?.content || 'Review the error message: Read the error message carefully to understand the specific problem that occurred. Look for any details or hints provided in the error message that can help diagnose the issue.';
+    const text = choices[0]?.message?.content || 'error There seems to be an error in your promp. or prompt this room';
 
     await database.insertMessage({
       text: `${user.userName || ""}: ${text}`,
