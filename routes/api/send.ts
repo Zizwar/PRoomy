@@ -69,7 +69,7 @@ export async function handler(
 
     const choices = chatCompletion?.choices;
 
-    const text = choices[0]?.message.content ?? 'no result';
+    const text = choices[0]?.message?.content ?? 'Review the error message: Read the error message carefully to understand the specific problem that occurred. Look for any details or hints provided in the error message that can help diagnose the issue.';
 
     await database.insertMessage({
       text: `${user.userName || ""}: ${text}`,
