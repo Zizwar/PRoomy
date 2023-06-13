@@ -2,7 +2,7 @@
 
 ## `Roomy Prompt - ChatGPT Rooms`
 
-A minimal chat platform template. It uses [Fresh](https://fresh.deno.dev) +
+An intermediate AI chat room platform template. It uses [Fresh](https://fresh.deno.dev) +
 [Supabase](https://supabase.io) + [twind](https://twind.dev) +
 [BroadcastChannel API](https://developer.mozilla.org/en-US/docs/Web/API/Broadcast_Channel_API) + [OpenAI API](https://oepnai.com)
 on Deno Deploy.

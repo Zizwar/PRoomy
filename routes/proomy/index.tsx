@@ -28,8 +28,8 @@ export async function handler(
   const url = new URL(req.url);
   const code = url.searchParams.get("code");
   if (!code) {
-   // return ctx.render(false);
-   return response;
+    // return ctx.render(false);
+    return response;
   }
 
   //  const accessToken = await gitHubApi.getAccessToken(code);
@@ -78,7 +78,9 @@ export default function Main({ url, data }: PageProps<{ rooms: RoomView[] }>) {
             <span class="block text-3xl font-bold text-black mb-3">
               Roomy Prompt - ChatGPT Rooms
             </span>
-            <span class="block text-lg -mb-1.5"></span>
+            <span class="block text-lg -mb-1.5">
+              An intermediate open-source AI chat room platform template.
+            </span>
           </div>
           {data ? (
             <ul
