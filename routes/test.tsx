@@ -1,8 +1,8 @@
-import { Head } from "$fresh/runtime.ts";
+
 export default function Test() {
+  
   return (
-    <>
-<div class="container mx-auto max-w-screen-xl">
+    <div class="container mx-auto max-w-screen-xl">
       <header class="text-center mb-8">
         <h1 class="text-3xl font-bold">Proomy Roomy Prompt</h1>
         <p class="text-lg">A Moroccan-based website that provides a platform for users to create and share prompts.</p>
@@ -28,6 +28,5 @@ export default function Test() {
         <p class="text-sm">Copyright © 2023 Proomy Roomy Prompt</p>
       </footer>
     </div>
- </>
   );
 }
