@@ -6,7 +6,7 @@ export default function Test() {
       <header class="text-center mb-8">
         <h1 class="text-3xl font-bold">Proomy Roomy Prompt</h1>
         <p class="text-lg">A Moroccan-based website that provides a platform for users to create and share prompts.</p>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Moroccan_flag.svg/1200px-Moroccan_flag.svg.png" alt="Moroccan flag" class="mb-4">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Moroccan_flag.svg/1200px-Moroccan_flag.svg.png" alt="Moroccan flag" class="mb-4"/>
       </header>
       <section class="mb-8">
         <h2 class="text-2xl font-bold">What is a prompt?</h2>
