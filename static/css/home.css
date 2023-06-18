@@ -459,7 +459,13 @@ html {
 
 .chat-msg-text {
   border-radius: 20px 20px 20px 0;
-
+  color: var(--chat-text-color);
+  white-space: pre-line;
+  width: -webkit-fill-available;
+  border-inline-style: unset;
+  border-width: unset;
+  border-style: outset;
+  border-radius: 20px 20px 20px 0;
   color: var(--chat-text-color);
   white-space: pre-line;
   width: -webkit-fill-available;
@@ -858,7 +864,9 @@ html {
   margin: 0;
   direction: ltr;
 }
-
+.jpt-bot {
+  border-style: dashed!important;
+}
 
 html.modal-active, body.modal-active {
   overflow: hidden;

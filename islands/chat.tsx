@@ -108,7 +108,7 @@ export default function Chat({
           <div
             class={`chat-msg ${
               message.from.name === user?.userName ? "owner" : ""
-            }`}
+            } ${message.from.name === "JPT" ? "jpt-bot" : ""}`}
           >
             <div class="chat-msg-profile">
               <img
