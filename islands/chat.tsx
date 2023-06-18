@@ -108,7 +108,7 @@ export default function Chat({
           <div
             class={`chat-msg ${
               message.from.name === user?.userName ? "owner" : ""
-            } ${message.from.name === "JPT" && "jpt-bot"}`}
+            }`}
           >
             <div class="chat-msg-profile">
               <img
@@ -127,8 +127,8 @@ export default function Chat({
             <div class="chat-msg-content">
               <div
                 class={`chat-msg-text ${
-                  /[\u0600-\u06FF]/.test(message.message) ? "rtl" : ""
-                }`}
+                  message.from.name === "JPT" ? "jpt-bot" : ""
+                } ${/[\u0600-\u06FF]/.test(message.message) ? "rtl" : ""}`}
                 dangerouslySetInnerHTML={{
                   __html: message.message.replace(
                     /```(.*?)```/gs,
