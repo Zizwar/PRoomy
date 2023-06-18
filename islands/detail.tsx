@@ -30,8 +30,8 @@ export default function Detail({
     }
     try {
       const res = await server.updateRoom({ prompt, name, roomId });
-      //if (res) 
-        location.reload();
+      //if (res)
+      location.reload();
     } catch (err) {
       console.error(err);
       alert(`Cannot update room, need permission !`);
@@ -46,15 +46,15 @@ export default function Detail({
     if (val === "name") {
       const nameRoom = prompt("change name room", name);
 
-      if (nameRoom === name || !nameRoom || nameRoom === "") return 
-        
-updateRoom({ name:nameRoom });
+      if (nameRoom === name || !nameRoom || nameRoom === "") return;
+
+      updateRoom({ name: nameRoom });
       return;
     }
     const promptRoom = prompt("change prompt room", _prompt);
     if (promptRoom === _prompt || !promptRoom || promptRoom === "") return;
-    
- updateRoom({ prompt: promptRoom });
+
+    updateRoom({ prompt: promptRoom });
   };
 
   return (
@@ -181,7 +181,7 @@ updateRoom({ name:nameRoom });
             <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2189&q=80" />
           </div>
           */}
-          <div class="view-more">View More</div>
+          {/*     <div class="view-more">View More</div>*/}
         </div>
       </div>
     </>

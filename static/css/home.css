@@ -419,6 +419,7 @@ html {
   margin-top: auto;
   margin-bottom: -20px;
   position: relative;
+  max-width: 50px;
 }
 
 .chat-msg-date {
@@ -444,31 +445,24 @@ html {
   align-items: flex-start;
 }
 
-.chat-msg-text {
-  background-color: var(--chat-text-bg);
-  padding: 15px;
-  border-radius: 20px 20px 20px 0;
-  line-height: 1.5;
-  font-size: 1.23rem;
-  font-weight: 500;
-}
-
 .chat-msg-text + .chat-msg-text {
   margin-top: 10px;
 }
 
 .chat-msg-text {
-  border-radius: 20px 20px 20px 0;
-  color: var(--chat-text-color);
-  white-space: pre-line;
-  width: -webkit-fill-available;
+  background-color: var(--chat-text-bg);
+  padding: 15px;
+  line-height: 1.5;
+  font-size: 1.23rem;
+  font-weight: 500;
   border-inline-style: unset;
   border-width: unset;
-  border-style: outset;
+  border-style: groove;
   border-radius: 20px 20px 20px 0;
   color: var(--chat-text-color);
   white-space: pre-line;
   width: -webkit-fill-available;
+  overflow: auto;
 }
 
 .owner {
