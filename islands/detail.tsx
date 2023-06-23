@@ -72,7 +72,7 @@ export default function Detail({
             <Edit onclick={() => onclickUpdate("name")} />
             {name}
           </div>
-          <div class="detail-subtitle">
+          <div alt={new Date(createAt).getTime()} class="detail-subtitle">
             Created by {roomBy ?? "demo"},{twas(new Date(createAt).getTime())}
           </div>
           <div
