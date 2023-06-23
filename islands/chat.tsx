@@ -119,7 +119,7 @@ export default function Chat({
               <p class="detail-subtitle" style="color:var(--theme-color)">
                 @{message.from.name}
               </p>
-              <div class="chat-msg-date">
+              <div alt={new Date(message.createdAt).getTime()} class="chat-msg-date">
                 {" "}
                 {twas(new Date(message.createdAt).getTime())}
               </div>
