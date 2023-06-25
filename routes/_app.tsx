@@ -15,9 +15,9 @@ export default function App({ Component }: AppProps) {
         
 
         <meta property="og:locale" content="en_US" />
-        <meta property="og:site_name" content="ChatDpt" />
-        <meta property="og:title" content="ChatDpt" />
-        <meta property="og:description" content="ChatDpt" />
+        <meta property="og:site_name" content="Joint public tech" />
+        <meta property="og:title" content="Joint public tech" />
+        <meta property="og:description" content="Joint public tech" />
         <meta property="og:type" content="website" />
         <meta name="robots" content="index, follow" />
         <meta
