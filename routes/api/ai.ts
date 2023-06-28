@@ -18,10 +18,6 @@ return new Response(JSON.stringify(resault), {
 //////
 
 
-return new Response(text, {
-      status: 200,
-    });
-  },
 
 /*
     const completion = await openAI.createCompletion({
