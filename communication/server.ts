@@ -77,5 +77,16 @@ export class Server {
     return text;
   }
 }
-
+  async searchVector({query }: { query: string;  }) { 
+     const res = await fetch("/api/search", { 
+       method: "POST", 
+       body: JSON.stringify({ query}), 
+     }); 
+     const text = await res.text(); 
+     if (!res.ok) { 
+       // alert(text); // Nothing fancy 
+       throw new Error(text); 
+     } 
+     return text; 
+   }
 export const server = new Server();
