@@ -108,6 +108,26 @@ export class Database {
     }
     return data[0].name;
   }
+
+async searchVector (searchTerm: string): Promise<any> {
+
+    
+const { data, error } = await this.#client.raw(`
+  SELECT *
+  FROM messages
+  WHERE to_tsvector('english', message) @@ to_tsquery('english', $1)
+  ORDER BY ts_rank(to_tsvector('english', message), to_tsquery('english', $1)) DESC;
+`, [searchTerm]);
+
+if (error) {
+  console.error(error);
+
+throw new Error(error.message)} else {
+  console.log("resault vector:",data);
+return data
+} }
+
+
   async getRoom(roomId: number) {
     const { data = [], error } = await this.#client
       .from("rooms")
