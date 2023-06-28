@@ -76,7 +76,7 @@ export class Server {
     }
     return text;
   }
-}
+
   async searchVector({query }: { query: string;  }) { 
      const res = await fetch("/api/search", { 
        method: "POST", 
@@ -89,4 +89,5 @@ export class Server {
      } 
      return text; 
    }
+}
 export const server = new Server();
