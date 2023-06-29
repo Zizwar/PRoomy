@@ -6,7 +6,7 @@ export const handler: Handlers = {
   //  const prompt = await req.text();
     const openAI = new OpenAI(Deno.env.get("KEY_OPEN_AI") ?? "");
 //////
-cont term =  '#javascript | #الدار_البيضاء | #ريكي_مورتي | #فلافل';
+const term =  '#javascript | #الدار_البيضاء | #ريكي_مورتي | #فلافل';
 const database = await databaseLoader.getInstance(); 
       const resault = await database.searchVector(term);
 return new Response(JSON.stringify(resault), {
