@@ -2,11 +2,14 @@ import { Handlers } from "$fresh/server.ts";
 import { OpenAI } from "openai";
 import { databaseLoader } from "@/communication/database.ts";
 export const handler: Handlers = {
-  async GET(_req, _ctx) {
+  async GET(req, _ctx) {
   //  const prompt = await req.text();
     const openAI = new OpenAI(Deno.env.get("KEY_OPEN_AI") ?? "");
 //////
-const term =  '#javascript | #الدار_البيضاء | #ريكي_مورتي | #فلافل';
+  const url = new URL(req.url); 
+   const q = url.searchParams.get("q");
+const term = q || '#javascript | #الدار_البيضاء | #ريكي_مورتي | #فلافل';
+
 const database = await databaseLoader.getInstance(); 
       const resault = await database.searchVector(term);
 return new Response(JSON.stringify(resault), {
