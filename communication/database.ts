@@ -112,12 +112,16 @@ export class Database {
 async searchVector (searchTerm: string): Promise<any> {
 
     
-const { data, error } = await this.#client.raw(`
+const { data, error } = await this.#client.from("messages")
+      .select("*")
+      .textSearch("message", searchTerm)
+/*raw(`
   SELECT *
   FROM messages
   WHERE to_tsvector('english', message) @@ to_tsquery('english', $1)
   ORDER BY ts_rank(to_tsvector('english', message), to_tsquery('english', $1)) DESC;
 `, [searchTerm]);
+*/
 
 if (error) {
   console.error(error);
