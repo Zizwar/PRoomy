@@ -113,8 +113,12 @@ async searchVector (searchTerm: string): Promise<any> {
 
     
 const { data, error } = await this.#client.from("messages")
-      .select("*")
-      .textSearch("message", searchTerm)
+      .select("id, message")
+      .textSearch("message", searchTerm,
+  {
+    desc: true,
+    ts_rank: true,
+  },)
 /*raw(`
   SELECT *
   FROM messages
