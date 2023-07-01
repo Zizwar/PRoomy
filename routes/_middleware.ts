@@ -1,3 +1,4 @@
+
 import { getCookies } from "$std/http/cookie.ts";
 import { databaseLoader } from "@/communication/database.ts";
 import { MiddlewareHandlerContext } from "$fresh/server.ts";

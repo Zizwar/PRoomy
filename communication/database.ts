@@ -109,17 +109,17 @@ export class Database {
     return data[0].name;
   }
 
-async searchVector (searchTerm: string): Promise<any> {
-
-    
-const { data, error } = await this.#client.from("messages")
-      .select("id, message")
-      .textSearch("message", searchTerm,
-  {
-    desc: true,
-    ts_rank: true,
-  },)
-/*raw(`
+  async searchVector(searchTerm: string): Promise<any> {
+    const { data, error } = await this.#client
+      .from("messages")
+      .select("id, message").limit(13)
+      .textSearch("message", searchTerm, {
+        config: "english",
+      //  type: "phrase",
+        desc: true,
+        ts_rank: true,
+      });
+    /*raw(`
   SELECT *
   FROM messages
   WHERE to_tsvector('english', message) @@ to_tsquery('english', $1)
@@ -127,14 +127,15 @@ const { data, error } = await this.#client.from("messages")
 `, [searchTerm]);
 */
 
-if (error) {
-  console.error(error);
+    if (error) {
+      console.error(error);
 
-throw new Error(error.message)} else {
-  console.log("resault vector:",data);
-return data
-} }
-
+      throw new Error(error.message);
+    } else {
+      console.log("resault vector:", data);
+      return data;
+    }
+  }
 
   async getRoom(roomId: number) {
     const { data = [], error } = await this.#client
@@ -146,9 +147,9 @@ return data
       throw new Error(error.message);
     }
 
-    const { name, prompt, by=[], created_at }: any = data;
+    const { name, prompt, by = [], created_at }: any = data;
 
-    return { name, prompt, by:by?.username, created_at };
+    return { name, prompt, by: by?.username, created_at };
   }
   async getRoomPrompt(roomId: number): Promise<string> {
     const { data, error } = await this.#client
