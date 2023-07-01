@@ -13,14 +13,15 @@ import * as $6 from "./routes/api/auth/google.ts";
 import * as $7 from "./routes/api/connect.ts";
 import * as $8 from "./routes/api/create_room.ts";
 import * as $9 from "./routes/api/logout.ts";
-import * as $10 from "./routes/api/send.ts";
-import * as $11 from "./routes/api/update_room.ts";
-import * as $12 from "./routes/index.tsx";
-import * as $13 from "./routes/login.tsx";
-import * as $14 from "./routes/proomy/[room].tsx";
-import * as $15 from "./routes/proomy/index.tsx";
-import * as $16 from "./routes/sitemap.xml.ts";
-import * as $17 from "./routes/test.tsx";
+import * as $10 from "./routes/api/search/[q].ts";
+import * as $11 from "./routes/api/send.ts";
+import * as $12 from "./routes/api/update_room.ts";
+import * as $13 from "./routes/index.tsx";
+import * as $14 from "./routes/login.tsx";
+import * as $15 from "./routes/proomy/[room].tsx";
+import * as $16 from "./routes/proomy/index.tsx";
+import * as $17 from "./routes/sitemap.xml.ts";
+import * as $18 from "./routes/test.tsx";
 import * as $$0 from "./islands/chat.tsx";
 import * as $$1 from "./islands/detail.tsx";
 import * as $$2 from "./islands/header.tsx";
@@ -38,14 +39,15 @@ const manifest = {
     "./routes/api/connect.ts": $7,
     "./routes/api/create_room.ts": $8,
     "./routes/api/logout.ts": $9,
-    "./routes/api/send.ts": $10,
-    "./routes/api/update_room.ts": $11,
-    "./routes/index.tsx": $12,
-    "./routes/login.tsx": $13,
-    "./routes/proomy/[room].tsx": $14,
-    "./routes/proomy/index.tsx": $15,
-    "./routes/sitemap.xml.ts": $16,
-    "./routes/test.tsx": $17,
+    "./routes/api/search/[q].ts": $10,
+    "./routes/api/send.ts": $11,
+    "./routes/api/update_room.ts": $12,
+    "./routes/index.tsx": $13,
+    "./routes/login.tsx": $14,
+    "./routes/proomy/[room].tsx": $15,
+    "./routes/proomy/index.tsx": $16,
+    "./routes/sitemap.xml.ts": $17,
+    "./routes/test.tsx": $18,
   },
   islands: {
     "./islands/chat.tsx": $$0,
