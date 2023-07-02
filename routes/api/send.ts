@@ -42,6 +42,12 @@ let message = emojify(cleanBadWors(data.message));
     from,
     createdAt: new Date().toISOString(),
   });
+await database.insertMessage({
+    text: message,
+    roomId: data.roomId,
+    userId: user.userId,
+  });
+
 ////////
 if(status==="search"){
 const gpt = new Gpt(); 
@@ -53,7 +59,7 @@ const gpt = new Gpt();
      
 proomy+=JSON.stringify(resault);
 
-message+=", اجب بماهوا موجود في نتائج بحث ملف جيزن، ورقم الغرفة و الرد، اسرد جميع الردود ورقمه و رقم الغرفة و نبدة عن النص، لا تذكر لي اي معلومة عن ملف جيزن،";
+message+=", اجب بماهوا موجود في نتائج بحث ملف جيزن، ورقم الغرفة و الرد، اسرد جميع الردود ورقمه و رقم الغرفة و نبدة عن النص.،";
 console.log("vector",{ proomy });
 }
 
@@ -61,12 +67,7 @@ console.log("vector",{ proomy });
   
   
 
-  await database.insertMessage({
-    text: message,
-    roomId: data.roomId,
-    userId: user.userId,
-  });
-
+  
   ///paly ai
   if (!message?.startsWith("@") && proomy) {
     const openAI = new OpenAI(Deno.env.get("KEY_OPEN_AI") ?? "");
