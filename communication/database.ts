@@ -83,6 +83,7 @@ export class Database {
     }
     return data ?? [];
   }
+/*
   async getRooms() {
     const { data, error } = await this.#client
       .from("rooms_activity")
@@ -97,6 +98,23 @@ export class Database {
       lastMessageAt: d.last_message_at,
     }));
   }
+*/
+async getRooms() {
+  const { data, error } = await this.#client
+    .from("rooms_activity")
+    .select("id, name, last_message_at")
+    .not("status", "eq", "hide");
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data.map((d) => ({
+    roomId: d.id,
+    name: d.name,
+    lastMessageAt: d.last_message_at,
+  }));
+}
 
   async getRoomName(roomId: number): Promise<string> {
     const { data, error } = await this.#client
