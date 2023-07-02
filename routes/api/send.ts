@@ -51,7 +51,7 @@ const gpt = new Gpt();
      const database = await databaseLoader.getInstance(); 
      const resault = await database.searchVector(keywords); 
      
-proomy+=resault;
+proomy+=JSON.stringify(resault);
 
 
 console.log("vector",{ proomy });
