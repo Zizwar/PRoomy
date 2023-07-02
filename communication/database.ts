@@ -112,7 +112,7 @@ export class Database {
   async searchVector(searchTerm: string): Promise<any> {
     const { data, error } = await this.#client
       .from("messages")
-      .select("id, message,room").limit(13)
+      .select("id, message,room").limit(5)
       .textSearch("message", searchTerm, {
         config: "english",
       //  type: "phrase",
