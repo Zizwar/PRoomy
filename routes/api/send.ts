@@ -22,7 +22,7 @@ export async function handler(
   const user = await database.getUserByAccessTokenOrThrow(accessToken);
   const data = (await req.json()) as ApiSendMessage;
   const channel = new RoomChannel(data.roomId); 
-  const {prompt:proomy,status} = await database.getRoom(data.roomId);
+  let {prompt:proomy,status} = await database.getRoom(data.roomId);
 
 ////
 const from = {
@@ -51,8 +51,7 @@ const gpt = new Gpt();
      const database = await databaseLoader.getInstance(); 
      const resault = await database.searchVector(keywords); 
      console.log("vector",{ resault });
-return;
-
+proomy+=resault
 }
 
 //////
