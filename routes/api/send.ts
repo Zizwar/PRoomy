@@ -50,8 +50,11 @@ const gpt = new Gpt();
   
      const database = await databaseLoader.getInstance(); 
      const resault = await database.searchVector(keywords); 
-     console.log("vector",{ resault });
-proomy+=resault
+     
+proomy+=resault;
+
+
+console.log("vector",{ proomy });
 }
 
 //////
