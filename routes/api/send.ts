@@ -5,6 +5,7 @@ import { databaseLoader } from "@/communication/database.ts";
 import { RoomChannel } from "@/communication/channel.ts";
 import { cleanBadWors } from "@/helpers/bad_words.ts";
 import { ApiSendMessage } from "@/communication/types.ts";
+import Gpt from "@/communication/gpt.ts";
 
 import { OpenAI } from "openai";
 
@@ -22,7 +23,20 @@ export async function handler(
   const data = (await req.json()) as ApiSendMessage;
   const channel = new RoomChannel(data.roomId); 
   const {prompt:proomy,status} = await database.getRoom(data.roomId);
+////////
+if(status==="search"){
+const gpt = new Gpt(); 
+     const keywords = await gpt.searchVector(data.prompt); 
+     console.log({ keywords }); 
+  
+     const database = await databaseLoader.getInstance(); 
+     const resault = await database.searchVector(keywords); 
+     console.log("vector",{ resault });
+return;
 
+}
+
+//////
   const from = {
     name: user.userName,
     avatarUrl: user.avatarUrl,
