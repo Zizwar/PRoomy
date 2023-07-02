@@ -147,9 +147,9 @@ export class Database {
       throw new Error(error.message);
     }
 
-    const { name, prompt, by = [], created_at }: any = data;
+    const { name, prompt, by = [], created_at,status }: any = data;
 
-    return { name, prompt, by: by?.username, created_at };
+    return { name, prompt, by: by?.username, created_at, status };
   }
   async getRoomPrompt(roomId: number): Promise<string> {
     const { data, error } = await this.#client
