@@ -35,7 +35,7 @@ const from = {
     channel.sendIsTyping(from);
   }
 
-const message = emojify(cleanBadWors(data.message));
+let message = emojify(cleanBadWors(data.message));
 
   channel.sendText({
     message: message,
@@ -53,7 +53,7 @@ const gpt = new Gpt();
      
 proomy+=JSON.stringify(resault);
 
-
+message+=", اجب بماهوا موجود في نتائج بحث ملف جيزن، ورقم الغرفة و الرد، قل لي ردك يوجد في الغرفة رقم كذا وكذا ورقم الرد،";
 console.log("vector",{ proomy });
 }
 
