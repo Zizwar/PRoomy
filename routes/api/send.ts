@@ -23,10 +23,19 @@ export async function handler(
   const data = (await req.json()) as ApiSendMessage;
   const channel = new RoomChannel(data.roomId); 
   const {prompt:proomy,status} = await database.getRoom(data.roomId);
+
+////
+const message = emojify(cleanBadWors(data.message));
+
+  channel.sendText({
+    message: message,
+    from,
+    createdAt: new Date().toISOString(),
+  });
 ////////
 if(status==="search"){
 const gpt = new Gpt(); 
-     const keywords = await gpt.searchVector(data.prompt); 
+     const keywords = await gpt.searchVector(message); 
      console.log({ keywords }); 
   
      const database = await databaseLoader.getInstance(); 
@@ -47,13 +56,7 @@ return;
     channel.sendIsTyping(from);
   }
 
-  const message = emojify(cleanBadWors(data.message));
-
-  channel.sendText({
-    message: message,
-    from,
-    createdAt: new Date().toISOString(),
-  });
+  
 
   await database.insertMessage({
     text: message,
