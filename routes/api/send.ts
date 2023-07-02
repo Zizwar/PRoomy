@@ -25,6 +25,16 @@ export async function handler(
   const {prompt:proomy,status} = await database.getRoom(data.roomId);
 
 ////
+const from = {
+    name: user.userName,
+    avatarUrl: user.avatarUrl,
+  };
+
+  if (data.kind === "isTyping") {
+    // Send `is typing...` indicator.
+    channel.sendIsTyping(from);
+  }
+
 const message = emojify(cleanBadWors(data.message));
 
   channel.sendText({
@@ -46,16 +56,7 @@ return;
 }
 
 //////
-  const from = {
-    name: user.userName,
-    avatarUrl: user.avatarUrl,
-  };
-
-  if (data.kind === "isTyping") {
-    // Send `is typing...` indicator.
-    channel.sendIsTyping(from);
-  }
-
+  
   
 
   await database.insertMessage({
