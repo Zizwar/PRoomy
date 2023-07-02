@@ -140,7 +140,7 @@ export class Database {
   async getRoom(roomId: number) {
     const { data = [], error } = await this.#client
       .from("rooms")
-      .select("name,prompt,by(username),created_at")
+      .select("name,prompt,by(username),created_at,status")
       .eq("id", roomId)
       .single();
     if (error) {
