@@ -21,7 +21,7 @@ export async function handler(
   const user = await database.getUserByAccessTokenOrThrow(accessToken);
   const data = (await req.json()) as ApiSendMessage;
   const channel = new RoomChannel(data.roomId); 
-  const proomy = await database.getRoomPrompt(data.roomId);
+  const {prompt:proomy,status} = await database.getRoom(data.roomId);
 
   const from = {
     name: user.userName,
