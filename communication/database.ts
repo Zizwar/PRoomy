@@ -88,7 +88,7 @@ export class Database {
     const { data, error } = await this.#client
       .from("rooms_activity")
       .select("id,name,last_message_at")
-      .neq("status", "hide");
+      .eq("status", null);
     if (error) {
       throw new Error(error.message);
     }
