@@ -83,12 +83,12 @@ export class Database {
     }
     return data ?? [];
   }
-/*
+
   async getRooms() {
     const { data, error } = await this.#client
       .from("rooms_activity")
       .select("id,name,last_message_at")
-      .is("status", null);
+      .neq("status", "hide");
     if (error) {
       throw new Error(error.message);
     }
@@ -98,7 +98,7 @@ export class Database {
       lastMessageAt: d.last_message_at,
     }));
   }
-*/
+/*
 async getRooms() {
   const { data, error } = await this.#client
     .from("rooms_activity")
@@ -116,7 +116,7 @@ async getRooms() {
   }));
 }
 
-
+*/
   async getRoomName(roomId: number): Promise<string> {
     const { data, error } = await this.#client
       .from("rooms")
