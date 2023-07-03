@@ -102,8 +102,8 @@ export class Database {
 async getRooms() {
   const { data, error } = await this.#client
     .from("rooms_activity")
-    .select("id, name, last_message_at")
-    .not("status", "eq", "hide");
+    .select("id,name,last_message_at")
+    .where({ status: { neq: "hide" } });
 
   if (error) {
     throw new Error(error.message);
@@ -115,6 +115,7 @@ async getRooms() {
     lastMessageAt: d.last_message_at,
   }));
 }
+
 
   async getRoomName(roomId: number): Promise<string> {
     const { data, error } = await this.#client
