@@ -87,8 +87,8 @@ export class Database {
   async getRooms() {
     const { data, error } = await this.#client
       .from("rooms_activity")
-      .select("id,name,last_message_at")
-      .eq("status", null);
+      .select("id,name,last_message_at");
+    //  .eq("status", null);
     if (error) {
       throw new Error(error.message);
     }
