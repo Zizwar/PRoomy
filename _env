@@ -1,0 +1,22 @@
+KEY_OPEN_AI=
+#path auth
+REDIRECT_URI=
+
+# Github - https://github.com/settings/applications/new
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+
+# Google - https://console.google.com/
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
+# Supabase - https://app.supabase.com/project/_/settings/api
+SUPABASE_ANON_KEY=
+
+SUPABASE_API_URL=https://tmmjytvhlnutythnnmta.supabase.co
+
+# Supabase - https://app.supabase.com/project/_/settings/database > Connection string > URI
+SUPABASE_POSTGRES_URI=
+
+# Supabase - https://app.supabase.com/project/_/settings/database > SSL Connection
+SUPABASE_CA_CERTIFICATE=
