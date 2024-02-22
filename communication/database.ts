@@ -345,7 +345,7 @@ async getRooms() {
 
 export const databaseLoader = new ResourceLoader<Database>({
   async load() {
-return 
+//return 
     // Automatically create the database schema on startup.
     /*  const caCert = getEnvOrThrow("SUPABASE_CA_CERTIFICATE").replace(
       /\s+(?!CERTIFICATE--)/g,
