@@ -3,18 +3,20 @@ import postgres from "$postgres";
 import * as supabase from "supabase";
 import type { MessageView } from "./types.ts";
 
+console.log("aaa",  Deno.env.get("SUPABASE_API_URL"),"bb",
+Deno.env.get("SUPABASE_ANON_KEY"))
 export interface DatabaseUser {
   userId: number;
   userName: string;
   avatarUrl: string;
 }
 
-export class Database {
+export default class Database {
   #client: supabase.SupabaseClient;
 
   constructor(client?: supabase.SupabaseClient) {
     this.#client =
-      client ??
+    //  client ??
       supabase.createClient(
         Deno.env.get("SUPABASE_API_URL")!,
         Deno.env.get("SUPABASE_ANON_KEY")!
@@ -85,18 +87,18 @@ export class Database {
   }
 
   async getRooms() {
-    const { data, error } = await this.#client
+    const { data=[], error } = await this.#client
       .from("rooms_activity")
       .select("id,name,last_message_at");
     //  .eq("status", null);
     if (error) {
       throw new Error(error.message);
     }
-    return data.map((d) => ({
+    return data?.map((d) => ({
       roomId: d.id,
       name: d.name,
       lastMessageAt: d.last_message_at,
-    }));
+    })) ||[];
   }
 /*
 async getRooms() {
@@ -352,6 +354,7 @@ export const databaseLoader = new ResourceLoader<Database>({
       "\n",
     );
     */
+   /*
     const sql = postgres(getEnvOrThrow("SUPABASE_POSTGRES_URI"), {
       keep_alive: null, // Otherwise required '--unstable' flag.
       //  ssl: { caCerts: [caCert] },
@@ -399,6 +402,7 @@ export const databaseLoader = new ResourceLoader<Database>({
       values (0, 'Lobby')
       on conflict(id) do nothing`;
     await sql.end();
+    */
     return Promise.resolve(new Database());
 
     function getEnvOrThrow(name: string) {

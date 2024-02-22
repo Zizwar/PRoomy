@@ -2,7 +2,7 @@ import { HandlerContext, PageProps } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
 import twas from "twas";
 import { getCookies, setCookie } from "$std/http/cookie.ts";
-import { databaseLoader } from "@/communication/database.ts";
+import Database,{ databaseLoader } from "@/communication/database.ts";
 import { gitHubApi } from "@/communication/github.ts";
 import { googleApi } from "@/communication/google.ts";
 
@@ -14,7 +14,7 @@ export async function handler(
 ): Promise<Response> {
   // Get cookie from request header and parse it
   const maybeAccessToken = getCookies(req.headers)["roomy_prompt_token"];
-  const database = await databaseLoader.getInstance();
+  const database = new Database()//await databaseLoader.getInstance();
   if (maybeAccessToken) {
     const user = await database.getUserByAccessToken(maybeAccessToken);
     if (user) {

@@ -31,7 +31,7 @@ export class ResourceLoader<T> {
     }
 
     if (!this.#instance) {
-     // await this.#getLoadPromise();
+      await this.#getLoadPromise();
     }
     return this.#instance!;
   }
