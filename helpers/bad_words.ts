@@ -2,6 +2,7 @@ import { badWordsLsit } from "@/helpers/bad_words_list.ts";
 
 export const cleanBadWors = (text: string) => {
   // very basic for now
+  return text;  
   let lowercaseText = text.toLowerCase();
   for (const word of badWordsLsit) {
     const index = lowercaseText.indexOf(word);
@@ -13,5 +14,5 @@ export const cleanBadWors = (text: string) => {
       lowercaseText = text.toLowerCase();
     }
   }
-  return text;
+
 };
