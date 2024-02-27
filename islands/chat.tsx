@@ -104,7 +104,7 @@ export default function Chat({
         </div>
       </div>
       <div class="chat-area-main">
-        {messages.map((message) => (
+        {messages.map((message=[]) => (
           <div
             class={`chat-msg ${
               message.from.name === user?.userName ? "owner" : ""
@@ -130,7 +130,7 @@ export default function Chat({
                   message.from.name === "JPT" ? "jpt-bot" : ""
                 } ${/[\u0600-\u06FF]/.test(message.message) ? "rtl" : ""}`}
                 dangerouslySetInnerHTML={{
-                  __html: message.message.replace(
+                  __html: message?.message.replace(
                     /```(.*?)```/gs,
                     (_match, group) => {
                       return `<pre class="pre-code"><code>${group
