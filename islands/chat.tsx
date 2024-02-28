@@ -16,7 +16,7 @@ export default function Chat({
 }) {
   const messagesContainer = useRef<HTMLDivElement>(null);
   const [input, setInput] = useState("");
-  const [messages, addMessage] = useReducer<MessageView[], MessageView>(
+  const [messages=[], addMessage] = useReducer<MessageView[], MessageView>(
     (msgs, msg) => [...msgs, msg],
     initialMessages
   );
@@ -78,7 +78,7 @@ export default function Chat({
   const GroupAreaAvatar = () => {
     const uniqueAvatars = new Set();
     let num = 0;
-    const avatarElements = messages.map((message, index) => {
+    const avatarElements = messages?.map((message, index) => {
       const avatarUrl = message.from.avatarUrl;
       if (uniqueAvatars.has(avatarUrl)) {
         return null;
@@ -104,10 +104,10 @@ export default function Chat({
         </div>
       </div>
       <div class="chat-area-main">
-        {messages.map((message=[]) => (
+        {messages?.map((message=[]) => (
           <div
             class={`chat-msg ${
-              message.from.name === user?.userName ? "owner" : ""
+              message.from?.name === user?.userName ? "owner" : ""
             }`}
           >
             <div class="chat-msg-profile">
@@ -130,7 +130,7 @@ export default function Chat({
                   message.from.name === "JPT" ? "jpt-bot" : ""
                 } ${/[\u0600-\u06FF]/.test(message.message) ? "rtl" : ""}`}
                 dangerouslySetInnerHTML={{
-                  __html: message?.message.replace(
+                  __html: message?.message && message.message.replace(
                     /```(.*?)```/gs,
                     (_match, group) => {
                       return `<pre class="pre-code"><code>${group
