@@ -104,7 +104,7 @@ export default function Chat({
         </div>
       </div>
       <div class="chat-area-main">
-        {messages?.map((message=[]) => (
+        {messages?.map((message=[]) => message?.message && (
           <div
             class={`chat-msg ${
               message.from?.name === user?.userName ? "owner" : ""
