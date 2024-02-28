@@ -89,7 +89,7 @@ message+=", اجب بماهوا موجود في نتائج بحث ملف جيز�
     });
 
     const choices = chatCompletion?.choices || [];
-
+console.log({chatCompletion})
     const text = choices[0]?.message?.content || 'error There seems to be an error in your promp. or prompt this room';
 
     await database.insertMessage({
