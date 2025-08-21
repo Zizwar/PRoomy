@@ -7,7 +7,8 @@ import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 import { compress } from 'hono/compress';
 import { secureHeaders } from 'hono/secure-headers';
-// import { serveStatic } from 'hono/serve-static';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import { serve } from '@hono/node-server';
 
 // Import routes
@@ -31,18 +32,41 @@ app.use('*', secureHeaders());
 app.use('*', cors({
   origin: process.env.NODE_ENV === 'production' 
     ? ['https://your-domain.com', 'https://proomy.app'] // Replace with your actual domains
-    : ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:8080'],
+    : ['http://localhost:1713', 'http://172.104.132.193:1713', 'http://localhost:8080'],
   credentials: true,
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Content-Type', 'Authorization'],
 }));
 
 // Serve static files from public directory
-// app.use('/static/*', serveStatic({ root: './' }));
-// app.use('/public/*', serveStatic({ root: './' }));
+app.get('/demo', (c) => {
+  try {
+    const html = readFileSync(join(process.cwd(), 'public', 'index.html'), 'utf8');
+    return c.html(html);
+  } catch (error) {
+    return c.text('File not found', 404);
+  }
+});
 
-// Serve demo page at /demo
-// app.get('/demo', serveStatic({ path: './public/index.html' }));
+app.get('/test', (c) => {
+  try {
+    const html = readFileSync(join(process.cwd(), 'public', 'test.html'), 'utf8');
+    return c.html(html);
+  } catch (error) {
+    return c.text('File not found', 404);
+  }
+});
+
+// Serve public files directly
+app.get('/public/:filename', (c) => {
+  const filename = c.req.param('filename');
+  try {
+    const html = readFileSync(join(process.cwd(), 'public', filename), 'utf8');
+    return c.html(html);
+  } catch (error) {
+    return c.text('File not found', 404);
+  }
+});
 
 // Auth middleware for API routes only
 app.use('/auth/*', authMiddleware);
