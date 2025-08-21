@@ -36,12 +36,12 @@ rooms.get('/', optionalAuth, async (c) => {
       agent_role: room.agent_role,
       total_messages: room.total_messages,
       total_participants: room.total_participants,
-      last_message_at: room.last_message_at?.toISOString(),
+      last_message_at: room.last_message_at ? new Date(room.last_message_at).toISOString() : null,
       status: room.status,
       is_featured: room.is_featured,
       is_public: room.is_public,
       category_id: room.category_id,
-      created_at: room.created_at.toISOString(),
+      created_at: new Date(room.created_at).toISOString(),
     }));
 
     return c.json({
@@ -106,7 +106,7 @@ rooms.get('/:identifier', optionalAuth, async (c) => {
         total_messages: room.total_messages,
         total_participants: room.total_participants,
         status: room.status,
-        created_at: room.created_at.toISOString(),
+        created_at: new Date(room.created_at).toISOString(),
         updated_at: room.updated_at.toISOString(),
       },
     });
@@ -184,7 +184,7 @@ rooms.post('/',
           description: room.description,
           agent_name: room.agent_name,
           status: room.status,
-          created_at: room.created_at.toISOString(),
+          created_at: new Date(room.created_at).toISOString(),
         },
       }, 201);
     } catch (error: any) {

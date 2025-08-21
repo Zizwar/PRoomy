@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "Proomy2 API",
-    "description": "Advanced AI Chat Rooms with Multi-Model Agent System\n\nنظام غرف الدردشة الذكية مع الوكلاء المتقدمة",
+    "name": "Proomy2 API - Enhanced",
+    "description": "Advanced AI Chat Rooms with Multi-Model Agent System - نظام غرف الدردشة الذكية مع الوكلاء المتقدمة",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "12345678"
   },
@@ -30,7 +30,35 @@
             },
             "description": "تسجيل دخول مجهول بلا كلمة مرور"
           },
-          "response": []
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// التحقق من نجاح الطلب",
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// التحقق من وجود التوكن",
+                  "pm.test('Response has token', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('token');",
+                  "    pm.expect(jsonData).to.have.property('user');",
+                  "});",
+                  "",
+                  "// حفظ التوكن والمعرفات",
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.environment.set('token', response.token);",
+                  "    pm.environment.set('user_id', response.user.id);",
+                  "    pm.environment.set('username', response.user.username);",
+                  "    console.log('✅ تم حفظ التوكن بنجاح');",
+                  "}"
+                ]
+              }
+            }
+          ]
         },
         {
           "name": "Get Current User",
@@ -49,316 +77,25 @@
             },
             "description": "جلب معلومات المستخدم الحالي"
           },
-          "response": []
-        },
-        {
-          "name": "Refresh Token",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token}}"
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response has user data', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('user');",
+                  "    pm.expect(jsonData.user).to.have.property('id');",
+                  "    pm.expect(jsonData.user).to.have.property('username');",
+                  "});"
+                ]
               }
-            ],
-            "url": {
-              "raw": "{{base_url}}/auth/refresh",
-              "host": ["{{base_url}}"],
-              "path": ["auth", "refresh"]
-            },
-            "description": "تجديد التوكن"
-          },
-          "response": []
-        },
-        {
-          "name": "Logout",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token}}"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/auth/logout",
-              "host": ["{{base_url}}"],
-              "path": ["auth", "logout"]
-            },
-            "description": "تسجيل خروج"
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "🏠 Rooms",
-      "item": [
-        {
-          "name": "Get All Rooms",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/rooms?page=1&limit=20&search=&category_id=",
-              "host": ["{{base_url}}"],
-              "path": ["rooms"],
-              "query": [
-                {
-                  "key": "page",
-                  "value": "1"
-                },
-                {
-                  "key": "limit",
-                  "value": "20"
-                },
-                {
-                  "key": "search",
-                  "value": ""
-                },
-                {
-                  "key": "category_id",
-                  "value": ""
-                }
-              ]
-            },
-            "description": "جلب قائمة الغرف المتاحة"
-          },
-          "response": []
-        },
-        {
-          "name": "Get Room by ID",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/rooms/{{room_id}}",
-              "host": ["{{base_url}}"],
-              "path": ["rooms", "{{room_id}}"]
-            },
-            "description": "جلب تفاصيل غرفة محددة"
-          },
-          "response": []
-        },
-        {
-          "name": "Create Room",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"مساعد البرمجة {{$randomInt}}\",\n  \"description\": \"وكيل ذكي متخصص في البرمجة والتطوير\",\n  \"system_prompt\": \"أنت مطور خبير في جميع لغات البرمجة. تساعد المستخدمين في كتابة وتطوير البرامج بطريقة واضحة ومفصلة. أجب دائماً باللغة العربية ما لم يُطلب منك غير ذلك.\",\n  \"agent_name\": \"DevBot\",\n  \"agent_role\": \"مطور برمجيات\",\n  \"model_id\": \"gpt-3.5-turbo\",\n  \"temperature\": 0.7,\n  \"max_tokens\": 1000,\n  \"is_public\": true,\n  \"memory_enabled\": true,\n  \"personality_traits\": {\n    \"helpful\": 0.9,\n    \"technical\": 0.8,\n    \"patient\": 0.7\n  }\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/rooms",
-              "host": ["{{base_url}}"],
-              "path": ["rooms"]
-            },
-            "description": "إنشاء غرفة جديدة"
-          },
-          "response": []
-        },
-        {
-          "name": "Update Room",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"description\": \"وصف محدث للغرفة\",\n  \"system_prompt\": \"نظام محدث للوكيل\",\n  \"temperature\": 0.8\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/rooms/{{room_id}}",
-              "host": ["{{base_url}}"],
-              "path": ["rooms", "{{room_id}}"]
-            },
-            "description": "تحديث إعدادات الغرفة"
-          },
-          "response": []
-        },
-        {
-          "name": "Delete Room",
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token}}"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/rooms/{{room_id}}",
-              "host": ["{{base_url}}"],
-              "path": ["rooms", "{{room_id}}"]
-            },
-            "description": "حذف (أرشفة) الغرفة"
-          },
-          "response": []
-        },
-        {
-          "name": "Get Room Categories",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/rooms/categories/list",
-              "host": ["{{base_url}}"],
-              "path": ["rooms", "categories", "list"]
-            },
-            "description": "جلب تصنيفات الغرف"
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "💬 Messages",
-      "item": [
-        {
-          "name": "Get Messages",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/messages/{{room_id}}?page=1&limit=50&is_ai_response=",
-              "host": ["{{base_url}}"],
-              "path": ["messages", "{{room_id}}"],
-              "query": [
-                {
-                  "key": "page",
-                  "value": "1"
-                },
-                {
-                  "key": "limit",
-                  "value": "50"
-                },
-                {
-                  "key": "is_ai_response",
-                  "value": ""
-                }
-              ]
-            },
-            "description": "جلب رسائل الغرفة"
-          },
-          "response": []
-        },
-        {
-          "name": "Send Message",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"content\": \"مرحباً! كيف يمكنني تعلم البرمجة؟\",\n  \"metadata\": {\n    \"client\": \"postman\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/messages/{{room_id}}",
-              "host": ["{{base_url}}"],
-              "path": ["messages", "{{room_id}}"]
-            },
-            "description": "إرسال رسالة جديدة (سيرد عليها الذكي الاصطناعي تلقائياً)"
-          },
-          "response": []
-        },
-        {
-          "name": "Send Message (Skip AI)",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"content\": \"@هذه رسالة للمستخدمين فقط، لن يرد عليها الذكي الاصطناعي\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/messages/{{room_id}}",
-              "host": ["{{base_url}}"],
-              "path": ["messages", "{{room_id}}"]
-            },
-            "description": "إرسال رسالة بدون رد من الذكي الاصطناعي (تبدأ بـ @)"
-          },
-          "response": []
-        },
-        {
-          "name": "Add Reaction",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token}}"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"emoji\": \"👍\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/messages/{{room_id}}/{{message_id}}/reactions",
-              "host": ["{{base_url}}"],
-              "path": ["messages", "{{room_id}}", "{{message_id}}", "reactions"]
-            },
-            "description": "إضافة تفاعل على رسالة"
-          },
-          "response": []
-        },
-        {
-          "name": "Delete Message",
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token}}"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/messages/{{room_id}}/{{message_id}}",
-              "host": ["{{base_url}}"],
-              "path": ["messages", "{{room_id}}", "{{message_id}}"]
-            },
-            "description": "حذف رسالة"
-          },
-          "response": []
+            }
+          ]
         }
       ]
     },
@@ -377,24 +114,37 @@
             },
             "description": "جلب قائمة النماذج المتاحة"
           },
-          "response": []
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response has models array', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('models');",
+                  "    pm.expect(jsonData.models).to.be.an('array');",
+                  "});",
+                  "",
+                  "// حفظ أول نموذج للاختبار",
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.models && response.models.length > 0) {",
+                  "        pm.environment.set('model_id', response.models[0].id);",
+                  "        pm.environment.set('model_name', response.models[0].name);",
+                  "        console.log('✅ تم حفظ معرف النموذج:', response.models[0].name);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ]
         },
         {
-          "name": "Get Model Details",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/models/{{model_id}}",
-              "host": ["{{base_url}}"],
-              "path": ["models", "{{model_id}}"]
-            },
-            "description": "جلب تفاصيل نموذج محدد"
-          },
-          "response": []
-        },
-        {
-          "name": "Test Model",
+          "name": "Test Model (Enhanced)",
           "request": {
             "method": "POST",
             "header": [
@@ -409,92 +159,494 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"prompt\": \"مرحباً! اختبار سريع للنموذج\",\n  \"max_tokens\": 100\n}"
+              "raw": "{\n  \"prompt\": \"مرحباً! اختبار سريع للنموذج مع OpenRouter\",\n  \"max_tokens\": 100,\n  \"temperature\": 0.7\n}"
             },
             "url": {
               "raw": "{{base_url}}/models/{{model_id}}/test",
               "host": ["{{base_url}}"],
               "path": ["models", "{{model_id}}", "test"]
             },
-            "description": "اختبار نموذج معين"
+            "description": "اختبار نموذج معين مع prompt محسن"
           },
-          "response": []
-        },
-        {
-          "name": "Get Model Stats",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/models/{{model_id}}/stats",
-              "host": ["{{base_url}}"],
-              "path": ["models", "{{model_id}}", "stats"]
-            },
-            "description": "جلب إحصائيات استخدام النموذج"
-          },
-          "response": []
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response has AI content', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('response');",
+                  "    pm.expect(jsonData.response).to.have.property('content');",
+                  "    pm.expect(jsonData.response.content.length).to.be.greaterThan(10);",
+                  "});",
+                  "",
+                  "pm.test('Response includes token usage', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.response).to.have.property('tokens_used');",
+                  "    pm.expect(jsonData.response).to.have.property('model');",
+                  "});",
+                  "",
+                  "// عرض محتوى الرد",
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    console.log('🤖 رد الذكي الاصطناعي:');",
+                  "    console.log(response.response.content);",
+                  "    console.log(`📊 التوكنز المستخدمة: ${response.response.tokens_used}`);",
+                  "}"
+                ]
+              }
+            }
+          ]
         }
       ]
     },
     {
-      "name": "ℹ️ System Info",
+      "name": "🏠 Rooms",
       "item": [
         {
-          "name": "Health Check",
+          "name": "Get All Rooms (Enhanced)",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/",
-              "host": ["{{base_url}}"]
+              "raw": "{{base_url}}/rooms?page=1&limit=10&search={{search_term}}&status=active",
+              "host": ["{{base_url}}"],
+              "path": ["rooms"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "search",
+                  "value": "{{search_term}}",
+                  "description": "البحث في أسماء ووصف الغرف"
+                },
+                {
+                  "key": "status",
+                  "value": "active"
+                }
+              ]
             },
-            "description": "فحص صحة النظام"
+            "description": "جلب قائمة الغرف المتاحة مع إمكانية البحث والتصفية"
           },
-          "response": []
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response has rooms array', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('rooms');",
+                  "    pm.expect(jsonData.rooms).to.be.an('array');",
+                  "});",
+                  "",
+                  "// حفظ أول غرفة للاختبار",
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.rooms && response.rooms.length > 0) {",
+                  "        pm.environment.set('room_id', response.rooms[0].id);",
+                  "        pm.environment.set('room_name', response.rooms[0].name);",
+                  "        console.log('✅ تم حفظ معرف الغرفة:', response.rooms[0].name);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ]
         },
         {
-          "name": "API Documentation",
+          "name": "Create Advanced Room",
           "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/docs",
-              "host": ["{{base_url}}"],
-              "path": ["docs"]
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"مساعد البرمجة المتقدم {{$randomInt}}\",\n  \"description\": \"وكيل ذكي متخصص في البرمجة والتطوير باستخدام أحدث التقنيات\",\n  \"system_prompt\": \"أنت مطور خبير في جميع لغات البرمجة والتقنيات الحديثة. تساعد المستخدمين في:\\n1. كتابة وتطوير البرامج\\n2. حل المشاكل التقنية\\n3. مراجعة الكود\\n4. اقتراح أفضل الممارسات\\n\\nأجب دائماً باللغة العربية مع إعطاء أمثلة عملية بالكود عند الحاجة.\",\n  \"agent_name\": \"DevBot Pro\",\n  \"agent_role\": \"مطور برمجيات متقدم\",\n  \"model_id\": \"{{model_name}}\",\n  \"temperature\": 0.7,\n  \"max_tokens\": 2000,\n  \"is_public\": true,\n  \"memory_enabled\": true,\n  \"personality_traits\": {\n    \"helpful\": 0.9,\n    \"technical\": 0.95,\n    \"patient\": 0.8,\n    \"creative\": 0.7\n  }\n}"
             },
-            "description": "وثائق API"
-          },
-          "response": []
-        },
-        {
-          "name": "Rate Limit Info",
-          "request": {
-            "method": "GET",
-            "header": [],
             "url": {
-              "raw": "{{base_url}}/rate-limit",
+              "raw": "{{base_url}}/rooms",
               "host": ["{{base_url}}"],
-              "path": ["rate-limit"]
+              "path": ["rooms"]
             },
-            "description": "معلومات حدود المعدل"
+            "description": "إنشاء غرفة جديدة مع إعدادات متقدمة"
           },
-          "response": []
-        },
-        {
-          "name": "Realtime Info",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/realtime/rooms/{{room_id}}",
-              "host": ["{{base_url}}"],
-              "path": ["realtime", "rooms", "{{room_id}}"]
-            },
-            "description": "معلومات التحديثات المباشرة"
-          },
-          "response": []
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 201', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test('Room created successfully', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('room');",
+                  "    pm.expect(jsonData.room).to.have.property('id');",
+                  "    pm.expect(jsonData.room).to.have.property('name');",
+                  "});",
+                  "",
+                  "// حفظ معرف الغرفة الجديدة",
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.environment.set('room_id', response.room.id);",
+                  "    pm.environment.set('room_name', response.room.name);",
+                  "    console.log('✅ تم إنشاء الغرفة بنجاح:', response.room.name);",
+                  "}"
+                ]
+              }
+            }
+          ]
         }
       ]
+    },
+    {
+      "name": "💬 Messages",
+      "item": [
+        {
+          "name": "Send Advanced Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"مرحباً! أريد تعلم React.js من الصفر. أين أبدأ وما هي أفضل الممارسات؟ وهل يمكنك إعطائي مثال بسيط على component؟\",\n  \"metadata\": {\n    \"client\": \"postman\",\n    \"test_type\": \"advanced_programming_query\",\n    \"timestamp\": \"{{$timestamp}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/messages/{{room_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["messages", "{{room_id}}"]
+            },
+            "description": "إرسال رسالة معقدة والحصول على رد AI متقدم"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 201', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test('Message sent and AI responded', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('message');",
+                  "    pm.expect(jsonData).to.have.property('ai_response');",
+                  "    pm.expect(jsonData.ai_response).to.not.be.null;",
+                  "});",
+                  "",
+                  "pm.test('AI response has content', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.ai_response.content.length).to.be.greaterThan(50);",
+                  "    pm.expect(jsonData.ai_response).to.have.property('tokens_used');",
+                  "});",
+                  "",
+                  "// عرض الرد وحفظ معرف الرسالة",
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.environment.set('message_id', response.message.id);",
+                  "    pm.environment.set('ai_message_id', response.ai_response.id);",
+                  "    ",
+                  "    console.log('✅ تم إرسال الرسالة بنجاح');",
+                  "    console.log('🤖 رد الذكي الاصطناعي:');",
+                  "    console.log(response.ai_response.content);",
+                  "    console.log(`📊 النموذج: ${response.ai_response.model_used}`);",
+                  "    console.log(`📊 التوكنز: ${response.ai_response.tokens_used}`);",
+                  "    console.log(`⏱️ الوقت: ${response.ai_response.processing_time}s`);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Messages with Pagination",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/messages/{{room_id}}?page=1&limit=20&is_ai_response=",
+              "host": ["{{base_url}}"],
+              "path": ["messages", "{{room_id}}"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "is_ai_response",
+                  "value": "",
+                  "description": "true لرسائل AI فقط، false لرسائل المستخدمين، فارغ للكل"
+                }
+              ]
+            },
+            "description": "جلب رسائل الغرفة مع التصفح"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response has messages', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('messages');",
+                  "    pm.expect(jsonData.messages).to.be.an('array');",
+                  "});",
+                  "",
+                  "// عرض إحصائيات الرسائل",
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    console.log(`📊 إجمالي الرسائل: ${response.total}`);",
+                  "    console.log(`📄 الصفحة: ${response.page} من ${Math.ceil(response.total / response.limit)}`);",
+                  "    ",
+                  "    const userMessages = response.messages.filter(m => !m.is_ai_response).length;",
+                  "    const aiMessages = response.messages.filter(m => m.is_ai_response).length;",
+                  "    console.log(`👤 رسائل المستخدمين: ${userMessages}`);",
+                  "    console.log(`🤖 رسائل AI: ${aiMessages}`);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Add Reaction",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emoji\": \"🔥\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/messages/{{room_id}}/{{ai_message_id}}/reactions",
+              "host": ["{{base_url}}"],
+              "path": ["messages", "{{room_id}}", "{{ai_message_id}}", "reactions"]
+            },
+            "description": "إضافة تفاعل على رسالة AI"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Reaction added', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('reactions');",
+                  "});",
+                  "",
+                  "console.log('✅ تم إضافة التفاعل بنجاح');"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "🔧 Advanced Tests",
+      "item": [
+        {
+          "name": "Full Workflow Test",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"اختبار شامل: أريد إنشاء تطبيق ويب بـ React وNode.js. ما هي الخطوات المطلوبة وأفضل الأدوات؟\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/messages/{{room_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["messages", "{{room_id}}"]
+            },
+            "description": "اختبار شامل للعملية الكاملة"
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "console.log('🚀 بدء الاختبار الشامل...');",
+                  "console.log(`👤 المستخدم: ${pm.environment.get('username')}`);",
+                  "console.log(`🏠 الغرفة: ${pm.environment.get('room_name')}`);",
+                  "console.log(`🤖 النموذج: ${pm.environment.get('model_name')}`);"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Full workflow completed', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.ai_response.content.length).to.be.greaterThan(100);",
+                  "});",
+                  "",
+                  "// تحليل جودة الرد",
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    const content = response.ai_response.content;",
+                  "    ",
+                  "    console.log('✅ الاختبار الشامل مكتمل!');",
+                  "    console.log('📊 تحليل جودة الرد:');",
+                  "    console.log(`   📝 طول الرد: ${content.length} حرف`);",
+                  "    console.log(`   🔤 عدد الكلمات: ${content.split(' ').length}`);",
+                  "    console.log(`   ⚡ سرعة الرد: ${response.ai_response.processing_time}s`);",
+                  "    console.log(`   💰 التكلفة: ${response.ai_response.tokens_used} tokens`);",
+                  "    ",
+                  "    // فحص محتوى الرد",
+                  "    const hasReact = content.toLowerCase().includes('react');",
+                  "    const hasNodejs = content.toLowerCase().includes('node');",
+                  "    const hasSteps = content.includes('1.') || content.includes('•');",
+                  "    ",
+                  "    console.log('🔍 تحليل المحتوى:');",
+                  "    console.log(`   ⚛️ يحتوي على React: ${hasReact ? '✅' : '❌'}`);",
+                  "    console.log(`   🟢 يحتوي على Node.js: ${hasNodejs ? '✅' : '❌'}`);",
+                  "    console.log(`   📋 يحتوي على خطوات: ${hasSteps ? '✅' : '❌'}`);",
+                  "    ",
+                  "    if (hasReact && hasNodejs && hasSteps) {",
+                  "        console.log('🏆 جودة الرد: ممتازة!');",
+                  "    } else {",
+                  "        console.log('⚠️ جودة الرد: تحتاج تحسين');",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string",
+      "description": "Base API URL"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string",
+      "description": "JWT Authentication Token"
+    },
+    {
+      "key": "user_id",
+      "value": "",
+      "type": "string",
+      "description": "Current User ID"
+    },
+    {
+      "key": "username",
+      "value": "",
+      "type": "string",
+      "description": "Current Username"
+    },
+    {
+      "key": "room_id",
+      "value": "",
+      "type": "string",
+      "description": "Current Room ID"
+    },
+    {
+      "key": "room_name",
+      "value": "",
+      "type": "string",
+      "description": "Current Room Name"
+    },
+    {
+      "key": "message_id",
+      "value": "",
+      "type": "string", 
+      "description": "Last User Message ID"
+    },
+    {
+      "key": "ai_message_id",
+      "value": "",
+      "type": "string",
+      "description": "Last AI Message ID"
+    },
+    {
+      "key": "model_id",
+      "value": "",
+      "type": "string",
+      "description": "Current Model ID"
+    },
+    {
+      "key": "model_name",
+      "value": "openai/gpt-3.5-turbo",
+      "type": "string",
+      "description": "Full Model Name for OpenRouter"
+    },
+    {
+      "key": "search_term",
+      "value": "برمجة",
+      "type": "string",
+      "description": "Search term for rooms"
     }
   ],
   "event": [
@@ -503,9 +655,19 @@
       "script": {
         "type": "text/javascript",
         "exec": [
-          "// Auto-set token from login response",
-          "if (pm.response && pm.response.json && pm.response.json().token) {",
-          "    pm.environment.set('token', pm.response.json().token);",
+          "// تحديد الوقت الحالي",
+          "pm.globals.set('timestamp', Date.now());",
+          "",
+          "// إضافة headers مشتركة",
+          "pm.request.headers.add({",
+          "    key: 'User-Agent',",
+          "    value: 'Proomy2-Postman-Collection/1.0'",
+          "});",
+          "",
+          "// التحقق من وجود التوكن للطلبات المحمية",
+          "const token = pm.environment.get('token');",
+          "if (!token && pm.request.url.path.join('/').includes('auth') === false) {",
+          "    console.log('⚠️ تحذير: لا يوجد توكن مصادقة');",
           "}"
         ]
       }
@@ -515,63 +677,16 @@
       "script": {
         "type": "text/javascript",
         "exec": [
-          "// Auto-save important IDs for next requests",
-          "if (pm.response.code === 200 || pm.response.code === 201) {",
-          "    const responseData = pm.response.json();",
-          "    ",
-          "    // Save authentication token",
-          "    if (responseData.token) {",
-          "        pm.environment.set('token', responseData.token);",
-          "        console.log('Token saved:', responseData.token.substring(0, 20) + '...');",
-          "    }",
-          "    ",
-          "    // Save room ID from room creation",
-          "    if (responseData.room && responseData.room.id) {",
-          "        pm.environment.set('room_id', responseData.room.id);",
-          "        console.log('Room ID saved:', responseData.room.id);",
-          "    }",
-          "    ",
-          "    // Save message ID from message creation", 
-          "    if (responseData.message && responseData.message.id) {",
-          "        pm.environment.set('message_id', responseData.message.id);",
-          "        console.log('Message ID saved:', responseData.message.id);",
-          "    }",
-          "    ",
-          "    // Save first model ID from models list",
-          "    if (responseData.models && responseData.models.length > 0) {",
-          "        pm.environment.set('model_id', responseData.models[0].id);",
-          "        console.log('Model ID saved:', responseData.models[0].id);",
-          "    }",
+          "// تسجيل معلومات الاستجابة",
+          "console.log(`📡 ${pm.info.requestName}: ${pm.response.status} ${pm.response.code}`);",
+          "console.log(`⏱️ وقت الاستجابة: ${pm.response.responseTime}ms`);",
+          "",
+          "// التحقق من حالة الخطأ العامة",
+          "if (pm.response.code >= 400) {",
+          "    console.log('❌ خطأ في الطلب:', pm.response.json());",
           "}"
         ]
       }
-    }
-  ],
-  "variable": [
-    {
-      "key": "base_url",
-      "value": "http://localhost:3000",
-      "type": "string"
-    },
-    {
-      "key": "token",
-      "value": "",
-      "type": "string"
-    },
-    {
-      "key": "room_id",
-      "value": "",
-      "type": "string"
-    },
-    {
-      "key": "message_id",
-      "value": "",
-      "type": "string"
-    },
-    {
-      "key": "model_id",
-      "value": "",
-      "type": "string"
     }
   ]
 }

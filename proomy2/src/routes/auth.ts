@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
+import { z } from 'zod';
 import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
 import { LoginRequestSchema, AuthResponseSchema } from '@/types';
@@ -72,6 +73,79 @@ auth.post('/anonymous',
       return c.json(response);
     } catch (error: any) {
       console.error('Anonymous login error:', error);
+      return c.json({ error: 'Registration failed', message: error.message }, 500);
+    }
+  }
+);
+
+// Regular signup with email
+auth.post('/register', 
+  zValidator('json', z.object({
+    username: z.string().min(2),
+    email: z.string().email()
+  })),
+  async (c) => {
+    try {
+      const { username, email } = c.req.valid('json');
+      
+      if (!username || username.trim().length < 2) {
+        return c.json({ error: 'Username must be at least 2 characters' }, 400);
+      }
+
+      if (!email || !email.includes('@')) {
+        return c.json({ error: 'Valid email is required' }, 400);
+      }
+
+      // Check if username or email already exists
+      const existingUser = await supabase.getUserByUsername(username);
+      if (existingUser) {
+        return c.json({ error: 'Username already taken' }, 409);
+      }
+
+      const existingEmail = await supabase.getUserByEmail(email);
+      if (existingEmail) {
+        return c.json({ error: 'Email already registered' }, 409);
+      }
+
+      // Create new registered user
+      const user = await supabase.createUser({
+        id: uuidv4(),
+        username: username.trim(),
+        email: email.trim().toLowerCase(),
+        display_name: username.trim(),
+        provider: 'email',
+        avatar_url: `https://api.dicebear.com/7.x/initials/svg?seed=${username}`,
+        total_messages: 0,
+        total_tokens_used: 0,
+        credits_remaining: 1000, // More credits for registered users
+        preferred_model: 'gpt-3.5-turbo',
+        theme: 'light',
+        language: 'ar',
+        is_online: true,
+        last_seen: new Date(),
+      });
+
+      // Generate JWT token
+      const token = jwt.sign(
+        { userId: user.id, username: user.username },
+        process.env.JWT_SECRET!,
+        { expiresIn: '30d' } // Longer expiry for registered users
+      );
+
+      const response: AuthResponseSchema = {
+        user: {
+          id: user.id,
+          username: user.username,
+          avatar_url: user.avatar_url,
+          display_name: user.display_name,
+        },
+        token,
+        expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+      };
+
+      return c.json(response);
+    } catch (error: any) {
+      console.error('Registration error:', error);
       return c.json({ error: 'Registration failed', message: error.message }, 500);
     }
   }

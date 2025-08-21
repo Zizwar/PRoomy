@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { User, Room, Message, AIModel, ConversationSession } from '@/types';
 
@@ -69,6 +72,17 @@ class SupabaseService {
       .from('users')
       .select('*')
       .eq('username', username)
+      .single();
+
+    if (error && error.code !== 'PGRST116') throw error;
+    return data;
+  }
+
+  async getUserByEmail(email: string): Promise<User | null> {
+    const { data, error } = await this.client
+      .from('users')
+      .select('*')
+      .eq('email', email)
       .single();
 
     if (error && error.code !== 'PGRST116') throw error;

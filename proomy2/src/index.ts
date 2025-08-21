@@ -1,10 +1,15 @@
+// Load environment variables first
+import dotenv from 'dotenv';
+dotenv.config();
+
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 import { compress } from 'hono/compress';
 import { secureHeaders } from 'hono/secure-headers';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import { serve } from '@hono/node-server';
-import dotenv from 'dotenv';
 
 // Import routes
 import authRoutes from '@/routes/auth';
@@ -14,9 +19,6 @@ import modelsRoutes from '@/routes/models';
 
 // Import middleware
 import { authMiddleware } from '@/middleware/auth';
-
-// Load environment variables
-dotenv.config();
 
 // Initialize Hono app
 const app = new Hono();
@@ -30,14 +32,47 @@ app.use('*', secureHeaders());
 app.use('*', cors({
   origin: process.env.NODE_ENV === 'production' 
     ? ['https://your-domain.com', 'https://proomy.app'] // Replace with your actual domains
-    : ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:8080'],
+    : ['http://localhost:1713', 'http://172.104.132.193:1713', 'http://localhost:8080'],
   credentials: true,
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Content-Type', 'Authorization'],
 }));
 
-// Auth middleware for all routes
-app.use('*', authMiddleware);
+// Serve static files from public directory
+app.get('/demo', (c) => {
+  try {
+    const html = readFileSync(join(process.cwd(), 'public', 'index.html'), 'utf8');
+    return c.html(html);
+  } catch (error) {
+    return c.text('File not found', 404);
+  }
+});
+
+app.get('/test', (c) => {
+  try {
+    const html = readFileSync(join(process.cwd(), 'public', 'test.html'), 'utf8');
+    return c.html(html);
+  } catch (error) {
+    return c.text('File not found', 404);
+  }
+});
+
+// Serve public files directly
+app.get('/public/:filename', (c) => {
+  const filename = c.req.param('filename');
+  try {
+    const html = readFileSync(join(process.cwd(), 'public', filename), 'utf8');
+    return c.html(html);
+  } catch (error) {
+    return c.text('File not found', 404);
+  }
+});
+
+// Auth middleware for API routes only
+app.use('/auth/*', authMiddleware);
+app.use('/rooms/*', authMiddleware);
+app.use('/messages/*', authMiddleware);
+app.use('/models/*', authMiddleware);
 
 // Health check
 app.get('/', (c) => {
@@ -46,6 +81,7 @@ app.get('/', (c) => {
     version: '2.0.0',
     status: 'healthy',
     timestamp: new Date().toISOString(),
+    demo: '/demo',
     docs: '/docs', // Future: Add API documentation
   });
 });
