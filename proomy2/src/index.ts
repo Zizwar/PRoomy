@@ -1,10 +1,14 @@
+// Load environment variables first
+import dotenv from 'dotenv';
+dotenv.config();
+
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 import { compress } from 'hono/compress';
 import { secureHeaders } from 'hono/secure-headers';
+// import { serveStatic } from 'hono/serve-static';
 import { serve } from '@hono/node-server';
-import dotenv from 'dotenv';
 
 // Import routes
 import authRoutes from '@/routes/auth';
@@ -14,9 +18,6 @@ import modelsRoutes from '@/routes/models';
 
 // Import middleware
 import { authMiddleware } from '@/middleware/auth';
-
-// Load environment variables
-dotenv.config();
 
 // Initialize Hono app
 const app = new Hono();
@@ -36,8 +37,18 @@ app.use('*', cors({
   allowHeaders: ['Content-Type', 'Authorization'],
 }));
 
-// Auth middleware for all routes
-app.use('*', authMiddleware);
+// Serve static files from public directory
+// app.use('/static/*', serveStatic({ root: './' }));
+// app.use('/public/*', serveStatic({ root: './' }));
+
+// Serve demo page at /demo
+// app.get('/demo', serveStatic({ path: './public/index.html' }));
+
+// Auth middleware for API routes only
+app.use('/auth/*', authMiddleware);
+app.use('/rooms/*', authMiddleware);
+app.use('/messages/*', authMiddleware);
+app.use('/models/*', authMiddleware);
 
 // Health check
 app.get('/', (c) => {
@@ -46,6 +57,7 @@ app.get('/', (c) => {
     version: '2.0.0',
     status: 'healthy',
     timestamp: new Date().toISOString(),
+    demo: '/demo',
     docs: '/docs', // Future: Add API documentation
   });
 });
